@@ -1,0 +1,12 @@
+[build]
+  functions = "netlify/functions"
+
+[dev]
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Define environment variables for local development
+[dev.environment]
+  DATABASE_URL = "postgresql://postgres.vytmqxiyknrbvayljbyn:S@m072394@aws-0-ca-central-1.pooler.supabase.com:6543/postgres"

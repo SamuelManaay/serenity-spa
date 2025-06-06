@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenity Spa - Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.css">
+    <style>
+        /* Updated Color Palette for a more subdued, professional look */
+        :root {
+            --primary-color: #5A7D7D; /* Muted teal/blue-green for primary accents */
+            --secondary-color: #8B9A9A; /* Lighter shade of primary for subtle elements */
+            --accent-color: #A3BABA; /* A slightly warmer, lighter accent */
+            --danger-color: #e74c3c;
+            
+            /* Dark mode (default and only theme) */
+            --bg-color: #2B2D42; /* Deep charcoal for main background */
+            --text-color: #E0E1DD; /* Soft white for text */
+            --glass-bg: rgba(255, 255, 255, 0.08); /* Slightly less opaque glass */
+            --glass-border: rgba(255, 255, 255, 0.15); /* Softer glass border */
+            --table-hover-bg: rgba(255, 255, 255, 0.05);
+            --table-header-bg: rgba(255, 255, 255, 0.15);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --dark-text: #333333; /* For elements that need to be dark against lighter backgrounds */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.7;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(90, 125, 125, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes rotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Custom Cursor */
+        .cursor-glow {
+            position: fixed;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color), 0 0 30px var(--accent-color), 0 0 45px var(--accent-color);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            opacity: 0.7;
+            transition: width 0.2s ease-out, height 0.2s ease-out, opacity 0.2s ease-out;
+            mix-blend-mode: screen; /* For a nice blending effect */
+        }
+
+        .cursor-glow.clicked {
+            width: 40px;
+            height: 40px;
+            opacity: 0.3;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .nav-link {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .btn-glow {
+            background: var(--primary-color);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(90, 125, 125, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(90, 125, 125, 0.5);
+            color: white;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: all 0.5s;
+        }
+
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+
+        /* Specific style for primary button inside modals/forms */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a6c6c; /* Slightly darker primary on hover */
+            border-color: #4a6c6c;
+            color: white;
+        }
+        .btn-primary:focus, .btn-primary:active {
+            background-color: #4a6c6c !important;
+            border-color: #4a6c6c !important;
+            box-shadow: 0 0 0 0.25rem rgba(90, 125, 125, 0.5) !important;
+        }
+
+
+        .dashboard-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-card p {
+            font-family: 'Lato', sans-serif;
+            color: var(--text-color);
+            opacity: 0.85;
+            font-size: 1rem;
+        }
+
+        .dashboard-card .card-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .table-responsive {
+            margin-top: 2rem;
+        }
+
+        .table {
+            background: var(--glass-bg);
+            border-radius: 15px;
+            overflow: hidden; /* Ensures rounded corners apply to content */
+            border-collapse: separate; /* Required for rounded corners */
+            border-spacing: 0; /* Required for rounded corners */
+        }
+
+        .table th, .table td {
+            border-color: var(--glass-border);
+            color: var(--text-color); /* Default text color for table elements */
+            vertical-align: middle;
+            padding: 1rem;
+        }
+        
+        /* Specific color for table body text */
+        .table tbody tr td {
+            color: var(--dark-text); /* Black text for table body content */
+        }
+
+        .table thead th {
+            background: var(--table-header-bg);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--text-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--glass-border); /* Ensure separation */
+        }
+
+        /* Specific rounded corners for table header */
+        .table thead th:first-child {
+            border-top-left-radius: 15px;
+        }
+        .table thead th:last-child {
+            border-top-right-radius: 15px;
+        }
+        .table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 15px;
+        }
+        .table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 15px;
+        }
+
+        .table tbody tr:hover {
+            background: var(--table-hover-bg);
+        }
+
+        .badge {
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            padding: 0.5em 0.8em;
+            border-radius: 12px;
+        }
+
+        .badge-primary-custom {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .badge-secondary-custom {
+            background-color: var(--secondary-color);
+            color: var(--dark-text);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Logout button style */
+        #logoutBtn {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+        #logoutBtn:hover {
+            background-color: #c0392b; /* A darker shade of red */
+            border-color: #c0392b;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .dashboard-card {
+                padding: 1.5rem;
+            }
+            .dashboard-card h3 {
+                font-size: 2rem;
+            }
+            .dashboard-card .card-icon {
+                font-size: 2.5rem;
+            }
+            .table th, .table td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Custom message box for alerts */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(90, 125, 125, 0.9); /* Primary color */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            visibility: visible;
+            top: 30px;
+        }
+
+        .message-box.error {
+            background-color: rgba(231, 76, 60, 0.9); /* Danger color */
+        }
+
+        .message-box .fa-check-circle, .message-box .fa-exclamation-circle {
+            margin-right: 10px;
+        }
+
+        /* Modal styling */
+        .modal-content {
+            background: var(--bg-color);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text-color);
+        }
+        .modal-header {
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .modal-footer {
+            border-top: 1px solid var(--glass-border);
+        }
+        .modal-title {
+            color: var(--text-color);
+        }
+        .modal-body .form-control {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-color);
+        }
+        .modal-body .form-control:focus {
+            background: var(--input-bg);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(90, 125, 125, 0.25);
+        }
+        .modal-body label {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        /* Scroll fade animations */
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-fade.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="cursor-glow"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-spa me-2"></i>Serenity Spa Admin
+            </a>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="navbar-text me-3 d-none d-md-block" id="adminGreeting"></span>
+                <button class="btn btn-glow" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center display-4 fw-bold mb-5 scroll-fade">Admin Dashboard</h2>
+
+        <div class="row mb-5">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="dashboard-card">
+                    <i class="fas fa-users card-icon"></i>
+                    <h3 id="totalBookings">0</h3>
+                    <p>Total Bookings</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="dashboard-card">
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                    <h3 id="todayBookings">0</h3>
+                    <p>Today's Bookings</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="dashboard-card">
+                    <i class="fas fa-chart-pie card-icon"></i>
+                    <h3 id="uniqueServices">0</h3>
+                    <p>Services Offered</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="400">
+                <div class="glass p-4 rounded">
+                    <h4 class="text-light mb-4 text-center">Bookings by Service Type</h4>
+                    <div class="chart-container">
+                        <canvas id="serviceChart"></canvas>
+                    </div>
+                    <div id="serviceBreakdown" class="mt-4">
+                        </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="glass p-4 rounded">
+                    <h4 class="text-light mb-4 text-center">Recent Bookings</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Service</th>
+                                    <th>Date & Time</th>
+                                    <th>Contact</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                    <div id="noBookingsMessage" class="text-center text-muted mt-3" style="display: none;">
+                        No bookings found yet.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editBookingModal" tabindex="-1" aria-labelledby="editBookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBookingModalLabel">Edit Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editBookingForm">
+                        <input type="hidden" id="editBookingId">
+                        <input type="hidden" id="editBookingLastModified">
+                        <div class="mb-3">
+                            <label for="editName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="editName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPhone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="editPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editService" class="form-label">Service</label>
+                            <select class="form-control" id="editService" required>
+                                <option value="">Select Service</option>
+                                <option>Deep Tissue Massage</option>
+                                <option>Hot Stone Therapy</option>
+                                <option>Aromatherapy</option>
+                                <option>Hydrotherapy</option>
+                                <option>Facial Treatment</option>
+                                <option>Couples Retreat</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDatetime" class="form-label">Date and Time</label>
+                            <input type="text" class="form-control" id="editDatetime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editRequests" class="form-label">Special Requests</label>
+                            <textarea class="form-control" id="editRequests" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 btn-glow-inside">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js"></script>
+    <script>
+        // AOS Initialization
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-quad',
+            once: true // Only animate once
+        });
+
+        // Custom Cursor
+        const cursorGlow = document.querySelector('.cursor-glow');
+        document.addEventListener('mousemove', e => {
+            cursorGlow.style.left = `${e.clientX}px`;
+            cursorGlow.style.top = `${e.clientY}px`;
+        });
+        document.addEventListener('mousedown', () => {
+            cursorGlow.classList.add('clicked');
+        });
+        document.addEventListener('mouseup', () => {
+            cursorGlow.classList.remove('clicked');
+        });
+
+        // Add ripple effect to buttons (replicated from index.html)
+        document.querySelectorAll('button, .btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const x = e.clientX - e.target.offsetLeft;
+                const y = e.clientY - e.target.offsetTop;
+
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+
+                ripple.addEventListener('animationend', () => {
+                    ripple.remove();
+                });
+            });
+        });
+
+        // Function to display a custom message box
+        function showMessageBox(message, type = 'success') {
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message-box');
+            if (type === 'error') {
+                messageBox.classList.add('error');
+            }
+            messageBox.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.prepend(messageBox);
+
+            setTimeout(() => {
+                messageBox.classList.add('show');
+            }, 10); // Small delay to trigger transition
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                messageBox.addEventListener('transitionend', () => messageBox.remove());
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication status
+            const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
+            const adminUsername = sessionStorage.getItem('adminUsername');
+
+            if (!isAuthenticated) {
+                window.location.href = 'admin_login.html'; // Redirect to login if not authenticated
+                return;
+            }
+
+            // Display admin greeting
+            if (adminUsername) {
+                document.getElementById('adminGreeting').textContent = `Welcome, ${adminUsername}!`;
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                sessionStorage.removeItem('adminAuthenticated');
+                sessionStorage.removeItem('adminUsername');
+                window.location.href = 'admin_login.html';
+            });
+
+            // Initialize Flatpickr for the edit modal datetime picker
+            flatpickr("#editDatetime", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                altInput: true,
+                altFormat: "F j, Y h:i K",
+                minuteIncrement: 30,
+                inline: false,
+                showMonths: 1,
+                plugins: [new confirmDatePlugin({
+                    confirmText: "Apply",
+                    showAlways: true,
+                    theme: "dark"
+                })],
+                onReady: function(selectedDates, dateStr, instance) {
+                    instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
+                        day.style.visibility = 'hidden';
+                        day.style.pointerEvents = 'none';
+                    });
+                },
+                onChange: function(selectedDates, dateStr, instance) {
+                    instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
+                        day.style.visibility = 'hidden';
+                        day.style.pointerEvents = 'none';
+                    });
+                },
+                onMonthChange: function(selectedDates, dateStr, instance) {
+                    instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
+                        day.style.visibility = 'hidden';
+                        day.style.pointerEvents = 'none';
+                    });
+                }
+            });
+
+
+            loadDashboardData();
+        });
+
+        // Function to fetch bookings and update dashboard
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/.netlify/functions/get'); // Fetch all bookings
+                if (!response.ok) {
+                    throw new Error('Failed to fetch bookings.');
+                }
+                const data = await response.json();
+                const bookings = data.data.map(item => ({
+                    ...item.document,
+                    _id: item._id,
+                    _lastmodified: item._lastmodified
+                })); // Extract document and add _id, _lastmodified
+
+                // --- Dashboard Cards Data ---
+                document.getElementById('totalBookings').textContent = bookings.length;
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Set to start of today
+                const todayBookings = bookings.filter(booking => {
+                    const bookingDate = new Date(booking.datetime.split(' ')[0]); // Only compare date part
+                    bookingDate.setHours(0, 0, 0, 0);
+                    return bookingDate.getTime() === today.getTime();
+                });
+                document.getElementById('todayBookings').textContent = todayBookings.length;
+
+                const uniqueServices = new Set(bookings.map(b => b.service));
+                document.getElementById('uniqueServices').textContent = uniqueServices.size;
+
+                // --- Recent Bookings Table ---
+                const bookingsTableBody = document.getElementById('bookingsTableBody');
+                bookingsTableBody.innerHTML = ''; // Clear previous entries
+                if (bookings.length === 0) {
+                    document.getElementById('noBookingsMessage').style.display = 'block';
+                } else {
+                    document.getElementById('noBookingsMessage').style.display = 'none';
+                    // Sort by most recent using _created or bookedAt
+                    bookings.sort((a, b) => new Date(b.bookedAt || b._created) - new Date(a.bookedAt || a._created));
+                    
+                    bookings.slice(0, 10).forEach(booking => { // Show only last 10 bookings
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${booking.name}</td>
+                            <td><span class="badge badge-primary-custom">${booking.service}</span></td>
+                            <td>${formatDateTime(booking.datetime)}</td>
+                            <td>
+                                <a href="mailto:${booking.email}" class="text-light me-2" title="${booking.email}"><i class="fas fa-envelope"></i></a>
+                                <a href="tel:${booking.contact_number}" class="text-light" title="${booking.contact_number || ''}"><i class="fas fa-phone"></i></a>
+                                <span class="ms-2 small">${booking.contact_number || ''}</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-info me-2 edit-btn" data-id="${booking._id}" data-bs-toggle="modal" data-bs-target="#editBookingModal">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="${booking._id}" data-lastmodified="${booking._lastmodified}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        `;
+                        bookingsTableBody.appendChild(row);
+                    });
+
+                    // Attach event listeners for edit and delete buttons
+                    document.querySelectorAll('.edit-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const bookingId = this.dataset.id;
+                            const bookingToEdit = bookings.find(b => b._id === bookingId);
+                            if (bookingToEdit) {
+                                populateEditModal(bookingToEdit);
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const bookingId = this.dataset.id;
+                            // For optimistic locking, we might pass _lastmodified, but for DELETE it's less common
+                            // For simplicity, we'll just delete by ID here.
+                            if (confirm('Are you sure you want to delete this booking?')) { // Using confirm for quick action, replace with custom modal if preferred
+                                deleteBooking(bookingId);
+                            }
+                        });
+                    });
+                }
+
+                // --- Bookings by Service Type Chart ---
+                const serviceCounts = {};
+                bookings.forEach(booking => {
+                    serviceCounts[booking.service] = (serviceCounts[booking.service] || 0) + 1;
+                });
+
+                const serviceNames = Object.keys(serviceCounts);
+                const serviceData = Object.values(serviceCounts);
+
+                // Destroy existing chart instance if it exists to prevent issues on re-render
+                const existingChart = Chart.getChart('serviceChart');
+                if (existingChart) {
+                    existingChart.destroy();
+                }
+
+                const ctx = document.getElementById('serviceChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: serviceNames,
+                        datasets: [{
+                            data: serviceData,
+                            backgroundColor: [
+                                'rgba(90, 125, 125, 0.7)', // primary-color
+                                'rgba(139, 154, 154, 0.7)', // secondary-color
+                                'rgba(163, 186, 186, 0.7)', // accent-color
+                                'rgba(43, 45, 66, 0.7)', // dark-bg (darker for contrast)
+                                'rgba(224, 225, 221, 0.7)', // light-text (lighter for contrast)
+                                'rgba(74, 74, 74, 0.7)' // dark-text (darker for contrast)
+                            ].slice(0, serviceNames.length), // Ensure enough colors for services
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'var(--text-color)',
+                                    font: {
+                                        family: 'Lato'
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed !== null) {
+                                            label += context.parsed + ' bookings';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Populate service breakdown list
+                const serviceBreakdownDiv = document.getElementById('serviceBreakdown');
+                serviceBreakdownDiv.innerHTML = ''; // Clear previous entries
+                if (serviceNames.length === 0) {
+                    serviceBreakdownDiv.innerHTML = '<p class="text-center text-muted">No service data available yet.</p>';
+                } else {
+                    const ul = document.createElement('ul');
+                    ul.classList.add('list-unstyled', 'text-start');
+                    serviceNames.forEach(service => {
+                        const li = document.createElement('li');
+                        li.classList.add('mb-2');
+                        li.innerHTML = `<span class="badge badge-primary-custom">${service}</span>: ${serviceCounts[service]} bookings`;
+                        ul.appendChild(li);
+                    });
+                    serviceBreakdownDiv.appendChild(ul);
+                }
+
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showMessageBox('Failed to load dashboard data. Please try again.', 'error');
+            }
+        }
+
+        // Function to populate the edit modal
+        function populateEditModal(booking) {
+            document.getElementById('editBookingId').value = booking._id;
+            document.getElementById('editBookingLastModified').value = booking._lastmodified;
+            document.getElementById('editName').value = booking.name;
+            document.getElementById('editEmail').value = booking.email;
+            document.getElementById('editPhone').value = booking.contact_number || '';
+            document.getElementById('editService').value = booking.service;
+            // Set Flatpickr value
+            flatpickr("#editDatetime").setDate(booking.datetime, true);
+            document.getElementById('editRequests').value = booking.request || '';
+        }
+
+        // Handle edit form submission
+        document.getElementById('editBookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const bookingId = document.getElementById('editBookingId').value;
+            const lastModified = document.getElementById('editBookingLastModified').value;
+
+            const updatedBookingData = {
+                name: document.getElementById('editName').value,
+                email: document.getElementById('editEmail').value,
+                contact_number: document.getElementById('editPhone').value,
+                service: document.getElementById('editService').value,
+                datetime: document.getElementById('editDatetime').value,
+                request: document.getElementById('editRequests').value
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: bookingId,
+                        booking: updatedBookingData
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to update booking.');
+                }
+
+                showMessageBox('Booking updated successfully!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('editBookingModal')).hide(); // Close modal
+                loadDashboardData(); // Reload data
+            } catch (error) {
+                console.error('Error updating booking:', error);
+                showMessageBox(`Update failed: ${error.message}`, 'error');
+            }
+        });
+
+        // Function to delete a booking
+        async function deleteBooking(bookingId) {
+            try {
+                const response = await fetch('/.netlify/functions/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: bookingId })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to delete booking.');
+                }
+
+                showMessageBox('Booking deleted successfully!', 'success');
+                loadDashboardData(); // Reload data
+            } catch (error) {
+                console.error('Error deleting booking:', error);
+                showMessageBox(`Delete failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Helper function to format date and time for display
+        function formatDateTime(isoString) {
+            const date = new Date(isoString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
+            return date.toLocaleString('en-US', options);
+        }
+
+        // Animated Background (replicated from index.html)
+        let animationSpeed = 0;
+        setInterval(() => {
+            animationSpeed += 0.05;
+            const bgElement = document.querySelector('.bg-animation::before');
+            if (bgElement) {
+                bgElement.style.transform = `rotate(${animationSpeed}deg)`;
+            }
+        }, 100);
+    </script>
+</body>
+</html>

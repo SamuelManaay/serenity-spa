@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenity Spa - Ultimate Wellness Experience</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.css">
+    <style>
+        /* Updated Color Palette for a more subdued, professional look */
+        :root {
+            --primary-color: #5A7D7D; /* Muted teal/blue-green for primary accents */
+            --secondary-color: #8B9A9A; /* Lighter shade of primary for subtle elements */
+            --accent-color: #A3BABA; /* A slightly warmer, lighter accent */
+            --dark-bg: #2B2D42; /* Deep charcoal for main background */
+            --light-text: #E0E1DD; /* Soft white for light text */
+            --dark-text: #4A4A4A; /* Dark gray for dark text */
+            --glass-bg: rgba(255, 255, 255, 0.08); /* Slightly less opaque glass */
+            --glass-border: rgba(255, 255, 255, 0.15); /* Softer glass border */
+            --danger-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif; /* Cleaner body font */
+            line-height: 1.7; /* Improved readability */
+            overflow-x: hidden;
+            background: var(--dark-bg); /* Use the new dark background */
+            color: var(--light-text);
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--dark-bg);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(90, 125, 125, 0.1) 0%, transparent 50%); /* Use primary color for animation */
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg) translate(-50%, -50%); }
+            100% { transform: rotate(360deg) translate(-50%, -50%); }
+        }
+
+        /* Glass Morphism Effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem; /* Slightly smaller, more refined */
+            font-weight: bold;
+            background: none; /* Remove gradient from brand */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: var(--light-text); /* Use soft white */
+            background-clip: text;
+            color: var(--light-text);
+        }
+
+        .nav-link {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light-text) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important; /* Use new accent color for hover */
+            transform: translateY(-2px);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: var(--accent-color); /* Use new accent color for underline */
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--dark-bg); /* Darken bg and use new dark color */
+        }
+
+        .hero-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem; /* Slightly reduced for better balance */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: none; /* Remove gradient from hero title */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: var(--light-text); /* Use soft white */
+            background-clip: text;
+            color: var(--light-text);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem; /* Slightly smaller for better flow */
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-glow {
+            background: var(--primary-color); /* Use new primary color */
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(90, 125, 125, 0.3); /* Softer shadow */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(90, 125, 125, 0.5); /* Softer shadow */
+            color: white;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); /* Softer glare */
+            transition: all 0.5s;
+        }
+
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+
+        /* Floating Elements */
+        .floating {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating:nth-child(odd) {
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-icon {
+            font-size: 2.5rem; /* Slightly smaller */
+            opacity: 0.08; /* Much more subtle */
+            color: var(--light-text); /* Blend more with background */
+        }
+
+        /* Services Section */
+        .service-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px; /* Adjust this value as needed to fit all content comfortably */
+            display: flex; /* Add flexbox for better content alignment */
+            flex-direction: column; /* Stack content vertically */
+            justify-content: space-between; /* Distribute space between items */
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-color); /* Use single primary color for accent */
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            background: none; /* Remove gradient from icons */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: var(--accent-color); /* Use accent color */
+            background-clip: text;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h4 {
+            color: var(--light-text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: var(--light-text);
+            opacity: 0.85;
+        }
+
+        .service-card .badge.bg-primary {
+            background-color: var(--primary-color) !important;
+            color: var(--light-text);
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+        }
+        .service-card .badge.bg-secondary {
+            background-color: var(--secondary-color) !important;
+            color: var(--dark-text); /* Darker text for secondary badge */
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Gallery Section */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(43, 45, 66, 0.8); /* Use a darker, less gradient overlay */
+            opacity: 0;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-text);
+            font-size: 1.3rem; /* Slightly smaller for refinement */
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Contact Form */
+        .form-control {
+            background: rgba(255, 255, 255, 0.05); /* Slightly darker input background */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light-text);
+            padding: 15px;
+            margin-bottom: 1rem;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1); /* Slightly lighter on focus */
+            border-color: var(--primary-color); /* Use primary color for focus */
+            box-shadow: 0 0 0 0.2rem rgba(90, 125, 125, 0.2);
+            color: var(--light-text);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6); /* Slightly less opaque placeholder */
+        }
+
+        /* Section Headings */
+        .display-4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--light-text);
+        }
+
+        .lead {
+            font-family: 'Lato', sans-serif;
+            opacity: 0.9;
+        }
+
+        /* Contact Info */
+        .glass h3, .glass h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--light-text);
+        }
+
+        .glass p {
+            font-family: 'Lato', sans-serif;
+            opacity: 0.85;
+        }
+
+        .glass .fas {
+            color: var(--accent-color); /* Use accent color for icons */
+        }
+
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.4); /* Slightly darker for better contrast */
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--light-text);
+        }
+
+        .footer p {
+            font-family: 'Lato', sans-serif;
+            opacity: 0.85;
+        }
+
+        .footer .list-unstyled a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .footer .list-unstyled a:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color); /* Use primary color for social icons */
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(90, 125, 125, 0.4);
+        }
+
+        .footer .input-group .form-control {
+            border-radius: 0.25rem 0 0 0.25rem; /* Match default Bootstrap styling */
+            margin-bottom: 0;
+        }
+
+        .footer .input-group button {
+            border-radius: 0 0.25rem 0.25rem 0; /* Match default Bootstrap styling */
+            background: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        .footer .input-group button:hover {
+            background: var(--secondary-color) !important;
+            border-color: var(--secondary-color) !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.8rem; /* Adjusted for smaller screens */
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .floating-icon {
+                font-size: 1.8rem; /* Smaller floating icons */
+            }
+
+            .display-4 {
+                font-size: 2.5rem;
+            }
+
+            .service-card {
+                padding: 2rem;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom cursor effect */
+        .cursor-glow {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 60%); /* Use accent color, more transparent */
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: normal; /* Remove blend mode for subtlety */
+            opacity: 0.5; /* Reduce opacity */
+            transition: transform 0.1s ease;
+        }
+
+        /* Flatpickr Custom Styling */
+        .flatpickr-calendar {
+            background: var(--dark-bg) !important; /* Dark background */
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+            font-family: 'Lato', sans-serif !important;
+            color: var(--light-text) !important; /* White text for readability */
+            font-size: 1.1em; /* Make base font size slightly bigger */
+        }
+
+        /* Adjust font size for various elements */
+        .flatpickr-months {
+            /* Ensure enough height for the month/year container */
+            height: 48px !important; /* Explicit height to ensure space */
+            padding: 5px 0 !important; /* Adjust padding to center content */
+            display: flex; /* Use flexbox for better alignment */
+            align-items: center; /* Center items vertically */
+            justify-content: center; /* Center items horizontally */
+        }
+
+        .flatpickr-months .flatpickr-month {
+            background: rgba(0, 0, 0, 0.2) !important; /* Slightly distinct header background */
+            color: var(--light-text) !important;
+            font-size: 1.25em; /* Significantly bigger month/year */
+            font-weight: 600; /* Make it bolder */
+            line-height: 1.2; /* Ensure text fits within height */
+            font-size: small !important; /* Use medium size for better visibility */
+            /*padding: 5px 0; /* Add vertical padding */
+            padding: 0.5em 0 !important;
+            min-height: 3em !important;
+            flex: 1; /* Allow month to take up available space */
+            text-align: center; /* Center the month text */
+            display: flex !important;
+        }
+
+        .flatpickr-current-month {
+            height: 100%; /* Take full height of .flatpickr-months */
+            display: flex; /* Use flexbox */
+            align-items: center; /* Center items vertically */
+            justify-content: center; /* Center content within */
+            padding: 0 10px; /* Add some horizontal padding */
+        }
+
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months,
+        .flatpickr-current-month .numInputWrapper,
+        .flatpickr-current-month .numInputWrapper span {
+            color: var(--light-text) !important; /* Ensure month and year text is white */
+            font-size: 1.25em; /* Bigger month/year dropdowns */
+            padding: 5px 0; /* Add padding for clickability */
+            line-height: 1.2; /* Ensure text fits */
+        }
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+        .flatpickr-current-month .numInputWrapper:hover,
+        .flatpickr-current-month .numInputWrapper span:hover {
+            color: var(--accent-color) !important; /* Accent color on hover */
+        }
+
+        .flatpickr-weekday {
+            color: var(--secondary-color) !important; /* Subtler weekday names */
+            font-weight: bold;
+            font-size: 1.05em; /* Bigger weekday names */
+        }
+
+        .flatpickr-day {
+            color: var(--light-text) !important;
+            border-radius: 8px !important; /* Rounded days */
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 1.1em; /* Bigger day numbers */
+            padding: 0.5em 0.5em; /* Adjust padding for bigger days */
+        }
+
+        /* Hide days from other months */
+        .flatpickr-day.prevMonthDay,
+        .flatpickr-day.nextMonthDay {
+            color: transparent !important; /* Make text invisible */
+            pointer-events: none; /* Disable interaction */
+            background-color: transparent !important; /* Ensure no background shows */
+            border-color: transparent !important; /* Ensure no border shows */
+        }
+
+
+        .flatpickr-day.today {
+            border-color: var(--accent-color) !important;
+            border-width: 1px !important;
+            border-style: dashed !important; /* Outline today */
+        }
+
+        /* Selected, hovered, and in-range states */
+        .flatpickr-day.selected,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange,
+        .flatpickr-day.selected.inRange,
+        .flatpickr-day.startRange.inRange,
+        .flatpickr-day.endRange.inRange,
+        .flatpickr-day:hover,
+        .flatpickr-day.inRange {
+            background-color: var(--primary-color) !important; /* Primary color for selected/hover */
+            color: white !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        .flatpickr-day.selected.startRange,
+        .flatpickr-day.selected.endRange {
+            border-radius: 8px !important; /* Maintain rounded corners for selected range ends */
+        }
+
+        /* Disabled dates */
+        .flatpickr-day.flatpickr-disabled,
+        .flatpickr-day.flatpickr-disabled:hover {
+            background: transparent !important;
+            color: rgba(224, 225, 221, 0.3) !important; /* Faded disabled dates */
+            cursor: not-allowed;
+        }
+
+        /* Navigation arrows */
+        .flatpickr-current-month .flatpickr-prev-month,
+        .flatpickr-current-month .flatpickr-next-month {
+            color: var(--light-text) !important;
+            font-size: 1.5em; /* Bigger arrows */
+            height: auto; /* Allow height to adjust */
+            align-self: center; /* Center vertically */
+            padding: 0 10px; /* Add horizontal padding */
+        }
+
+        .flatpickr-current-month .flatpickr-prev-month:hover,
+        .flatpickr-current-month .flatpickr-next-month:hover {
+            color: var(--accent-color) !important;
+        }
+
+        /* Time picker styling */
+        .flatpickr-time {
+            border-top: 1px solid var(--glass-border) !important;
+            font-size: 1.1em; /* Bigger time picker numbers */
+        }
+
+        .flatpickr-time .numInputWrapper span {
+            color: var(--light-text) !important;
+        }
+
+        .flatpickr-time .numInputWrapper span.arrowUp:after,
+        .flatpickr-time .numInputWrapper span.arrowDown:after {
+            border-color: var(--light-text) !important; /* White arrows for time picker */
+        }
+
+        /* Confirm Date Plugin Button */
+        .flatpickr-confirm-button {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+            border-radius: 8px !important;
+            border: none !important;
+            font-weight: 600 !important;
+            transition: background-color 0.2s ease;
+            margin: 5px;
+            padding: 8px 15px; /* Bigger padding for button */
+            font-size: 1em; /* Bigger button text */
+        }
+        .flatpickr-confirm-button:hover {
+            background-color: var(--accent-color) !important;
+        }
+
+        /* Mobile adjustments for calendar popup */
+        @media (max-width: 767px) {
+            .flatpickr-calendar.open {
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                max-width: 95vw; /* Occupy more of the viewport width on small screens */
+                width: auto; /* Allow content to dictate width, within max-width */
+                box-sizing: border-box;
+                padding: 10px; /* Add some padding around the calendar content */
+            }
+            .flatpickr-innerContainer {
+                display: block; /* Stack months/time vertically if multiple calendars are shown */
+            }
+            .flatpickr-time {
+                width: 100%;
+                margin-top: 15px; /* More space between date and time on mobile */
+                padding-top: 15px;
+            }
+            .flatpickr-months {
+                display: flex; /* Ensure months are displayed side-by-side if multiple, or block if single */
+                flex-direction: column; /* Stack months vertically for single month view on mobile */
+            }
+            .flatpickr-month {
+                padding: 5px 0; /* Adjust padding for months on mobile */
+            }
+            .flatpickr-days {
+                padding: 10px 0; /* Adjust padding for days on mobile */
+            }
+            .flatpickr-day {
+                width: 14.28%; /* Ensure days take up even space */
+                height: 40px; /* Fixed height for better touch target */
+                line-height: 40px; /* Center text vertically */
+                margin: 2px 0; /* Small margin between days */
+            }
+            .flatpickr-current-month .flatpickr-monthDropdown-months,
+            .flatpickr-current-month .numInputWrapper {
+                font-size: 1.2em; /* Slightly larger month/year on mobile */
+            }
+        }
+
+        /* Custom message box for alerts */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(90, 125, 125, 0.9); /* Primary color */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            visibility: visible;
+            top: 30px;
+        }
+
+        .message-box.error {
+            background-color: rgba(231, 76, 60, 0.9); /* Danger color */
+        }
+
+        .message-box .fa-check-circle, .message-box .fa-exclamation-circle {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="cursor-glow" id="cursor"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-spa me-2"></i>Serenity Spa
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-glow px-2 py-1 ms-lg-3" href="admin_login.html">
+                            <i class="fas fa-user-shield me-2"></i>Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1>Escape to Tranquility</h1>
+                        <p>Experience the ultimate in relaxation and rejuvenation with our premium spa and massage services. Let us transport you to a world of serenity.</p>
+                        <a href="#services" class="btn btn-glow me-3">Explore Services</a>
+                        <a href="#contact" class="btn btn-outline-light">Book Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 position-relative d-none d-lg-block"> <div class="floating" style="top: 10%; right: 20%;">
+                        <i class="fas fa-lotus floating-icon"></i>
+                    </div>
+                    <div class="floating" style="top: 60%; right: 70%;">
+                        <i class="fas fa-leaf floating-icon"></i>
+                    </div>
+                    <div class="floating" style="top: 30%; right: 50%;">
+                        <i class="fas fa-seedling floating-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5 scroll-fade">
+                <h2 class="display-4 fw-bold mb-4">Our Premium Services</h2>
+                <p class="lead">Indulge in our carefully curated wellness experiences</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="service-card text-center">
+                        <i class="fas fa-hands service-icon"></i>
+                        <h4>Deep Tissue Massage</h4>
+                        <p>Therapeutic massage targeting muscle tension and knots for complete relief and recovery.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary me-2">90 mins</span>
+                            <span class="badge bg-secondary">$120</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="service-card text-center">
+                        <i class="fas fa-spa service-icon"></i>
+                        <h4>Hot Stone Therapy</h4>
+                        <p>Heated stones placed on key points to melt away stress and promote deep relaxation.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary me-2">75 mins</span>
+                            <span class="badge bg-secondary">$150</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="service-card text-center">
+                        <i class="fas fa-seedling service-icon"></i>
+                        <h4>Aromatherapy</h4>
+                        <p>Essential oil massage combining healing properties with luxurious relaxation techniques.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary me-2">60 mins</span>
+                            <span class="badge bg-secondary">$100</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="service-card text-center">
+                        <i class="fas fa-water service-icon"></i>
+                        <h4>Hydrotherapy</h4>
+                        <p>Water-based treatment to rejuvenate your body and mind through targeted pressure therapy.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary me-2">45 mins</span>
+                            <span class="badge bg-secondary">$80</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="service-card text-center">
+                        <i class="fas fa-gem service-icon"></i>
+                        <h4>Facial Treatment</h4>
+                        <p>Customized facial care using premium products to restore your skin's natural glow.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary me-2">75 mins</span>
+                            <span class="badge bg-secondary">$130</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="service-card text-center">
+                        <i class="fas fa-fire service-icon"></i>
+                        <h4>Couples Retreat</h4>
+                        <p>Shared wellness experience in our luxury couples suite with champagne and chocolates.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary me-2">120 mins</span>
+                            <span class="badge bg-secondary">$300</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5 scroll-fade">
+                <h2 class="display-4 fw-bold mb-4">Experience Gallery</h2>
+                <p class="lead">Take a glimpse into our serene sanctuary</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="gallery-item">
+                        <img src="images/tranquil.png" alt="Massage Room">
+                        <div class="gallery-overlay">
+                            <span>Tranquil Massage Suite</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="gallery-item">
+                        <img src="images/hydrotherapy.png" alt="Relaxation Pool">
+                        <div class="gallery-overlay">
+                            <span>Hydrotherapy Pool</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 scroll-fade">
+                    <div class="gallery-item">
+                        <img src="images/zengarden.png" alt="Meditation Space">
+                        <div class="gallery-overlay">
+                            <span>Zen Garden</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 scroll-fade mb-4 mb-lg-0"> <div class="glass p-4 rounded">
+                        <h3 class="mb-4">Book Your Experience</h3>
+                        <form id="contactForm">
+                            <div class="row gx-3"> <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                                </div>
+                            </div>
+                            <div class="row gx-3">
+                                <div class="col-md-6 mb-3">
+                                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <select class="form-control" id="serviceSelect">
+                                        <option value="">Select Service</option>
+                                        <option>Deep Tissue Massage</option>
+                                        <option>Hot Stone Therapy</option>
+                                        <option>Aromatherapy</option>
+                                        <option>Hydrotherapy</option>
+                                        <option>Facial Treatment</option>
+                                        <option>Couples Retreat</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="datetime-picker" placeholder="Select Date and Time" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" id="requests" rows="4" placeholder="Special requests or preferences..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-glow w-100 mt-3">Book Appointment</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 scroll-fade">
+                    <div class="ps-lg-4">
+                        <h3 class="mb-4">Visit Our Sanctuary</h3>
+                        <div class="glass p-4 rounded mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                                <div>
+                                    <h5 class="mb-1">Location</h5>
+                                    <p class="mb-0">123 Serenity Avenue, Wellness District</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-phone text-primary me-3"></i>
+                                <div>
+                                    <h5 class="mb-1">Phone</h5>
+                                    <p class="mb-0">+1 (555) 123-SERENE</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-envelope text-primary me-3"></i>
+                                <div>
+                                    <h5 class="mb-1">Email</h5>
+                                    <p class="mb-0">hello@serenityspa.com</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-clock text-primary me-3"></i>
+                                <div>
+                                    <h5 class="mb-1">Hours</h5>
+                                    <p class="mb-0">Mon-Sun: 9:00 AM - 9:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-icons text-center">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Serenity Spa</h5>
+                    <p>Your journey to wellness and tranquility begins here. Experience the ultimate in relaxation and rejuvenation.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="#services" class="text-light text-decoration-none">Services</a></li>
+                        <li><a href="#gallery" class="text-light text-decoration-none">Gallery</a></li>
+                        <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe for wellness tips and exclusive offers</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" aria-label="Your email for newsletter">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2025 Serenity Spa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js"></script>
+    <script>
+        // Function to display a custom message box
+        function showMessageBox(message, type = 'success') {
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message-box');
+            if (type === 'error') {
+                messageBox.classList.add('error');
+            }
+            messageBox.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.prepend(messageBox);
+
+            setTimeout(() => {
+                messageBox.classList.add('show');
+            }, 10); // Small delay to trigger transition
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                messageBox.addEventListener('transitionend', () => messageBox.remove());
+            }, 3000);
+        }
+
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-fade').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(0, 0, 0, 0.6)'; // Slightly darker on scroll
+            } else {
+                navbar.style.background = 'rgba(0, 0, 0, 0.2)';
+            }
+        });
+
+        // Form submission - Modified to send data to API
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('serviceSelect').value;
+            const datetime = document.getElementById('datetime-picker').value;
+            const requests = document.getElementById('requests').value;
+
+            // Basic validation
+            if (service === "" || !name || !email || !datetime) {
+                showMessageBox('Please fill in all required booking details.', 'error');
+                return;
+            }
+
+            const bookingData = {
+                document: { // Wrap in 'document' as per API structure
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    service: service,
+                    datetime: datetime, // ISO format from Flatpickr
+                    requests: requests,
+                    bookedAt: new Date().toISOString() // Timestamp when booked
+                }
+            };
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Booking...';
+            submitBtn.disabled = true;
+
+            try {
+                // Log the data being sent for debugging
+                console.log('Sending booking data:', {
+                    name, email, contact_number: phone, service, datetime, request: requests
+                });
+                
+                const response = await fetch('/.netlify/functions/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        contact_number: phone,
+                        service: service,
+                        datetime: datetime,
+                        request: requests
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to book appointment.');
+                }
+
+                const result = await response.json();
+                console.log('Booking successful:', result);
+                showMessageBox('Booking Confirmed! We look forward to seeing you.', 'success');
+                this.reset();
+            } catch (error) {
+                console.error('Error booking appointment:', error);
+                showMessageBox(`Booking failed: ${error.message}`, 'error');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Service cards hover effect enhancement
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Gallery lightbox effect (simplified from original)
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const overlay = this.querySelector('.gallery-overlay');
+                overlay.style.opacity = overlay.style.opacity === '1' ? '0' : '1';
+            });
+        });
+
+        // Floating elements random animation
+        document.querySelectorAll('.floating').forEach((element, index) => {
+            const randomDelay = Math.random() * 5;
+            const randomDuration = 4 + Math.random() * 4;
+            
+            element.style.animationDelay = randomDelay + 's';
+            element.style.animationDuration = randomDuration + 's';
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            const speed = scrolled * 0.2; // Reduced parallax speed for subtlety
+            
+            if (parallax) {
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+
+        // Interactive button effects
+        document.querySelectorAll('.btn-glow').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Dynamic background animation (keep original logic)
+        let animationSpeed = 0;
+        setInterval(() => {
+            animationSpeed += 0.05; // Slower rotation
+            const bgElement = document.querySelector('.bg-animation::before');
+            if (bgElement) {
+                bgElement.style.transform = `rotate(${animationSpeed}deg)`;
+            }
+        }, 100);
+
+
+        // Loading animation on page load (keep original logic)
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Newsletter subscription
+        document.querySelector('.input-group button').addEventListener('click', function() {
+            const emailInput = this.previousElementSibling;
+            const email = emailInput.value;
+            if (email && email.includes('@') && email.includes('.')) { // Basic email validation
+                this.textContent = 'Subscribed!';
+                this.style.background = 'var(--accent-color)'; // Use accent color for success
+                this.style.borderColor = 'var(--accent-color)';
+                
+                setTimeout(() => {
+                    this.textContent = 'Subscribe';
+                    this.style.background = 'var(--primary-color)'; // Revert to primary color
+                    this.style.borderColor = 'var(--primary-color)';
+                    emailInput.value = '';
+                }, 2000);
+            } else {
+                emailInput.style.borderColor = 'red'; // Indicate error
+                showMessageBox('Please enter a valid email address.', 'error');
+                setTimeout(() => {
+                    emailInput.style.borderColor = '';
+                }, 1000);
+            }
+        });
+
+        // Auto-hide navbar on scroll down, show on scroll up
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const navbar = document.querySelector('.navbar');
+            
+            if (currentScroll > lastScrollTop && currentScroll > 100) {
+                // Scrolling down
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up
+                navbar.style.transform = 'translateY(0)';
+            }
+            lastScrollTop = currentScroll;
+        });
+
+        // Add ripple effect to buttons (keep original logic)
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.pointerEvents = 'none';
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Flatpickr Initialization
+        flatpickr("#datetime-picker", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            altInput: true,
+            altFormat: "F j, Y h:i K", // e.g., "June 5, 2025 12:00 PM"
+            minDate: "today",
+            minuteIncrement: 30,
+            inline: false, // Make it a modal
+            showMonths: 1, // Only show one month
+            plugins: [new confirmDatePlugin({
+                confirmText: "Apply", // Text for the confirmation button
+                showAlways: true,    // Always show the button
+                theme: "dark"       // Set to 'dark' to match the calendar theme
+            })],
+            // Event hook to hide previous/next month days
+            onReady: function(selectedDates, dateStr, instance) {
+                instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
+                    day.style.visibility = 'hidden'; // Make them invisible
+                    day.style.pointerEvents = 'none'; // Disable interaction
+                });
+            },
+            onChange: function(selectedDates, dateStr, instance) {
+                // Re-apply visibility on change (e.g., month navigation)
+                instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
+                    day.style.visibility = 'hidden';
+                    day.style.pointerEvents = 'none';
+                });
+            },
+            onMonthChange: function(selectedDates, dateStr, instance) {
+                // Re-apply visibility on month change
+                instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
+                    day.style.visibility = 'hidden';
+                    day.style.pointerEvents = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

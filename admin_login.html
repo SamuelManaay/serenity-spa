@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenity Spa - Admin Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        /* Consistent color palette */
+        :root {
+            --primary-color: #5A7D7D;
+            --secondary-color: #8B9A9A;
+            --accent-color: #A3BABA;
+            --dark-bg: #2B2D42;
+            --light-text: #E0E1DD;
+            --dark-text: #4A4A4A;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --danger-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--dark-bg);
+            color: var(--light-text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--dark-bg);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(90, 125, 125, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg) translate(-50%, -50%); }
+            100% { transform: rotate(360deg) translate(-50%, -50%); }
+        }
+
+        /* Glass morphism for login card */
+        .login-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .brand-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .brand-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .brand-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--light-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-subtitle {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--light-text);
+            padding: 1rem 1.25rem;
+            height: auto;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(90, 125, 125, 0.25);
+            color: var(--light-text);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-floating > label {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.75rem 1.25rem;
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            color: var(--accent-color);
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        }
+
+        .btn-auth {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(90, 125, 125, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(90, 125, 125, 0.4);
+            color: white;
+        }
+
+        .btn-auth::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: all 0.5s;
+        }
+
+        .btn-auth:hover::before {
+            left: 100%;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            color: var(--light-text);
+            transform: translateX(-5px);
+        }
+
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(90, 125, 125, 0.9); /* Primary color */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            visibility: visible;
+            top: 30px;
+        }
+
+        .message-box.error {
+            background-color: rgba(231, 76, 60, 0.9); /* Danger color */
+        }
+
+        .message-box .fa-check-circle, .message-box .fa-exclamation-circle {
+            margin-right: 10px;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.05;
+            color: var(--accent-color);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 2s; }
+        .floating-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+        .floating-icon:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(-5deg); }
+            75% { transform: translateY(-30px) rotate(3deg); }
+        }
+
+        /* Loading state */
+        .btn-auth.loading {
+            pointer-events: none;
+        }
+
+        .btn-auth.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 576px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem;
+                max-width: none;
+            }
+
+            .brand-title {
+                font-size: 1.75rem;
+            }
+
+            .brand-icon {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* Form toggle styles */
+        .form-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .form-toggle button {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: relative;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .form-toggle button.active {
+            opacity: 1;
+            font-weight: 600;
+        }
+        .form-toggle button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="floating-elements">
+        <i class="fas fa-spa floating-icon"></i>
+        <i class="fas fa-leaf floating-icon"></i>
+        <i class="fas fa-lotus floating-icon"></i>
+        <i class="fas fa-seedling floating-icon"></i>
+    </div>
+
+    <div class="login-container">
+        <div class="brand-section">
+            <i class="fas fa-spa brand-icon"></i>
+            <h1 class="brand-title">Serenity Spa</h1>
+            <p class="brand-subtitle">Admin Portal</p>
+        </div>
+
+        <div class="form-toggle">
+            <button id="showLoginBtn" class="active">Login</button>
+            <button id="showSignupBtn">Sign Up</button>
+        </div>
+
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span id="errorMessageText">Invalid credentials. Please try again.</span>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="loginUsername" placeholder="Username" required>
+                <label for="loginUsername">
+                    <i class="fas fa-user me-2"></i>Username
+                </label>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+                <label for="loginPassword">
+                    <i class="fas fa-lock me-2"></i>Password
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-auth">
+                <span class="btn-text">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                </span>
+            </button>
+        </form>
+
+        <!-- Sign Up Form (Initially hidden) -->
+        <form id="signupForm" style="display: none;">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="signupUsername" placeholder="Username" required>
+                <label for="signupUsername">
+                    <i class="fas fa-user-plus me-2"></i>New Username
+                </label>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
+                <label for="signupPassword">
+                    <i class="fas fa-lock me-2"></i>New Password
+                </label>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm Password" required>
+                <label for="signupConfirmPassword">
+                    <i class="fas fa-lock-open me-2"></i>Confirm Password
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-auth">
+                <span class="btn-text">
+                    <i class="fas fa-user-plus me-2"></i>Register
+                </span>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Main Site
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script> <!-- Add bcryptjs for client-side password comparison -->
+
+    <script>
+        // Function to display a custom message box
+        function showMessageBox(message, type = 'success') {
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message-box');
+            if (type === 'error') {
+                messageBox.classList.add('error');
+            }
+            messageBox.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.prepend(messageBox);
+
+            setTimeout(() => {
+                messageBox.classList.add('show');
+            }, 10); // Small delay to trigger transition
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                messageBox.addEventListener('transitionend', () => messageBox.remove());
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const showLoginBtn = document.getElementById('showLoginBtn');
+            const showSignupBtn = document.getElementById('showSignupBtn');
+            const errorMessageDiv = document.getElementById('errorMessage');
+            const errorMessageText = document.getElementById('errorMessageText');
+
+            // Function to toggle between login and signup forms
+            function toggleForms(showLogin) {
+                if (showLogin) {
+                    loginForm.style.display = 'block';
+                    signupForm.style.display = 'none';
+                    showLoginBtn.classList.add('active');
+                    showSignupBtn.classList.remove('active');
+                    document.getElementById('loginUsername').focus();
+                } else {
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = 'block';
+                    showLoginBtn.classList.remove('active');
+                    showSignupBtn.classList.add('active');
+                    document.getElementById('signupUsername').focus();
+                }
+                errorMessageDiv.style.display = 'none'; // Hide error message on form switch
+            }
+
+            // Event listeners for toggle buttons
+            showLoginBtn.addEventListener('click', () => toggleForms(true));
+            showSignupBtn.addEventListener('click', () => toggleForms(false));
+
+            // Check if already authenticated and redirect to dashboard
+            if (sessionStorage.getItem('adminAuthenticated') === 'true') {
+                window.location.href = 'admin_dashboard.html';
+                return; // Stop further execution if already authenticated
+            }
+
+            // Handle Login Form Submission
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+                const submitBtn = this.querySelector('button[type="submit"]');
+                
+                errorMessageDiv.style.display = 'none';
+                submitBtn.classList.add('loading');
+                submitBtn.querySelector('.btn-text').style.opacity = '0';
+
+                try {
+                    // Use the new admin login endpoint
+                    const response = await fetch('/.netlify/functions/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    });
+                    
+                    // Check if response is ok before trying to parse JSON
+                    const responseText = await response.text();
+                    let data;
+                    
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (e) {
+                        console.error('Invalid JSON response:', responseText);
+                        throw new Error('Server returned invalid response');
+                    }
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Login failed.');
+                    }
+                    
+                    // If we get here, login was successful
+                    sessionStorage.setItem('adminAuthenticated', 'true');
+                    sessionStorage.setItem('adminUsername', username);
+                    if (data.token) {
+                        sessionStorage.setItem('adminToken', data.token);
+                    }
+                    
+                    showMessageBox('Login successful!', 'success');
+                    submitBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    submitBtn.querySelector('.btn-text').innerHTML = '<i class="fas fa-check me-2"></i>Success!';
+                    submitBtn.querySelector('.btn-text').style.opacity = '1';
+                    submitBtn.classList.remove('loading');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin_dashboard.html';
+                    }, 1000);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    errorMessageText.textContent = 'Invalid username or password.';
+                    errorMessageDiv.style.display = 'block';
+                    document.getElementById('loginPassword').value = '';
+                    document.getElementById('loginPassword').focus();
+                    shakeLoginContainer();
+                } finally {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.querySelector('.btn-text').style.opacity = '1';
+                }
+            });
+
+            // Handle Sign Up Form Submission
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const username = document.getElementById('signupUsername').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                const submitBtn = this.querySelector('button[type="submit"]');
+
+                errorMessageDiv.style.display = 'none';
+
+                if (password !== confirmPassword) {
+                    errorMessageText.textContent = 'Passwords do not match.';
+                    errorMessageDiv.style.display = 'block';
+                    document.getElementById('signupConfirmPassword').value = '';
+                    document.getElementById('signupConfirmPassword').focus();
+                    shakeLoginContainer();
+                    return;
+                }
+                if (password.length < 6) { // Basic password length check
+                    errorMessageText.textContent = 'Password must be at least 6 characters long.';
+                    errorMessageDiv.style.display = 'block';
+                    document.getElementById('signupPassword').focus();
+                    shakeLoginContainer();
+                    return;
+                }
+
+                submitBtn.classList.add('loading');
+                submitBtn.querySelector('.btn-text').style.opacity = '0';
+
+                try {
+                    // Use the new admin register endpoint
+                    const response = await fetch('/.netlify/functions/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    });
+
+                    // Check if response is ok before trying to parse JSON
+                    const responseText = await response.text();
+                    let result;
+                    
+                    try {
+                        result = JSON.parse(responseText);
+                    } catch (e) {
+                        console.error('Invalid JSON response:', responseText);
+                        throw new Error('Server returned invalid response');
+                    }
+                    
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Failed to register admin.');
+                    }
+                    
+                    console.log('Admin registered:', result);
+                    showMessageBox('Admin registered successfully! You can now log in.', 'success');
+                    
+                    // Switch to login form after successful registration
+                    toggleForms(true);
+                    this.reset(); // Clear signup form
+                } catch (error) {
+                    console.error('Sign up error:', error);
+                    errorMessageText.textContent = `Registration failed: ${error.message}`;
+                    errorMessageDiv.style.display = 'block';
+                    shakeLoginContainer();
+                } finally {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.querySelector('.btn-text').style.opacity = '1';
+                }
+            });
+
+            // Shake effect for login container on error
+            function shakeLoginContainer() {
+                const loginContainer = document.querySelector('.login-container');
+                loginContainer.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    loginContainer.style.animation = '';
+                }, 500);
+            }
+
+            // Add shake animation CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    75% { transform: translateX(5px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Auto-focus username field based on active form
+            window.addEventListener('load', () => {
+                if (loginForm.style.display !== 'none') {
+                    document.getElementById('loginUsername').focus();
+                } else {
+                    document.getElementById('signupUsername').focus();
+                }
+            });
+        });
+
+        // Animated Background (replicated from admin_dashboard.html)
+        let animationSpeed = 0;
+        setInterval(() => {
+            animationSpeed += 0.05;
+            const bgElement = document.querySelector('.bg-animation::before');
+            if (bgElement) {
+                bgElement.style.transform = `rotate(${animationSpeed}deg)`;
+            }
+        }, 100);
+    </script>
+</body>
+</html>
