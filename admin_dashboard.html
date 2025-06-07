@@ -29,6 +29,8 @@
             --input-bg: rgba(255, 255, 255, 0.05);
             --input-border: rgba(255, 255, 255, 0.1);
             --dark-text: #333333; /* For elements that need to be dark against lighter backgrounds */
+            --light-bg-text: #E0E1DD; /* Text color for glass/dark backgrounds */
+            --glass-text: #E0E1DD; /* Text color specifically for glass elements */
         }
         
         * {
@@ -225,7 +227,140 @@
         
         /* Specific color for table body text */
         .table tbody tr td {
-            color: var(--dark-text); /* Black text for table body content */
+            color: var(--light-bg-text); /* Light text for better visibility on dark backgrounds */
+        }
+        
+        /* Reworked Dropdown Checklist Styling */
+        .dropdown-check-list {
+            display: block;
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .dropdown-check-list .anchor {
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light-text);
+            font-family: 'Lato', sans-serif;
+            transition: all 0.3s ease;
+            height: 51px; /* Match other form controls */
+        }
+
+        .dropdown-check-list .anchor:focus,
+        .dropdown-check-list.visible .anchor {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(90, 125, 125, 0.2);
+        }
+
+        .dropdown-check-list .anchor #selectedServices {
+            transition: all 0.2s ease-out;
+            pointer-events: none; /* Prevent text from blocking clicks */
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .dropdown-check-list.visible .anchor #selectedServices {
+            display: none; /* Completely hide the label when dropdown is open */
+        }
+        
+        .dropdown-check-list.has-selection .anchor #selectedServices {
+            display: none; /* Hide the label when services are selected */
+        }
+
+        .dropdown-check-list .anchor #selectedServicesText {
+            font-weight: 500;
+        }
+
+        .dropdown-check-list .anchor .fas.fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-check-list.visible .anchor .fas.fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-check-list .items {
+            z-index: 1000;
+            position: absolute;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            background: var(--bg-color);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            list-style: none;
+            padding: 10px;
+            margin-top: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transform-origin: top center;
+            transform: scaleY(0.95);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .dropdown-check-list.visible .items {
+            display: block;
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        /* Custom scrollbar for dropdown */
+        .dropdown-check-list .items::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .dropdown-check-list .items::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .dropdown-check-list .items::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .dropdown-check-list .items::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        .dropdown-check-list .items li {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .dropdown-check-list .items li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-check-list .items .form-check-input {
+            margin-right: 12px;
+            height: 1.2em;
+            width: 1.2em;
+            border-radius: 4px;
+            border: 1px solid var(--secondary-color);
+            background-color: transparent;
+        }
+
+        .dropdown-check-list .items .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
 
         .table thead th {
@@ -271,6 +406,8 @@
             white-space: normal;
             text-align: center;
             margin-bottom: 0.25rem;
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
         
         .service-badge-container {
@@ -428,7 +565,7 @@
             z-index: 1000;
             background-color: rgba(232, 214, 203, 0.95);
             border-color: var(--primary-color);
-            color: var(--dark-text);
+            color: #333333; /* Explicit dark color for light background */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 0.75rem 1.25rem;
             margin-bottom: 0;
@@ -475,6 +612,10 @@
             padding: 10px 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+        }
+        
+        .mobile-admin-nav-item {
+            color: #333333; /* Explicit dark color for light background */
         }
         
         .mobile-admin-nav-item {
@@ -548,19 +689,20 @@
         .booking-card-name {
             font-weight: bold;
             font-size: 1rem;
-            color: var(--text-color);
+            color: var(--glass-text);
             margin-bottom: 0.5rem;
         }
         
         .booking-card-service {
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
+            color: var(--glass-text);
         }
         
         .booking-card-datetime {
             font-size: 0.85rem;
             margin-bottom: 0.5rem;
-            color: var(--text-color);
+            color: var(--glass-text);
             opacity: 0.8;
         }
         
@@ -569,6 +711,7 @@
             gap: 0.5rem;
             margin-bottom: 0.5rem;
             font-size: 0.85rem;
+            color: var(--glass-text);
         }
         
         .booking-card-actions {
@@ -902,49 +1045,39 @@
                         </div>
                         <div class="mb-3">
                             <label for="editService" class="form-label">Service</label>
-                            <!-- Single service dropdown (default) -->
-                            <select class="form-control" id="editServiceSelect">
-                                <option value="">Select a service</option>
-                                <option>Deep Tissue Massage</option>
-                                <option>Hot Stone Therapy</option>
-                                <option>Aromatherapy</option>
-                                <option>Hydrotherapy</option>
-                                <option>Facial Treatment</option>
-                                <option>Couples Retreat</option>
-                            </select>
-                            
-                            <div class="d-flex justify-content-end align-items-center mt-1">
-                                <button type="button" class="btn btn-sm btn-outline-secondary px-2 py-0" id="editMultipleServiceToggle">
-                                    <i class="fas fa-plus-circle me-1"></i>Select Multiple
-                                </button>
-                            </div>
-                            
-                            <!-- Multiple services checkboxes (hidden by default) -->
-                            <div class="edit-service-checkboxes p-2 border rounded d-none" style="max-height: 150px; overflow-y: auto; background: rgba(255,255,255,0.1);">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Deep Tissue Massage" id="editService1">
-                                    <label class="form-check-label" for="editService1">Deep Tissue Massage</label>
+                            <!-- Services dropdown checklist -->
+                            <div class="dropdown-check-list">
+                                <div class="anchor">
+                                    <label id="selectedServices" for="anchor-id">Select Services</label>
+                                    <span id="selectedServicesText"></span>
+                                    <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Hot Stone Therapy" id="editService2">
-                                    <label class="form-check-label" for="editService2">Hot Stone Therapy</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Aromatherapy" id="editService3">
-                                    <label class="form-check-label" for="editService3">Aromatherapy</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Hydrotherapy" id="editService4">
-                                    <label class="form-check-label" for="editService4">Hydrotherapy</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Facial Treatment" id="editService5">
-                                    <label class="form-check-label" for="editService5">Facial Treatment</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Couples Retreat" id="editService6">
-                                    <label class="form-check-label" for="editService6">Couples Retreat</label>
-                                </div>
+                                <ul class="items p-3">
+                                    <li class="form-check mb-2">
+                                        <input class="form-check-input service-checkbox" type="checkbox" value="Deep Tissue Massage" id="editService1">
+                                        <label class="form-check-label ms-2" for="editService1">Deep Tissue Massage</label>
+                                    </li>
+                                    <li class="form-check mb-2">
+                                        <input class="form-check-input service-checkbox" type="checkbox" value="Hot Stone Therapy" id="editService2">
+                                        <label class="form-check-label ms-2" for="editService2">Hot Stone Therapy</label>
+                                    </li>
+                                    <li class="form-check mb-2">
+                                        <input class="form-check-input service-checkbox" type="checkbox" value="Aromatherapy" id="editService3">
+                                        <label class="form-check-label ms-2" for="editService3">Aromatherapy</label>
+                                    </li>
+                                    <li class="form-check mb-2">
+                                        <input class="form-check-input service-checkbox" type="checkbox" value="Hydrotherapy" id="editService4">
+                                        <label class="form-check-label ms-2" for="editService4">Hydrotherapy</label>
+                                    </li>
+                                    <li class="form-check mb-2">
+                                        <input class="form-check-input service-checkbox" type="checkbox" value="Facial Treatment" id="editService5">
+                                        <label class="form-check-label ms-2" for="editService5">Facial Treatment</label>
+                                    </li>
+                                    <li class="form-check">
+                                        <input class="form-check-input service-checkbox" type="checkbox" value="Couples Retreat" id="editService6">
+                                        <label class="form-check-label ms-2" for="editService6">Couples Retreat</label>
+                                    </li>
+                                </ul>
                             </div>
                             <input type="hidden" id="editService" name="editService" required>
                         </div>
@@ -1022,6 +1155,85 @@
                 messageBox.classList.remove('show');
                 messageBox.addEventListener('transitionend', () => messageBox.remove());
             }, 3000);
+        }
+
+        // Function to initialize the dropdown checklist
+        function initDropdownChecklist() {
+            const checkList = document.querySelector('.dropdown-check-list');
+            if (!checkList) return; // Guard against element not found
+
+            const anchor = checkList.querySelector('.anchor');
+            const items = checkList.querySelector('.items');
+            const checkboxes = checkList.querySelectorAll('.service-checkbox');
+            const selectedTextSpan = document.getElementById('selectedServicesText');
+
+            // Toggle dropdown on anchor click
+            anchor.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent the document click listener from firing immediately
+                const isVisible = checkList.classList.toggle('visible');
+                items.style.display = isVisible ? 'block' : 'none';
+                if (isVisible) {
+                    // Re-fire this to ensure opacity/transform transition
+                    setTimeout(() => {
+                        checkList.classList.add('visible');
+                    }, 10);
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                if (checkList.classList.contains('visible')) {
+                    checkList.classList.remove('visible');
+                    items.style.display = 'none';
+                }
+            });
+            
+            // Stop propagation when clicking inside the items list
+            items.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Update selected text when checkboxes change
+            checkboxes.forEach(function(checkbox) {
+                // Make the entire list item clickable
+                checkbox.parentElement.addEventListener('click', function(e) {
+                    if (e.target.type !== 'checkbox') {
+                        checkbox.checked = !checkbox.checked;
+                        // Manually trigger change event for consistency
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+                
+                checkbox.addEventListener('change', updateSelectedServicesText);
+            });
+            
+            // Initial check in case of pre-filled forms
+            updateSelectedServicesText();
+        }
+        
+        // Function to update the selected text and floating label
+        function updateSelectedServicesText() {
+            const checkList = document.querySelector('.dropdown-check-list');
+            const selectedTextSpan = document.getElementById('selectedServicesText');
+            const checkboxes = checkList.querySelectorAll('.service-checkbox');
+            
+            const selected = Array.from(checkboxes)
+                                .filter(c => c.checked)
+                                .map(c => c.value);
+
+            if (selected.length === 0) {
+                selectedTextSpan.textContent = '';
+                checkList.classList.remove('has-selection');
+            } else if (selected.length === 1) {
+                selectedTextSpan.textContent = selected[0];
+                checkList.classList.add('has-selection');
+            } else {
+                selectedTextSpan.textContent = `${selected.length} services selected`;
+                checkList.classList.add('has-selection');
+            }
+            
+            // Update the hidden input with the selected services
+            document.getElementById('editService').value = selected.join(', ');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1391,7 +1603,11 @@
                 // --- Bookings by Service Type Chart ---
                 const serviceCounts = {};
                 bookings.forEach(booking => {
-                    serviceCounts[booking.service] = (serviceCounts[booking.service] || 0) + 1;
+                    // Handle multiple services (comma-separated)
+                    const services = booking.service.split(', ');
+                    services.forEach(service => {
+                        serviceCounts[service] = (serviceCounts[service] || 0) + 1;
+                    });
                 });
 
                 const serviceNames = Object.keys(serviceCounts);
@@ -1489,7 +1705,9 @@
                         
                         serviceItem.innerHTML = `
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="badge badge-primary-custom">${service}</span>
+                                <div style="max-width: 70%; overflow-wrap: break-word;">
+                                    <span class="badge badge-primary-custom">${service}</span>
+                                </div>
                                 <span class="fw-bold">${serviceCounts[service]} bookings</span>
                             </div>
                             <div class="progress" style="height: 10px;">
@@ -1520,39 +1738,22 @@
             
             // Handle service selection - check if it's a comma-separated list
             const services = booking.service.split(', ');
-            const singleServiceSelect = document.getElementById('editServiceSelect');
-            const multipleServiceCheckboxes = document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]');
-            const multipleServiceToggle = document.getElementById('editMultipleServiceToggle');
-            const multipleServiceContainer = document.querySelector('.edit-service-checkboxes');
+            const serviceCheckboxes = document.querySelectorAll('.dropdown-check-list input[type="checkbox"]');
             
             // Reset all checkboxes
-            multipleServiceCheckboxes.forEach(checkbox => {
+            serviceCheckboxes.forEach(checkbox => {
                 checkbox.checked = false;
             });
             
-            if (services.length === 1) {
-                // Single service - use dropdown
-                singleServiceSelect.value = services[0];
-                singleServiceSelect.classList.remove('d-none');
-                multipleServiceContainer.classList.add('d-none');
-                multipleServiceToggle.innerHTML = '<i class="fas fa-plus-circle me-1"></i>Select Multiple';
-                multipleServiceToggle.classList.remove('btn-outline-primary');
-                multipleServiceToggle.classList.add('btn-outline-secondary');
-            } else {
-                // Multiple services - use checkboxes
-                singleServiceSelect.classList.add('d-none');
-                multipleServiceContainer.classList.remove('d-none');
-                multipleServiceToggle.innerHTML = '<i class="fas fa-minus-circle me-1"></i>Select Single';
-                multipleServiceToggle.classList.remove('btn-outline-secondary');
-                multipleServiceToggle.classList.add('btn-outline-primary');
-                
-                // Check the appropriate checkboxes
-                multipleServiceCheckboxes.forEach(checkbox => {
-                    if (services.includes(checkbox.value)) {
-                        checkbox.checked = true;
-                    }
-                });
-            }
+            // Check the appropriate checkboxes
+            serviceCheckboxes.forEach(checkbox => {
+                if (services.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                }
+            });
+            
+            // Update the dropdown display
+            updateSelectedServicesText();
             
             // Set the hidden input value
             document.getElementById('editService').value = booking.service;
@@ -1594,41 +1795,9 @@
             document.getElementById('editRequests').value = booking.request || '';
         }
 
-        // Toggle between single and multiple service selection in edit modal
-        document.getElementById('editMultipleServiceToggle').addEventListener('click', function() {
-            const singleSelect = document.getElementById('editServiceSelect');
-            const multipleSelect = document.querySelector('.edit-service-checkboxes');
-            
-            if (multipleSelect.classList.contains('d-none')) {
-                // Switch to multiple mode
-                singleSelect.classList.add('d-none');
-                multipleSelect.classList.remove('d-none');
-                this.innerHTML = '<i class="fas fa-minus-circle me-1"></i>Select Single';
-                this.classList.remove('btn-outline-secondary');
-                this.classList.add('btn-outline-primary');
-                
-                // Transfer single selection to checkboxes if applicable
-                if (singleSelect.value) {
-                    document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]').forEach(checkbox => {
-                        checkbox.checked = checkbox.value === singleSelect.value;
-                    });
-                }
-            } else {
-                // Switch to single mode
-                singleSelect.classList.remove('d-none');
-                multipleSelect.classList.add('d-none');
-                this.innerHTML = '<i class="fas fa-plus-circle me-1"></i>Select Multiple';
-                this.classList.remove('btn-outline-primary');
-                this.classList.add('btn-outline-secondary');
-                
-                // Get selected services from checkboxes
-                const selectedCheckboxes = document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]:checked');
-                if (selectedCheckboxes.length === 1) {
-                    singleSelect.value = selectedCheckboxes[0].value;
-                } else {
-                    singleSelect.value = ''; // Reset if multiple or none selected
-                }
-            }
+        // Initialize dropdown checklist when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initDropdownChecklist();
         });
         
         // Handle edit form submission
@@ -1647,22 +1816,11 @@
                 return;
             }
             
-            // Get selected services based on mode (single or multiple)
+            // Get selected services from checkboxes
             const selectedServices = [];
-            const isMultipleMode = document.querySelector('.edit-service-checkboxes').classList.contains('d-none') === false;
-            
-            if (isMultipleMode) {
-                // Get from checkboxes
-                document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
-                    selectedServices.push(checkbox.value);
-                });
-            } else {
-                // Get from dropdown
-                const singleService = document.getElementById('editServiceSelect').value;
-                if (singleService) {
-                    selectedServices.push(singleService);
-                }
-            }
+            document.querySelectorAll('.dropdown-check-list input[type="checkbox"]:checked').forEach(checkbox => {
+                selectedServices.push(checkbox.value);
+            });
             
             // Validate at least one service is selected
             if (selectedServices.length === 0) {

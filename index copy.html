@@ -377,7 +377,7 @@
             color: var(--light-text);
             font-family: 'Lato', sans-serif;
             transition: all 0.3s ease;
-            height: 51px; /* Match other form controls */
+            min-height: 58px; /* Standard height */
         }
 
         .dropdown-check-list .anchor:focus,
@@ -397,15 +397,16 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
-        .dropdown-check-list.visible .anchor #selectedServices {
-            display: none; /* Completely hide the label when dropdown is open */
-        }
-        
+        .dropdown-check-list.visible .anchor #selectedServices,
         .dropdown-check-list.has-selection .anchor #selectedServices {
-            display: none; /* Hide the label when services are selected */
+            top: 8px;
+            transform: translateY(0);
+            font-size: 0.75rem;
+            color: var(--primary-color);
         }
 
         .dropdown-check-list .anchor #selectedServicesText {
+            padding-top: 10px; /* Space for the floating label */
             font-weight: 500;
         }
 
