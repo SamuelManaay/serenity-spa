@@ -1056,7 +1056,7 @@
                             </div>
                             <div class="row gx-3">
                                 <div class="col-md-6 mb-3">
-                                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required>
+                                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number (min 11 digits)" required minlength="11" pattern=".{11,}" title="Phone number must be at least 11 digits">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <!-- Single service dropdown (default) -->
@@ -1320,6 +1320,12 @@
                 showMessageBox('Please fill in all required booking details.', 'error');
                 return;
             }
+            
+            // Validate phone number length
+            if (phone.length < 11) {
+                showMessageBox('Phone number must be at least 11 digits', 'error');
+                return;
+            }
 
             const bookingData = {
                 document: { // Wrap in 'document' as per API structure
@@ -1344,6 +1350,8 @@
                 console.log('Sending booking data:', {
                     name, email, contact_number: phone, service: selectedServices.join(', '), datetime, request: requests
                 });
+                
+                // No need to check for conflicts here as we already check when date is selected
                 
                 const response = await fetch('/.netlify/functions/create', {
                     method: 'POST',
@@ -1562,6 +1570,8 @@
             minuteIncrement: 30,
             inline: false, // Make it a modal
             showMonths: 1, // Only show one month
+            minTime: "08:00",
+            maxTime: "22:00",
             plugins: [new confirmDatePlugin({
                 confirmText: "Apply", // Text for the confirmation button
                 showAlways: true,    // Always show the button
@@ -1587,6 +1597,47 @@
                     day.style.visibility = 'hidden';
                     day.style.pointerEvents = 'none';
                 });
+            },
+            onClose: async function(selectedDates, dateStr, instance) {
+                if (dateStr) {
+                    // Check if selected date is in the past
+                    const selectedDate = new Date(dateStr);
+                    const now = new Date();
+                    
+                    if (selectedDate < now) {
+                        showMessageBox('Cannot book a time in the past. Please select a future date and time.', 'error');
+                        instance.clear();
+                        return;
+                    }
+                    
+                    // Check if time is within business hours (8am-10pm)
+                    const hours = selectedDate.getHours();
+                    if (hours < 8 || hours >= 22) {
+                        showMessageBox('Booking hours are between 8:00 AM and 10:00 PM. Please select a time within business hours.', 'error');
+                        instance.clear();
+                        return;
+                    }
+                    
+                    try {
+                        const checkResponse = await fetch('/.netlify/functions/get');
+                        if (checkResponse.ok) {
+                            const data = await checkResponse.json();
+                            const existingBookings = data.data.map(item => item.document);
+                            
+                            // Check if there's a booking with the same datetime
+                            const conflictingBooking = existingBookings.find(booking => 
+                                booking.datetime === dateStr
+                            );
+                            
+                            if (conflictingBooking) {
+                                showMessageBox('This time slot is already booked. Please select a different time.', 'error');
+                                instance.clear();
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error checking booking conflicts:', error);
+                    }
+                }
             }
         });
     </script>

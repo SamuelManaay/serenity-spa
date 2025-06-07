@@ -266,6 +266,15 @@
         .badge-primary-custom {
             background-color: var(--primary-color);
             color: white;
+            display: inline-block;
+            max-width: 100%;
+            white-space: normal;
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+        
+        .service-badge-container {
+            width: 100%;
         }
 
         .badge-secondary-custom {
@@ -524,12 +533,13 @@
             padding: 1rem;
             margin-bottom: 1rem;
             position: relative;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .booking-card-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             margin-bottom: 0.5rem;
             border-bottom: 1px solid var(--glass-border);
             padding-bottom: 0.5rem;
@@ -539,6 +549,7 @@
             font-weight: bold;
             font-size: 1rem;
             color: var(--text-color);
+            margin-bottom: 0.5rem;
         }
         
         .booking-card-service {
@@ -877,12 +888,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="editPhone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="editPhone">
+                            <input type="tel" class="form-control" id="editPhone" minlength="11" pattern=".{11,}" title="Phone number must be at least 11 digits">
+                            <small class="form-text text-muted">Phone number must be at least 11 digits</small>
                         </div>
                         <div class="mb-3">
                             <label for="editService" class="form-label">Service</label>
-                            <select class="form-control" id="editService" required>
-                                <option value="">Select Service</option>
+                            <!-- Single service dropdown (default) -->
+                            <select class="form-control" id="editServiceSelect">
+                                <option value="">Select a service</option>
                                 <option>Deep Tissue Massage</option>
                                 <option>Hot Stone Therapy</option>
                                 <option>Aromatherapy</option>
@@ -890,6 +903,41 @@
                                 <option>Facial Treatment</option>
                                 <option>Couples Retreat</option>
                             </select>
+                            
+                            <div class="d-flex justify-content-end align-items-center mt-1">
+                                <button type="button" class="btn btn-sm btn-outline-secondary px-2 py-0" id="editMultipleServiceToggle">
+                                    <i class="fas fa-plus-circle me-1"></i>Select Multiple
+                                </button>
+                            </div>
+                            
+                            <!-- Multiple services checkboxes (hidden by default) -->
+                            <div class="edit-service-checkboxes p-2 border rounded d-none" style="max-height: 150px; overflow-y: auto; background: rgba(255,255,255,0.1);">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Deep Tissue Massage" id="editService1">
+                                    <label class="form-check-label" for="editService1">Deep Tissue Massage</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Hot Stone Therapy" id="editService2">
+                                    <label class="form-check-label" for="editService2">Hot Stone Therapy</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Aromatherapy" id="editService3">
+                                    <label class="form-check-label" for="editService3">Aromatherapy</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Hydrotherapy" id="editService4">
+                                    <label class="form-check-label" for="editService4">Hydrotherapy</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Facial Treatment" id="editService5">
+                                    <label class="form-check-label" for="editService5">Facial Treatment</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Couples Retreat" id="editService6">
+                                    <label class="form-check-label" for="editService6">Couples Retreat</label>
+                                </div>
+                            </div>
+                            <input type="hidden" id="editService" name="editService" required>
                         </div>
                         <div class="mb-3">
                             <label for="editDate" class="form-label">Date</label>
@@ -1026,8 +1074,69 @@
                 time_24hr: false,
                 inline: false,
                 defaultHour: 9,
+                minTime: "08:00",
+                maxTime: "22:00",
+                disable: [
+                    function(date) {
+                        // Disable dates in the past
+                        return date < new Date().setHours(0,0,0,0);
+                    }
+                ],
                 onChange: function(selectedDates, dateStr) {
                     document.getElementById('editDatetime').value = dateStr;
+                },
+                onClose: async function(selectedDates, dateStr, instance) {
+                    if (dateStr) {
+                        // Check if selected date is in the past
+                        const selectedDate = new Date(dateStr);
+                        const now = new Date();
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        if (selectedDate < today) {
+                            showMessageBox('Cannot book a date in the past. Please select today or a future date.', 'error');
+                            instance.clear();
+                            return;
+                        }
+                        
+                        if (selectedDate.getTime() === today.getTime() && selectedDate.getHours() < now.getHours()) {
+                            showMessageBox('Cannot book a time that has already passed today. Please select a future time.', 'error');
+                            instance.clear();
+                            return;
+                        }
+                        
+                        // Check if time is within business hours (8am-10pm)
+                        const hours = selectedDate.getHours();
+                        if (hours < 8 || hours >= 22) {
+                            showMessageBox('Booking hours are between 8:00 AM and 10:00 PM. Please select a time within business hours.', 'error');
+                            instance.clear();
+                            return;
+                        }
+                        
+                        try {
+                            const bookingId = document.getElementById('editBookingId').value;
+                            const checkResponse = await fetch('/.netlify/functions/get');
+                            if (checkResponse.ok) {
+                                const data = await checkResponse.json();
+                                const existingBookings = data.data.map(item => ({
+                                    ...item.document,
+                                    _id: item._id
+                                }));
+                                
+                                // Check if there's another booking with the same datetime (excluding this one)
+                                const conflictingBooking = existingBookings.find(booking => 
+                                    booking.datetime === dateStr && booking._id !== bookingId
+                                );
+                                
+                                if (conflictingBooking) {
+                                    showMessageBox('This time slot is already booked. Please select a different time.', 'error');
+                                    instance.clear();
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Error checking booking conflicts:', error);
+                        }
+                    }
                 },
                 static: true,
                     enableTime: true,
@@ -1148,7 +1257,9 @@
                             card.innerHTML = `
                                 <div class="booking-card-header">
                                     <div class="booking-card-name">${booking.name}</div>
-                                    <span class="badge badge-primary-custom">${booking.service}</span>
+                                    <div class="service-badge-container">
+                                        <span class="badge badge-primary-custom" style="word-break: break-word;">${booking.service}</span>
+                                    </div>
                                 </div>
                                 <div class="booking-card-datetime">
                                     <i class="far fa-calendar-alt me-1"></i> ${formatDateTime(booking.datetime)}
@@ -1185,7 +1296,7 @@
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${booking.name}</td>
-                            <td><span class="badge badge-primary-custom">${booking.service}</span></td>
+                            <td><span class="badge badge-primary-custom" style="white-space: normal; word-break: break-word;">${booking.service}</span></td>
                             <td>${formatDateTime(booking.datetime)}</td>
                             <td>
                                 <a href="mailto:${booking.email}" class="text-light me-2" title="${booking.email}"><i class="fas fa-envelope"></i></a>
@@ -1362,23 +1473,120 @@
             document.getElementById('editName').value = booking.name;
             document.getElementById('editEmail').value = booking.email;
             document.getElementById('editPhone').value = booking.contact_number || '';
+            
+            // Handle service selection - check if it's a comma-separated list
+            const services = booking.service.split(', ');
+            const singleServiceSelect = document.getElementById('editServiceSelect');
+            const multipleServiceCheckboxes = document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]');
+            const multipleServiceToggle = document.getElementById('editMultipleServiceToggle');
+            const multipleServiceContainer = document.querySelector('.edit-service-checkboxes');
+            
+            // Reset all checkboxes
+            multipleServiceCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            if (services.length === 1) {
+                // Single service - use dropdown
+                singleServiceSelect.value = services[0];
+                singleServiceSelect.classList.remove('d-none');
+                multipleServiceContainer.classList.add('d-none');
+                multipleServiceToggle.innerHTML = '<i class="fas fa-plus-circle me-1"></i>Select Multiple';
+                multipleServiceToggle.classList.remove('btn-outline-primary');
+                multipleServiceToggle.classList.add('btn-outline-secondary');
+            } else {
+                // Multiple services - use checkboxes
+                singleServiceSelect.classList.add('d-none');
+                multipleServiceContainer.classList.remove('d-none');
+                multipleServiceToggle.innerHTML = '<i class="fas fa-minus-circle me-1"></i>Select Single';
+                multipleServiceToggle.classList.remove('btn-outline-secondary');
+                multipleServiceToggle.classList.add('btn-outline-primary');
+                
+                // Check the appropriate checkboxes
+                multipleServiceCheckboxes.forEach(checkbox => {
+                    if (services.includes(checkbox.value)) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+            
+            // Set the hidden input value
             document.getElementById('editService').value = booking.service;
             
-            // Set date and time separately
+            // Get the booking date
             const bookingDate = new Date(booking.datetime);
+            const now = new Date();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
             
             // Format date as YYYY-MM-DD for the date input
-            const dateStr = bookingDate.toISOString().split('T')[0];
-            document.getElementById('editDate').value = dateStr;
+            let dateStr;
+            let timeStr;
             
-            // Format time as HH:MM for the time input
-            const hours = bookingDate.getHours().toString().padStart(2, '0');
-            const minutes = bookingDate.getMinutes().toString().padStart(2, '0');
-            document.getElementById('editTime').value = `${hours}:${minutes}`;
+            // If the booking is in the past, set the date to tomorrow
+            if (bookingDate < today || (bookingDate.getTime() === today.getTime() && bookingDate.getHours() < now.getHours())) {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(9, 0, 0, 0); // Set to 9 AM tomorrow
+                
+                dateStr = tomorrow.toISOString().split('T')[0];
+                timeStr = '09:00';
+                
+                showMessageBox('The original booking time is in the past. Please select a new future date and time.', 'error');
+            } else {
+                // Use the original booking date if it's not in the past
+                dateStr = bookingDate.toISOString().split('T')[0];
+                
+                // Format time as HH:MM for the time input
+                const hours = bookingDate.getHours().toString().padStart(2, '0');
+                const minutes = bookingDate.getMinutes().toString().padStart(2, '0');
+                timeStr = `${hours}:${minutes}`;
+            }
+            
+            // Set the date and time inputs
+            document.getElementById('editDate').value = dateStr;
+            document.getElementById('editTime').value = timeStr;
             
             document.getElementById('editRequests').value = booking.request || '';
         }
 
+        // Toggle between single and multiple service selection in edit modal
+        document.getElementById('editMultipleServiceToggle').addEventListener('click', function() {
+            const singleSelect = document.getElementById('editServiceSelect');
+            const multipleSelect = document.querySelector('.edit-service-checkboxes');
+            
+            if (multipleSelect.classList.contains('d-none')) {
+                // Switch to multiple mode
+                singleSelect.classList.add('d-none');
+                multipleSelect.classList.remove('d-none');
+                this.innerHTML = '<i class="fas fa-minus-circle me-1"></i>Select Single';
+                this.classList.remove('btn-outline-secondary');
+                this.classList.add('btn-outline-primary');
+                
+                // Transfer single selection to checkboxes if applicable
+                if (singleSelect.value) {
+                    document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.checked = checkbox.value === singleSelect.value;
+                    });
+                }
+            } else {
+                // Switch to single mode
+                singleSelect.classList.remove('d-none');
+                multipleSelect.classList.add('d-none');
+                this.innerHTML = '<i class="fas fa-plus-circle me-1"></i>Select Multiple';
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-outline-secondary');
+                
+                // Get selected services from checkboxes
+                const selectedCheckboxes = document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]:checked');
+                if (selectedCheckboxes.length === 1) {
+                    singleSelect.value = selectedCheckboxes[0].value;
+                } else {
+                    singleSelect.value = ''; // Reset if multiple or none selected
+                }
+            }
+        });
+        
         // Handle edit form submission
         document.getElementById('editBookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -1395,14 +1603,93 @@
                 return;
             }
             
+            // Get selected services based on mode (single or multiple)
+            const selectedServices = [];
+            const isMultipleMode = document.querySelector('.edit-service-checkboxes').classList.contains('d-none') === false;
+            
+            if (isMultipleMode) {
+                // Get from checkboxes
+                document.querySelectorAll('.edit-service-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
+                    selectedServices.push(checkbox.value);
+                });
+            } else {
+                // Get from dropdown
+                const singleService = document.getElementById('editServiceSelect').value;
+                if (singleService) {
+                    selectedServices.push(singleService);
+                }
+            }
+            
+            // Validate at least one service is selected
+            if (selectedServices.length === 0) {
+                showMessageBox('Please select at least one service', 'error');
+                return;
+            }
+            
+            // Validate phone number length
+            const phoneValue = document.getElementById('editPhone').value;
+            if (phoneValue && phoneValue.length < 11) {
+                showMessageBox('Phone number must be at least 11 digits', 'error');
+                return;
+            }
+            
+            // Set the hidden input with the combined services
+            document.getElementById('editService').value = selectedServices.join(', ');
+            
+            // Check if selected date is in the past
+            const selectedDate = new Date(`${dateValue}T${timeValue}`);
+            const now = new Date();
+            
+            if (selectedDate < now) {
+                showMessageBox('Cannot book a time in the past. Please select a future date and time.', 'error');
+                return;
+            }
+            
+            // Check if time is within business hours (8am-10pm)
+            const hours = selectedDate.getHours();
+            if (hours < 8 || hours >= 22) {
+                showMessageBox('Booking hours are between 8:00 AM and 10:00 PM. Please select a time within business hours.', 'error');
+                return;
+            }
+            
+            // Check for booking conflicts
+            try {
+                const bookingId = document.getElementById('editBookingId').value;
+                const checkResponse = await fetch('/.netlify/functions/get');
+                if (checkResponse.ok) {
+                    const data = await checkResponse.json();
+                    const existingBookings = data.data.map(item => ({
+                        ...item.document,
+                        _id: item._id
+                    }));
+                    
+                    // Format datetime string in the format stored in the database
+                    const datetimeValue = `${dateValue} ${timeValue}`;
+                    
+                    // Check if there's another booking with the same datetime (excluding this one)
+                    const conflictingBooking = existingBookings.find(booking => 
+                        booking.datetime === datetimeValue && booking._id !== bookingId
+                    );
+                    
+                    if (conflictingBooking) {
+                        showMessageBox('This time slot is already booked. Please select a different time.', 'error');
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking booking conflicts:', error);
+            }
+            
             // Combine date and time into a datetime string
             const datetimeValue = `${dateValue} ${timeValue}`;
+            
+            // No need to check for conflicts here as we already check when date is selected
             
             const updatedBookingData = {
                 name: document.getElementById('editName').value,
                 email: document.getElementById('editEmail').value,
                 contact_number: document.getElementById('editPhone').value,
-                service: document.getElementById('editService').value,
+                service: document.getElementById('editService').value, // This now contains the combined services
                 datetime: datetimeValue,
                 request: document.getElementById('editRequests').value
             };
