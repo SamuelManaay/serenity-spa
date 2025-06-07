@@ -115,10 +115,6 @@
             opacity: 0.8;
         }
 
-        .form-floating {
-            margin-bottom: 1.5rem;
-        }
-
         .form-control {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -128,6 +124,7 @@
             height: auto;
             font-size: 1rem;
             transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
         }
 
         .form-control:focus {
@@ -139,17 +136,6 @@
 
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.6);
-        }
-
-        .form-floating > label {
-            color: rgba(255, 255, 255, 0.7);
-            padding: 0.75rem 1.25rem;
-        }
-
-        .form-floating > .form-control:focus ~ label,
-        .form-floating > .form-control:not(:placeholder-shown) ~ label {
-            color: var(--accent-color);
-            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
         }
 
         .btn-auth {
@@ -410,12 +396,7 @@
 <body>
     <div class="bg-animation"></div>
     
-    <div class="floating-elements">
-        <i class="fas fa-spa floating-icon"></i>
-        <i class="fas fa-leaf floating-icon"></i>
-        <i class="fas fa-lotus floating-icon"></i>
-        <i class="fas fa-seedling floating-icon"></i>
-    </div>
+
 
     <div class="login-container">
         <div class="brand-section">
@@ -436,18 +417,12 @@
 
         <!-- Login Form -->
         <form id="loginForm">
-            <div class="form-floating">
+            <div class="mb-3">
                 <input type="text" class="form-control" id="loginUsername" placeholder="Username" required>
-                <label for="loginUsername">
-                    <i class="fas fa-user me-2"></i>Username
-                </label>
             </div>
 
-            <div class="form-floating">
+            <div class="mb-3">
                 <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
-                <label for="loginPassword">
-                    <i class="fas fa-lock me-2"></i>Password
-                </label>
             </div>
 
             <button type="submit" class="btn btn-auth">
@@ -459,25 +434,16 @@
 
         <!-- Sign Up Form (Initially hidden) -->
         <form id="signupForm" style="display: none;">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="signupUsername" placeholder="Username" required>
-                <label for="signupUsername">
-                    <i class="fas fa-user-plus me-2"></i>New Username
-                </label>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="signupUsername" placeholder="New Username" required>
             </div>
 
-            <div class="form-floating">
-                <input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
-                <label for="signupPassword">
-                    <i class="fas fa-lock me-2"></i>New Password
-                </label>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="signupPassword" placeholder="New Password" required>
             </div>
 
-            <div class="form-floating">
+            <div class="mb-3">
                 <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm Password" required>
-                <label for="signupConfirmPassword">
-                    <i class="fas fa-lock-open me-2"></i>Confirm Password
-                </label>
             </div>
 
             <button type="submit" class="btn btn-auth">
