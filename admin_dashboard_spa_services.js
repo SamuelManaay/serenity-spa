@@ -1,11 +1,8 @@
 // Function to load spa services for admin dashboard
 async function loadSpaServices() {
   try {
-    const servicesTableBody = document.getElementById('spaServicesTableBody');
-    const serviceCardsMobile = document.getElementById('serviceCardsMobile');
-    
-    servicesTableBody.innerHTML = ''; // Clear previous entries
-    serviceCardsMobile.innerHTML = ''; // Clear previous mobile entries
+    // Show loading animation
+    document.getElementById('loading-services').style.display = 'block';
     
     const response = await fetch('/.netlify/functions/getSpaServices');
     if (!response.ok) {
@@ -15,67 +12,80 @@ async function loadSpaServices() {
     const data = await response.json();
     const services = data.data;
     
+    // Hide loading message immediately after getting data
+    document.getElementById('loading-services').style.display = 'none';
+    
     if (services.length === 0) {
       document.getElementById('noSpaServicesMessage').style.display = 'block';
     } else {
       document.getElementById('noSpaServicesMessage').style.display = 'none';
       
       // Populate desktop table
+      const servicesTableBody = document.getElementById('spaServicesTableBody');
+      servicesTableBody.innerHTML = ''; // Clear previous entries
+      
+      // Populate mobile view
+      const serviceCardsMobile = document.getElementById('serviceCardsMobile');
+      serviceCardsMobile.innerHTML = ''; // Clear previous entries
+      
+      // Add services to the services section
       services.forEach(service => {
-        const iconClass = service.icon || 'fa-spa';
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>
-            <i class="fas ${iconClass} me-2"></i>
-            ${service.name}
-          </td>
-          <td>${service.duration} mins</td>
-          <td>$${parseFloat(service.price).toFixed(2)}</td>
-          <td>${service.description.substring(0, 50)}${service.description.length > 50 ? '...' : ''}</td>
-          <td>
-            <span class="badge ${service.active ? 'bg-success' : 'bg-secondary'}">
-              ${service.active ? 'Active' : 'Inactive'}
-            </span>
-          </td>
-          <td>
-            <button class="btn btn-sm btn-info me-2 edit-spa-service-btn" data-id="${service.id}">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-danger delete-spa-service-btn" data-id="${service.id}">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </td>
-        `;
-        servicesTableBody.appendChild(row);
-        
-        // Create card for mobile view
-        const card = document.createElement('div');
-        card.className = 'booking-card';
-        card.innerHTML = `
-          <div class="booking-card-header">
-            <div class="booking-card-name">
+        if (service.active) {
+          const iconClass = service.icon || 'fa-spa';
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>
               <i class="fas ${iconClass} me-2"></i>
               ${service.name}
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
+            </td>
+            <td>${service.duration} mins</td>
+            <td>$${parseFloat(service.price).toFixed(2)}</td>
+            <td>${service.description.substring(0, 50)}${service.description.length > 50 ? '...' : ''}</td>
+            <td>
               <span class="badge ${service.active ? 'bg-success' : 'bg-secondary'}">
                 ${service.active ? 'Active' : 'Inactive'}
               </span>
-              <span class="badge badge-primary-custom">$${parseFloat(service.price).toFixed(2)}</span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-info me-2 edit-spa-service-btn" data-id="${service.id}">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger delete-spa-service-btn" data-id="${service.id}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          `;
+          servicesTableBody.appendChild(row);
+          
+          // Create card for mobile view
+          const card = document.createElement('div');
+          card.className = 'booking-card';
+          card.innerHTML = `
+            <div class="booking-card-header">
+              <div class="booking-card-name">
+                <i class="fas ${iconClass} me-2"></i>
+                ${service.name}
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge ${service.active ? 'bg-success' : 'bg-secondary'}">
+                  ${service.active ? 'Active' : 'Inactive'}
+                </span>
+                <span class="badge badge-primary-custom">$${parseFloat(service.price).toFixed(2)}</span>
+              </div>
             </div>
-          </div>
-          <div class="mb-2"><strong>Duration:</strong> ${service.duration} mins</div>
-          <div class="mb-3"><strong>Description:</strong> ${service.description.substring(0, 100)}${service.description.length > 100 ? '...' : ''}</div>
-          <div class="booking-card-actions">
-            <button class="btn btn-sm btn-info edit-spa-service-btn" data-id="${service.id}">
-              <i class="fas fa-edit me-1"></i>Edit
-            </button>
-            <button class="btn btn-sm btn-danger delete-spa-service-btn" data-id="${service.id}">
-              <i class="fas fa-trash-alt me-1"></i>Delete
-            </button>
-          </div>
-        `;
-        serviceCardsMobile.appendChild(card);
+            <div class="mb-2"><strong>Duration:</strong> ${service.duration} mins</div>
+            <div class="mb-3"><strong>Description:</strong> ${service.description.substring(0, 100)}${service.description.length > 100 ? '...' : ''}</div>
+            <div class="booking-card-actions">
+              <button class="btn btn-sm btn-info edit-spa-service-btn" data-id="${service.id}">
+                <i class="fas fa-edit me-1"></i>Edit
+              </button>
+              <button class="btn btn-sm btn-danger delete-spa-service-btn" data-id="${service.id}">
+                <i class="fas fa-trash-alt me-1"></i>Delete
+              </button>
+            </div>
+          `;
+          serviceCardsMobile.appendChild(card);
+        }
       });
       
       // Add event listeners for edit and delete buttons (desktop)
@@ -125,6 +135,11 @@ async function loadSpaServices() {
   } catch (error) {
     console.error('Error loading services:', error);
     showMessageBox('Failed to load services. Please try again.', 'error');
+    
+    // Hide loading and show error message
+    document.getElementById('loading-services').style.display = 'none';
+    document.getElementById('noSpaServicesMessage').style.display = 'block';
+    document.getElementById('noSpaServicesMessage').textContent = 'Unable to load services. Please try again later.';
   }
 }
 

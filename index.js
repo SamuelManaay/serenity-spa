@@ -1,6 +1,12 @@
 // Function to fetch spa services and display them in the services section
 async function loadSpaServices() {
   try {
+    // Show loading animation
+    const loadingElement = document.getElementById('loading-services');
+    if (loadingElement) {
+      loadingElement.style.display = 'block';
+    }
+    
     const response = await fetch('/.netlify/functions/getSpaServices');
     if (!response.ok) {
       throw new Error('Failed to fetch services');
@@ -9,11 +15,16 @@ async function loadSpaServices() {
     const data = await response.json();
     const services = data.data;
     
+    // Clear existing services
+    const servicesContainer = document.querySelector('#services .row');
+    if (!servicesContainer) {
+      console.error('Services container not found');
+      return;
+    }
+    
+    servicesContainer.innerHTML = '';
+    
     if (services && services.length > 0) {
-      // Clear existing services
-      const servicesContainer = document.querySelector('#services .row');
-      servicesContainer.innerHTML = '';
-      
       // Add services to the services section
       services.forEach(service => {
         if (service.active) {
@@ -40,22 +51,24 @@ async function loadSpaServices() {
       
       // Add services to the dropdown in the booking form
       const servicesList = document.querySelector('.dropdown-check-list .items');
-      servicesList.innerHTML = '';
-      
-      services.forEach((service, index) => {
-        if (service.active) {
-          const listItem = document.createElement('li');
-          listItem.className = 'form-check mb-2';
-          listItem.innerHTML = `
-            <input class="form-check-input service-checkbox" type="checkbox" value="${service.name}" id="service${index + 1}">
-            <label class="form-check-label ms-2" for="service${index + 1}">${service.name}</label>
-          `;
-          servicesList.appendChild(listItem);
-        }
-      });
-      
-      // Re-initialize the dropdown checklist
-      initImprovedDropdown();
+      if (servicesList) {
+        servicesList.innerHTML = '';
+        
+        services.forEach((service, index) => {
+          if (service.active) {
+            const listItem = document.createElement('li');
+            listItem.className = 'form-check mb-2';
+            listItem.innerHTML = `
+              <input class="form-check-input service-checkbox" type="checkbox" value="${service.name}" id="service${index + 1}">
+              <label class="form-check-label ms-2" for="service${index + 1}">${service.name}</label>
+            `;
+            servicesList.appendChild(listItem);
+          }
+        });
+        
+        // Re-initialize the dropdown checklist
+        initImprovedDropdown();
+      }
       
       // Re-initialize scroll animations
       const observerOptions = {
@@ -75,9 +88,6 @@ async function loadSpaServices() {
         observer.observe(el);
       });
       
-      // Hide loading message
-      document.getElementById('loading-services').style.display = 'none';
-      
       // Add hover effect to service cards
       document.querySelectorAll('.service-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
@@ -88,9 +98,29 @@ async function loadSpaServices() {
           this.style.transform = 'translateY(0) scale(1)';
         });
       });
+    } else {
+      // No services found
+      servicesContainer.innerHTML = '<div class="col-12 text-center"><p>No services available at the moment. Please check back later.</p></div>';
     }
+    
+    // Hide loading message
+    if (loadingElement) {
+      loadingElement.style.display = 'none';
+    }
+    
   } catch (error) {
     console.error('Error loading services:', error);
+    // Show error message
+    const servicesContainer = document.querySelector('#services .row');
+    if (servicesContainer) {
+      servicesContainer.innerHTML = '<div class="col-12 text-center"><p>Unable to load services. Please try again later.</p></div>';
+    }
+    
+    // Hide loading message
+    const loadingElement = document.getElementById('loading-services');
+    if (loadingElement) {
+      loadingElement.style.display = 'none';
+    }
   }
 }
 
@@ -103,6 +133,8 @@ function initImprovedDropdown() {
   const anchor = checkList.querySelector('.anchor');
   const items = checkList.querySelector('.items');
   
+  if (!anchor || !items) return;
+  
   // Remove any existing event listeners
   const newAnchor = anchor.cloneNode(true);
   anchor.parentNode.replaceChild(newAnchor, anchor);
@@ -113,6 +145,8 @@ function initImprovedDropdown() {
   // Get the new checkboxes
   const newCheckboxes = newItems.querySelectorAll('.service-checkbox');
   const selectedTextSpan = document.getElementById('selectedServicesText');
+  
+  if (!selectedTextSpan) return;
   
   // Toggle dropdown on anchor click - fixed to be immediate
   newAnchor.addEventListener('click', function(e) {
@@ -195,5 +229,14 @@ function initImprovedDropdown() {
 
 // Load spa services when the page loads
 document.addEventListener('DOMContentLoaded', function() {
-  loadSpaServices();
+  // Show loading animation immediately
+  const loadingElement = document.getElementById('loading-services');
+  if (loadingElement) {
+    loadingElement.style.display = 'block';
+  }
+  
+  // Load services with a slight delay to show the animation
+  setTimeout(() => {
+    loadSpaServices();
+  }, 1000);
 });

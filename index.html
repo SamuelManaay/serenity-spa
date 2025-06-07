@@ -796,6 +796,66 @@
 
         /* Custom cursor effect removed */
 
+        /* Single Leaf Animation */
+        .loading-container {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        
+        .leaf {
+            position: absolute;
+            font-size: 50px;
+            color: #A3BABA;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+            animation: leafPath 3s infinite ease-in-out;
+            filter: drop-shadow(0 0 5px rgba(163, 186, 186, 0.4));
+        }
+        
+        .leaf i {
+            display: inline-block;
+            animation: leafRotate 3s infinite ease-in-out, leafFlutter 0.3s infinite alternate ease-in-out;
+        }
+        
+        @keyframes leafPath {
+            0% {
+                transform: translate(-50%, 0) scale(0.8);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translate(-100%, 25%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, 50%) scale(1.1);
+                opacity: 1;
+            }
+            75% {
+                transform: translate(0%, 25%) scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes leafRotate {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-30deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(30deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        @keyframes leafFlutter {
+            0% { transform: scaleX(1); }
+            100% { transform: scaleX(0.95) scaleY(1.05); }
+        }
+
         /* Flatpickr Custom Styling */
         .flatpickr-calendar {
             background: var(--dark-bg) !important;
@@ -1362,7 +1422,10 @@
             <div class="row">
                 <!-- Services will be loaded dynamically from the database -->
                 <div class="col-12 text-center" id="loading-services">
-                    <p>Loading services...</p>
+                    <div class="loading-container">
+                        <div class="leaf"><i class="fas fa-leaf"></i></div>
+                    </div>
+                    <p class="mt-3">Loading services...</p>
                 </div>
             </div>
         </div>
