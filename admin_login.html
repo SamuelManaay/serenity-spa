@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Serenity Spa - Admin Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -297,19 +297,79 @@
         }
 
         /* Responsive design */
+        @media (max-width: 768px) {
+            .login-container {
+                margin: 1.5rem;
+                padding: 2.5rem;
+                max-width: 90%;
+            }
+            
+            .form-control {
+                padding: 0.9rem 1.1rem;
+            }
+            
+            .btn-auth {
+                padding: 0.9rem 1.5rem;
+            }
+            
+            .form-toggle button {
+                padding: 8px 15px;
+                font-size: 1rem;
+            }
+        }
+        
         @media (max-width: 576px) {
             .login-container {
                 margin: 1rem;
-                padding: 2rem;
+                padding: 1.75rem;
                 max-width: none;
+                width: 90%;
             }
 
             .brand-title {
-                font-size: 1.75rem;
+                font-size: 1.6rem;
             }
 
             .brand-icon {
-                font-size: 2.5rem;
+                font-size: 2.25rem;
+            }
+            
+            .form-floating > label {
+                padding: 0.65rem 1.1rem;
+                font-size: 0.9rem;
+            }
+            
+            .form-control {
+                font-size: 0.95rem;
+                padding: 0.8rem 1rem;
+            }
+            
+            .btn-auth {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.95rem;
+            }
+            
+            .form-toggle {
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-toggle button {
+                padding: 6px 12px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .login-container {
+                padding: 1.5rem;
+            }
+            
+            .brand-title {
+                font-size: 1.4rem;
+            }
+            
+            .brand-subtitle {
+                font-size: 0.8rem;
             }
         }
         

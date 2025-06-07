@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Serenity Spa - Admin Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -84,27 +84,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        /* Custom Cursor */
-        .cursor-glow {
-            position: fixed;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-color), 0 0 30px var(--accent-color), 0 0 45px var(--accent-color);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            opacity: 0.7;
-            transition: width 0.2s ease-out, height 0.2s ease-out, opacity 0.2s ease-out;
-            mix-blend-mode: screen; /* For a nice blending effect */
-        }
-
-        .cursor-glow.clicked {
-            width: 40px;
-            height: 40px;
-            opacity: 0.3;
-        }
+        /* Custom Cursor removed */
 
         .navbar {
             background: rgba(0, 0, 0, 0.2);
@@ -310,19 +290,299 @@
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
+            .container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
             .dashboard-card {
+                padding: 1.75rem;
+            }
+            
+            .glass {
                 padding: 1.5rem;
             }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .dashboard-card {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
             .dashboard-card h3 {
                 font-size: 2rem;
             }
+            
             .dashboard-card .card-icon {
                 font-size: 2.5rem;
+                margin-bottom: 0.75rem;
             }
+            
             .table th, .table td {
                 padding: 0.75rem;
                 font-size: 0.9rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .btn-glow {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .glass {
+                padding: 1.25rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .chart-container {
+                height: 220px;
+            }
+            
+            h4 {
+                font-size: 1.25rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .dashboard-card {
+                padding: 1.25rem;
+            }
+            
+            .dashboard-card h3 {
+                font-size: 1.75rem;
+            }
+            
+            .dashboard-card .card-icon {
+                font-size: 2.25rem;
+            }
+            
+            .table th, .table td {
+                padding: 0.6rem;
+                font-size: 0.8rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+            
+            .glass {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            .chart-container {
+                height: 200px;
+            }
+            
+            h4 {
+                font-size: 1.1rem;
+            }
+            
+            .badge {
+                font-size: 0.7rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+            }
+            
+            .modal-header, .modal-footer {
+                padding: 0.75rem 1rem;
+            }
+        }
+        
+        /* Alert Banner Styling */
+        #todayAppointmentAlert {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: rgba(232, 214, 203, 0.95);
+            border-color: var(--primary-color);
+            color: var(--dark-text);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            border-radius: 0;
+            text-align: center;
+        }
+        
+        /* Dashboard Tabs Styling */
+        .nav-tabs {
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--text-color);
+            border: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background-color: transparent;
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        /* Mobile Admin Navigation */
+        .mobile-admin-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .mobile-admin-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark-text);
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 5px 0;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .mobile-admin-nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+            color: var(--primary-color);
+        }
+        
+        .mobile-admin-nav-item.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .mobile-admin-nav-item:hover {
+            background-color: rgba(232, 214, 203, 0.2);
+        }
+        
+        #mobileLogoutBtn {
+            color: var(--danger-color);
+        }
+        
+        #mobileLogoutBtn i {
+            color: var(--danger-color);
+        }
+        
+        /* Add padding to bottom for mobile nav */
+        @media (max-width: 767px) {
+            body {
+                padding-bottom: 60px;
+            }
+            
+            .nav-tabs {
+                display: none;
+            }
+        }
+        
+        /* Mobile booking cards */
+        .booking-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .booking-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+        
+        .booking-card-name {
+            font-weight: bold;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+        
+        .booking-card-service {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .booking-card-datetime {
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        .booking-card-contact {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .booking-card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 0.5rem;
+        }
+        
+        /* Mobile-specific table adjustments */
+        @media (max-width: 480px) {
+            .navbar .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            
+            #adminGreeting {
+                display: none !important;
+            }
+            
+            .mt-5.pt-5 {
+                margin-top: 4rem !important;
+                padding-top: 1rem !important;
             }
         }
 
@@ -367,6 +627,33 @@
             border-radius: 15px;
             color: var(--text-color);
         }
+        
+        /* Flatpickr Custom Styling for Admin Dashboard */
+        .flatpickr-calendar {
+            background: var(--bg-color) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+            font-family: 'Lato', sans-serif !important;
+            color: var(--text-color) !important;
+        }
+        
+        .flatpickr-time {
+            border-top: 1px solid var(--glass-border) !important;
+        }
+        
+        .flatpickr-time input, .flatpickr-time .flatpickr-am-pm {
+            color: var(--text-color) !important;
+        }
+        
+        .flatpickr-day.selected {
+            background: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+        
+        .flatpickr-day:hover {
+            background: rgba(90, 125, 125, 0.3) !important;
+        }
         .modal-header {
             border-bottom: 1px solid var(--glass-border);
         }
@@ -406,7 +693,6 @@
 </head>
 <body>
     <div class="bg-animation"></div>
-    <div class="cursor-glow"></div>
 
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
@@ -416,54 +702,109 @@
             <div class="ms-auto d-flex align-items-center">
                 <span class="navbar-text me-3 d-none d-md-block" id="adminGreeting"></span>
                 <button class="btn btn-glow" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    <i class="fas fa-sign-out-alt me-2"></i><span class="d-none d-sm-inline">Logout</span>
                 </button>
             </div>
         </div>
     </nav>
+    
+    <!-- Mobile Admin Navigation -->
+    <div class="mobile-admin-nav d-md-none">
+        <div class="mobile-admin-nav-item active" data-tab="overview-tab">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Overview</span>
+        </div>
+        <div class="mobile-admin-nav-item" data-tab="bookings-tab">
+            <i class="fas fa-calendar-check"></i>
+            <span>Bookings</span>
+        </div>
+        <div class="mobile-admin-nav-item" data-tab="analytics-tab">
+            <i class="fas fa-chart-pie"></i>
+            <span>Analytics</span>
+        </div>
+        <div class="mobile-admin-nav-item" id="mobileLogoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </div>
+    </div>
 
-    <div class="container mt-5 pt-5">
-        <h2 class="text-center display-4 fw-bold mb-5 scroll-fade">Admin Dashboard</h2>
-
-        <div class="row mb-5">
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="dashboard-card">
-                    <i class="fas fa-users card-icon"></i>
-                    <h3 id="totalBookings">0</h3>
-                    <p>Total Bookings</p>
-                </div>
-            </div>
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="dashboard-card">
-                    <i class="fas fa-calendar-alt card-icon"></i>
-                    <h3 id="todayBookings">0</h3>
-                    <p>Today's Bookings</p>
-                </div>
-            </div>
-            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="dashboard-card">
-                    <i class="fas fa-chart-pie card-icon"></i>
-                    <h3 id="uniqueServices">0</h3>
-                    <p>Services Offered</p>
-                </div>
+    <!-- Today's Appointments Alert Banner -->
+    <div id="todayAppointmentAlert" class="alert alert-primary alert-dismissible fade show d-none" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-bell me-2"></i>
+            <div>
+                <strong>Upcoming Appointment!</strong> <span id="upcomingAppointmentDetails"></span>
             </div>
         </div>
-
-        <div class="row mb-5">
-            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="400">
-                <div class="glass p-4 rounded">
-                    <h4 class="text-light mb-4 text-center">Bookings by Service Type</h4>
-                    <div class="chart-container">
-                        <canvas id="serviceChart"></canvas>
-                    </div>
-                    <div id="serviceBreakdown" class="mt-4">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center display-4 fw-bold mb-4 scroll-fade">Admin Dashboard</h2>
+        
+        <!-- Dashboard Navigation Tabs -->
+        <ul class="nav nav-tabs mb-4" id="dashboardTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">
+                    <i class="fas fa-tachometer-alt me-2"></i>Overview
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button" role="tab" aria-controls="bookings" aria-selected="false">
+                    <i class="fas fa-calendar-check me-2"></i>Bookings
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab" aria-controls="analytics" aria-selected="false">
+                    <i class="fas fa-chart-pie me-2"></i>Analytics
+                </button>
+            </li>
+        </ul>
+        
+        <!-- Tab Content -->
+        <div class="tab-content" id="dashboardTabContent">
+            <!-- Overview Tab -->
+            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                <div class="row mb-4">
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="dashboard-card">
+                            <i class="fas fa-users card-icon"></i>
+                            <h3 id="totalBookings">0</h3>
+                            <p>Total Bookings</p>
                         </div>
+                    </div>
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="dashboard-card">
+                            <i class="fas fa-calendar-alt card-icon"></i>
+                            <h3 id="todayBookings">0</h3>
+                            <p>Today's Bookings</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="dashboard-card">
+                            <i class="fas fa-chart-pie card-icon"></i>
+                            <h3 id="uniqueServices">0</h3>
+                            <p>Services Offered</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="glass p-4 rounded">
+                            <h4 class="mb-4 text-center">Quick Summary</h4>
+                            <p class="text-center">Welcome to your admin dashboard. Use the tabs above to navigate between different sections.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-                <div class="glass p-4 rounded">
-                    <h4 class="text-light mb-4 text-center">Recent Bookings</h4>
-                    <div class="table-responsive">
+            
+            <!-- Bookings Tab -->
+            <div class="tab-pane fade" id="bookings" role="tabpanel" aria-labelledby="bookings-tab">
+                <div id="bookings-table" class="glass p-4 rounded">
+                    <h4 class="mb-4 text-center">Recent Bookings</h4>
+                    <div class="table-responsive d-none d-md-block">
+                        <!-- Desktop view table -->
                         <table class="table table-hover align-middle">
                             <thead>
                                 <tr>
@@ -478,8 +819,37 @@
                                 </tbody>
                         </table>
                     </div>
+                    
+                    <!-- Mobile view cards -->
+                    <div class="booking-cards d-md-none" id="bookingCardsMobile">
+                        <!-- Mobile booking cards will be inserted here -->
+                    </div>
                     <div id="noBookingsMessage" class="text-center text-muted mt-3" style="display: none;">
                         No bookings found yet.
+                    </div>
+                    
+                    <!-- Mobile view pagination -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 d-md-none">
+                        <button id="mobilePrevBtn" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <span id="mobileCurrentPage" class="small">Page 1 of 1</span>
+                        <button id="mobileNextBtn" class="btn btn-sm btn-outline-secondary">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Tab -->
+            <div class="tab-pane fade" id="analytics" role="tabpanel" aria-labelledby="analytics-tab">
+                <div id="dashboard-stats" class="glass p-4 rounded">
+                    <h4 class="mb-4 text-center">Bookings by Service Type</h4>
+                    <div class="chart-container">
+                        <canvas id="serviceChart"></canvas>
+                    </div>
+                    <div id="serviceBreakdown" class="mt-4">
+                        <!-- Service breakdown will be inserted here -->
                     </div>
                 </div>
             </div>
@@ -522,8 +892,13 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="editDatetime" class="form-label">Date and Time</label>
-                            <input type="text" class="form-control" id="editDatetime" required>
+                            <label for="editDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="editDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTime" class="form-label">Time</label>
+                            <input type="time" class="form-control" id="editTime" required>
+                            <input type="hidden" id="editDatetime">
                         </div>
                         <div class="mb-3">
                             <label for="editRequests" class="form-label">Special Requests</label>
@@ -549,18 +924,7 @@
             once: true // Only animate once
         });
 
-        // Custom Cursor
-        const cursorGlow = document.querySelector('.cursor-glow');
-        document.addEventListener('mousemove', e => {
-            cursorGlow.style.left = `${e.clientX}px`;
-            cursorGlow.style.top = `${e.clientY}px`;
-        });
-        document.addEventListener('mousedown', () => {
-            cursorGlow.classList.add('clicked');
-        });
-        document.addEventListener('mouseup', () => {
-            cursorGlow.classList.remove('clicked');
-        });
+        // Custom Cursor removed
 
         // Add ripple effect to buttons (replicated from index.html)
         document.querySelectorAll('button, .btn').forEach(button => {
@@ -624,22 +988,70 @@
                 sessionStorage.removeItem('adminUsername');
                 window.location.href = 'admin_login.html';
             });
+            
+            // Mobile logout button
+            document.getElementById('mobileLogoutBtn').addEventListener('click', function() {
+                sessionStorage.removeItem('adminAuthenticated');
+                sessionStorage.removeItem('adminUsername');
+                window.location.href = 'admin_login.html';
+            });
+            
+            // Mobile navigation functionality for tabs
+            document.querySelectorAll('.mobile-admin-nav-item').forEach(item => {
+                if (item.id !== 'mobileLogoutBtn') {
+                    item.addEventListener('click', function() {
+                        const targetTabId = this.getAttribute('data-tab');
+                        
+                        // Remove active class from all items
+                        document.querySelectorAll('.mobile-admin-nav-item').forEach(navItem => {
+                            navItem.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked item
+                        this.classList.add('active');
+                        
+                        // Trigger click on the corresponding tab
+                        document.getElementById(targetTabId).click();
+                    });
+                }
+            });
 
-            // Initialize Flatpickr for the edit modal datetime picker
-            flatpickr("#editDatetime", {
+            // Initialize the flatpickr instance once
+            let editDatetimePicker = flatpickr("#editDatetime", {
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
                 altInput: true,
                 altFormat: "F j, Y h:i K",
                 minuteIncrement: 30,
+                time_24hr: false,
                 inline: false,
-                showMonths: 1,
-                plugins: [new confirmDatePlugin({
-                    confirmText: "Apply",
-                    showAlways: true,
-                    theme: "dark"
-                })],
+                defaultHour: 9,
+                onChange: function(selectedDates, dateStr) {
+                    document.getElementById('editDatetime').value = dateStr;
+                },
+                static: true,
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    altInput: true,
+                    altFormat: "F j, Y h:i K",
+                    minuteIncrement: 30,
+                    time_24hr: false,
+                    inline: true,
+                    appendTo: document.getElementById('datetimePickerContainer'),
+                    showMonths: 1,
+                    defaultHour: 9,
+                    onReady: function(selectedDates, dateStr, instance) {
+                        // Force time picker to be visible
+                        if (instance.timeContainer) {
+                            instance.timeContainer.style.display = 'block';
+                        }
+                    },
                 onReady: function(selectedDates, dateStr, instance) {
+                    // Make sure time picker is visible
+                    if (instance.timeContainer) {
+                        instance.timeContainer.style.display = 'block';
+                    }
+                    
                     instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
                         day.style.visibility = 'hidden';
                         day.style.pointerEvents = 'none';
@@ -676,6 +1088,9 @@
                     _id: item._id,
                     _lastmodified: item._lastmodified
                 })); // Extract document and add _id, _lastmodified
+                
+                // Store bookings data globally for the appointment checker
+                window.bookingsData = bookings;
 
                 // --- Dashboard Cards Data ---
                 document.getElementById('totalBookings').textContent = bookings.length;
@@ -688,6 +1103,9 @@
                     return bookingDate.getTime() === today.getTime();
                 });
                 document.getElementById('todayBookings').textContent = todayBookings.length;
+                
+                // Check for upcoming appointments today
+                checkUpcomingAppointments(todayBookings);
 
                 const uniqueServices = new Set(bookings.map(b => b.service));
                 document.getElementById('uniqueServices').textContent = uniqueServices.size;
@@ -702,7 +1120,68 @@
                     // Sort by most recent using _created or bookedAt
                     bookings.sort((a, b) => new Date(b.bookedAt || b._created) - new Date(a.bookedAt || a._created));
                     
+                    // Mobile pagination variables
+                    const mobileItemsPerPage = 5;
+                    let currentMobilePage = 1;
+                    const totalMobilePages = Math.ceil(bookings.length / mobileItemsPerPage);
+                    
+                    // Function to display mobile bookings for a specific page
+                    function displayMobileBookings(page) {
+                        const startIndex = (page - 1) * mobileItemsPerPage;
+                        const endIndex = startIndex + mobileItemsPerPage;
+                        const bookingsToShow = bookings.slice(startIndex, endIndex);
+                        
+                        // Get the mobile cards container
+                        const bookingCardsMobile = document.getElementById('bookingCardsMobile');
+                        bookingCardsMobile.innerHTML = ''; // Clear previous entries
+                        
+                        // Update pagination UI
+                        document.getElementById('mobileCurrentPage').textContent = `Page ${page} of ${totalMobilePages}`;
+                        document.getElementById('mobilePrevBtn').disabled = page <= 1;
+                        document.getElementById('mobileNextBtn').disabled = page >= totalMobilePages;
+                        
+                        // Display bookings for current page
+                        bookingsToShow.forEach(booking => {
+                            // Create card for mobile view
+                            const card = document.createElement('div');
+                            card.className = 'booking-card';
+                            card.innerHTML = `
+                                <div class="booking-card-header">
+                                    <div class="booking-card-name">${booking.name}</div>
+                                    <span class="badge badge-primary-custom">${booking.service}</span>
+                                </div>
+                                <div class="booking-card-datetime">
+                                    <i class="far fa-calendar-alt me-1"></i> ${formatDateTime(booking.datetime)}
+                                </div>
+                                <div class="booking-card-contact">
+                                    <a href="mailto:${booking.email}" class="text-primary" title="${booking.email}">
+                                        <i class="fas fa-envelope me-1"></i>${booking.email}
+                                    </a>
+                                </div>
+                                <div class="booking-card-contact">
+                                    <a href="tel:${booking.contact_number}" class="text-primary" title="${booking.contact_number || ''}">
+                                        <i class="fas fa-phone me-1"></i>${booking.contact_number || 'No phone'}
+                                    </a>
+                                </div>
+                                <div class="booking-card-actions">
+                                    <button class="btn btn-sm btn-info edit-btn" data-id="${booking._id}" data-bs-toggle="modal" data-bs-target="#editBookingModal">
+                                        <i class="fas fa-edit me-1"></i>Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-btn" data-id="${booking._id}" data-lastmodified="${booking._lastmodified}">
+                                        <i class="fas fa-trash-alt me-1"></i>Delete
+                                    </button>
+                                </div>
+                            `;
+                            bookingCardsMobile.appendChild(card);
+                        });
+                        
+                        // Attach event listeners for the newly created buttons
+                        attachMobileEventListeners();
+                    }
+                    
+                    // For desktop view - show all bookings
                     bookings.slice(0, 10).forEach(booking => { // Show only last 10 bookings
+                        // Create row for desktop view
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${booking.name}</td>
@@ -723,10 +1202,35 @@
                             </td>
                         `;
                         bookingsTableBody.appendChild(row);
+                        
+                        // This code is no longer needed as we're using the displayMobileBookings function
                     });
 
-                    // Attach event listeners for edit and delete buttons
-                    document.querySelectorAll('.edit-btn').forEach(button => {
+                    // Function to attach event listeners to mobile buttons
+                    function attachMobileEventListeners() {
+                        // For mobile view
+                        document.querySelectorAll('#bookingCardsMobile .edit-btn').forEach(button => {
+                            button.addEventListener('click', function() {
+                                const bookingId = this.dataset.id;
+                                const bookingToEdit = bookings.find(b => b._id === bookingId);
+                                if (bookingToEdit) {
+                                    populateEditModal(bookingToEdit);
+                                }
+                            });
+                        });
+
+                        document.querySelectorAll('#bookingCardsMobile .delete-btn').forEach(button => {
+                            button.addEventListener('click', function() {
+                                const bookingId = this.dataset.id;
+                                if (confirm('Are you sure you want to delete this booking?')) {
+                                    deleteBooking(bookingId);
+                                }
+                            });
+                        });
+                    }
+                    
+                    // Attach event listeners for desktop view
+                    document.querySelectorAll('#bookingsTableBody .edit-btn').forEach(button => {
                         button.addEventListener('click', function() {
                             const bookingId = this.dataset.id;
                             const bookingToEdit = bookings.find(b => b._id === bookingId);
@@ -736,15 +1240,31 @@
                         });
                     });
 
-                    document.querySelectorAll('.delete-btn').forEach(button => {
+                    document.querySelectorAll('#bookingsTableBody .delete-btn').forEach(button => {
                         button.addEventListener('click', function() {
                             const bookingId = this.dataset.id;
-                            // For optimistic locking, we might pass _lastmodified, but for DELETE it's less common
-                            // For simplicity, we'll just delete by ID here.
-                            if (confirm('Are you sure you want to delete this booking?')) { // Using confirm for quick action, replace with custom modal if preferred
+                            if (confirm('Are you sure you want to delete this booking?')) {
                                 deleteBooking(bookingId);
                             }
                         });
+                    });
+                    
+                    // Initialize mobile pagination
+                    displayMobileBookings(currentMobilePage);
+                    
+                    // Add event listeners for pagination buttons
+                    document.getElementById('mobilePrevBtn').addEventListener('click', function() {
+                        if (currentMobilePage > 1) {
+                            currentMobilePage--;
+                            displayMobileBookings(currentMobilePage);
+                        }
+                    });
+                    
+                    document.getElementById('mobileNextBtn').addEventListener('click', function() {
+                        if (currentMobilePage < totalMobilePages) {
+                            currentMobilePage++;
+                            displayMobileBookings(currentMobilePage);
+                        }
                     });
                 }
 
@@ -843,8 +1363,19 @@
             document.getElementById('editEmail').value = booking.email;
             document.getElementById('editPhone').value = booking.contact_number || '';
             document.getElementById('editService').value = booking.service;
-            // Set Flatpickr value
-            flatpickr("#editDatetime").setDate(booking.datetime, true);
+            
+            // Set date and time separately
+            const bookingDate = new Date(booking.datetime);
+            
+            // Format date as YYYY-MM-DD for the date input
+            const dateStr = bookingDate.toISOString().split('T')[0];
+            document.getElementById('editDate').value = dateStr;
+            
+            // Format time as HH:MM for the time input
+            const hours = bookingDate.getHours().toString().padStart(2, '0');
+            const minutes = bookingDate.getMinutes().toString().padStart(2, '0');
+            document.getElementById('editTime').value = `${hours}:${minutes}`;
+            
             document.getElementById('editRequests').value = booking.request || '';
         }
 
@@ -853,13 +1384,26 @@
             e.preventDefault();
             const bookingId = document.getElementById('editBookingId').value;
             const lastModified = document.getElementById('editBookingLastModified').value;
-
+            
+            // Get date and time values
+            const dateValue = document.getElementById('editDate').value;
+            const timeValue = document.getElementById('editTime').value;
+            
+            // Validate both date and time are selected
+            if (!dateValue || !timeValue) {
+                showMessageBox('Please select both date AND time for the appointment', 'error');
+                return;
+            }
+            
+            // Combine date and time into a datetime string
+            const datetimeValue = `${dateValue} ${timeValue}`;
+            
             const updatedBookingData = {
                 name: document.getElementById('editName').value,
                 email: document.getElementById('editEmail').value,
                 contact_number: document.getElementById('editPhone').value,
                 service: document.getElementById('editService').value,
-                datetime: document.getElementById('editDatetime').value,
+                datetime: datetimeValue,
                 request: document.getElementById('editRequests').value
             };
 
@@ -919,6 +1463,43 @@
             const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
             return date.toLocaleString('en-US', options);
         }
+        
+        // Function to check for upcoming appointments and show alert
+        function checkUpcomingAppointments(todayBookings) {
+            if (todayBookings.length === 0) return;
+            
+            const now = new Date();
+            const upcomingThreshold = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+            
+            // Sort today's bookings by time
+            todayBookings.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+            
+            // Find the next upcoming appointment
+            const upcomingAppointment = todayBookings.find(booking => {
+                const bookingTime = new Date(booking.datetime);
+                const timeDiff = bookingTime - now;
+                return timeDiff > 0 && timeDiff <= upcomingThreshold;
+            });
+            
+            if (upcomingAppointment) {
+                const appointmentTime = new Date(upcomingAppointment.datetime);
+                const timeUntil = appointmentTime - now;
+                const minutesUntil = Math.floor(timeUntil / (60 * 1000));
+                
+                // Format the alert message
+                let alertMessage = `${upcomingAppointment.name} has a ${upcomingAppointment.service} appointment at ${appointmentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+                if (minutesUntil <= 60) {
+                    alertMessage += ` (in ${minutesUntil} minutes)`;
+                } else {
+                    const hoursUntil = Math.floor(minutesUntil / 60);
+                    alertMessage += ` (in ${hoursUntil} hour${hoursUntil > 1 ? 's' : ''})`;
+                }
+                
+                // Update and show the alert
+                document.getElementById('upcomingAppointmentDetails').textContent = alertMessage;
+                document.getElementById('todayAppointmentAlert').classList.remove('d-none');
+            }
+        }
 
         // Animated Background (replicated from index.html)
         let animationSpeed = 0;
@@ -929,6 +1510,20 @@
                 bgElement.style.transform = `rotate(${animationSpeed}deg)`;
             }
         }, 100);
+        
+        // Check for upcoming appointments every minute
+        setInterval(() => {
+            if (window.bookingsData) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const todayBookings = window.bookingsData.filter(booking => {
+                    const bookingDate = new Date(booking.datetime.split(' ')[0]);
+                    bookingDate.setHours(0, 0, 0, 0);
+                    return bookingDate.getTime() === today.getTime();
+                });
+                checkUpcomingAppointments(todayBookings);
+            }
+        }, 60000); // Check every minute
     </script>
 </body>
 </html>

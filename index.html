@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Serenity Spa - Ultimate Wellness Experience</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -353,6 +353,40 @@
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.6); /* Slightly less opaque placeholder */
         }
+        
+        /* Booking form text color */
+        #contactForm .form-control, 
+        #contactForm label, 
+        #contactForm small,
+        #contactForm .form-check-label {
+            color: var(--dark-text);
+        }
+        
+        /* Service dropdown text color - more specific selector to override Bootstrap */
+        #contactForm #singleServiceSelect {
+            color: white !important;
+        }
+        
+        #contactForm #singleServiceSelect option {
+            color: black;
+        }
+        
+        /* Multiple services button styling */
+        #multipleServiceToggle {
+            font-size: 0.8rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        #multipleServiceToggle:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Checkbox styling */
+        #contactForm .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
 
         /* Section Headings */
         .display-4 {
@@ -450,24 +484,81 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            body {
+                padding: 0 1rem;
+            }
+            
             .hero-content h1 {
-                font-size: 2.8rem; /* Adjusted for smaller screens */
+                font-size: 2.5rem;
             }
             
             .hero-content p {
                 font-size: 1rem;
+                max-width: 100%;
             }
 
             .floating-icon {
-                font-size: 1.8rem; /* Smaller floating icons */
+                font-size: 1.8rem;
             }
 
             .display-4 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
 
             .service-card {
-                padding: 2rem;
+                padding: 1.5rem;
+                min-height: 350px;
+            }
+            
+            .navbar {
+                padding: 0.75rem 0;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .glass {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .form-control {
+                padding: 12px;
+            }
+            
+            .btn-glow {
+                padding: 12px 25px;
+            }
+            
+            .social-icons a {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                margin: 0 5px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .display-4 {
+                font-size: 1.8rem;
+            }
+            
+            .service-card {
+                padding: 1.25rem;
+            }
+            
+            .glass {
+                padding: 1.25rem;
+            }
+            
+            .hero {
+                height: auto;
+                padding: 6rem 0 3rem;
             }
         }
 
@@ -483,19 +574,7 @@
             transform: translateY(0);
         }
 
-        /* Custom cursor effect */
-        .cursor-glow {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, var(--accent-color) 0%, transparent 60%); /* Use accent color, more transparent */
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: normal; /* Remove blend mode for subtlety */
-            opacity: 0.5; /* Reduce opacity */
-            transition: transform 0.1s ease;
-        }
+        /* Custom cursor effect removed */
 
         /* Flatpickr Custom Styling */
         .flatpickr-calendar {
@@ -633,6 +712,7 @@
         .flatpickr-time {
             border-top: 1px solid var(--glass-border) !important;
             font-size: 1.1em; /* Bigger time picker numbers */
+            display: block !important; /* Always show time picker */
         }
 
         .flatpickr-time .numInputWrapper span {
@@ -660,6 +740,48 @@
             background-color: var(--accent-color) !important;
         }
 
+        /* Mobile bottom navigation */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark-text);
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+            color: var(--primary-color);
+        }
+        
+        .mobile-nav-item:hover, .mobile-nav-item:active {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Add padding to footer to account for mobile nav */
+        @media (max-width: 767px) {
+            .footer {
+                padding-bottom: 70px;
+            }
+        }
+        
         /* Mobile adjustments for calendar popup */
         @media (max-width: 767px) {
             .flatpickr-calendar.open {
@@ -737,7 +859,6 @@
 </head>
 <body>
     <div class="bg-animation"></div>
-    <div class="cursor-glow" id="cursor"></div>
 
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
@@ -762,6 +883,26 @@
             </div>
         </div>
     </nav>
+    
+    <!-- Mobile Bottom Navigation (visible only on small screens) -->
+    <div class="mobile-nav d-md-none">
+        <a href="#home" class="mobile-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#services" class="mobile-nav-item">
+            <i class="fas fa-spa"></i>
+            <span>Services</span>
+        </a>
+        <a href="#gallery" class="mobile-nav-item">
+            <i class="fas fa-images"></i>
+            <span>Gallery</span>
+        </a>
+        <a href="#contact" class="mobile-nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Book</span>
+        </a>
+    </div>
 
     <section id="home" class="hero">
         <div class="container">
@@ -915,11 +1056,12 @@
                             </div>
                             <div class="row gx-3">
                                 <div class="col-md-6 mb-3">
-                                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number">
+                                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <select class="form-control" id="serviceSelect">
-                                        <option value="">Select Service</option>
+                                    <!-- Single service dropdown (default) -->
+                                    <select class="form-control" id="singleServiceSelect" placeholder="Select a service">
+                                        <option value="" class="placeholder">Select a service</option>
                                         <option>Deep Tissue Massage</option>
                                         <option>Hot Stone Therapy</option>
                                         <option>Aromatherapy</option>
@@ -927,6 +1069,40 @@
                                         <option>Facial Treatment</option>
                                         <option>Couples Retreat</option>
                                     </select>
+                                    
+                                    <div class="d-flex justify-content-end align-items-center mt-1">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary px-2 py-0" id="multipleServiceToggle">
+                                            <i class="fas fa-plus-circle me-1"></i>Select Multiple
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Multiple services checkboxes (hidden by default) -->
+                                    <div class="service-checkboxes p-2 border rounded d-none" style="max-height: 150px; overflow-y: auto; background: rgba(255,255,255,0.1);">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Deep Tissue Massage" id="service1">
+                                            <label class="form-check-label text-dark" for="service1">Deep Tissue Massage</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Hot Stone Therapy" id="service2">
+                                            <label class="form-check-label text-dark" for="service2">Hot Stone Therapy</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Aromatherapy" id="service3">
+                                            <label class="form-check-label text-dark" for="service3">Aromatherapy</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Hydrotherapy" id="service4">
+                                            <label class="form-check-label text-dark" for="service4">Hydrotherapy</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Facial Treatment" id="service5">
+                                            <label class="form-check-label text-dark" for="service5">Facial Treatment</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Couples Retreat" id="service6">
+                                            <label class="form-check-label text-dark" for="service6">Couples Retreat</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -1050,12 +1226,7 @@
             once: true
         });
 
-        // Custom cursor
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+        // Custom cursor removed
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1067,6 +1238,24 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    
+                    // For mobile: close navbar if open
+                    const navbarCollapse = document.getElementById('navbarNav');
+                    if (navbarCollapse.classList.contains('show')) {
+                        document.querySelector('.navbar-toggler').click();
+                    }
+                    
+                    // Highlight active mobile nav item
+                    if (window.innerWidth < 768) {
+                        const href = this.getAttribute('href').substring(1);
+                        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                            if (item.getAttribute('href') === '#' + href) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
                 }
             });
         });
@@ -1106,12 +1295,28 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
-            const service = document.getElementById('serviceSelect').value;
             const datetime = document.getElementById('datetime-picker').value;
             const requests = document.getElementById('requests').value;
 
+            // Get selected services based on mode (single or multiple)
+            const selectedServices = [];
+            const isMultipleMode = document.querySelector('.service-checkboxes').classList.contains('d-none') === false;
+            
+            if (isMultipleMode) {
+                // Get from checkboxes
+                document.querySelectorAll('.service-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
+                    selectedServices.push(checkbox.value);
+                });
+            } else {
+                // Get from dropdown
+                const singleService = document.getElementById('singleServiceSelect').value;
+                if (singleService) {
+                    selectedServices.push(singleService);
+                }
+            }
+            
             // Basic validation
-            if (service === "" || !name || !email || !datetime) {
+            if (selectedServices.length === 0 || !name || !email || !phone || !datetime) {
                 showMessageBox('Please fill in all required booking details.', 'error');
                 return;
             }
@@ -1121,7 +1326,7 @@
                     name: name,
                     email: email,
                     phone: phone,
-                    service: service,
+                    service: selectedServices.join(', '), // Join multiple services with comma
                     datetime: datetime, // ISO format from Flatpickr
                     requests: requests,
                     bookedAt: new Date().toISOString() // Timestamp when booked
@@ -1137,7 +1342,7 @@
             try {
                 // Log the data being sent for debugging
                 console.log('Sending booking data:', {
-                    name, email, contact_number: phone, service, datetime, request: requests
+                    name, email, contact_number: phone, service: selectedServices.join(', '), datetime, request: requests
                 });
                 
                 const response = await fetch('/.netlify/functions/create', {
@@ -1149,7 +1354,7 @@
                         name: name,
                         email: email,
                         contact_number: phone,
-                        service: service,
+                        service: selectedServices.join(', '), // Join multiple services with comma
                         datetime: datetime,
                         request: requests
                     })
@@ -1325,6 +1530,28 @@
         `;
         document.head.appendChild(style);
 
+        // Toggle between single and multiple service selection
+        document.getElementById('multipleServiceToggle').addEventListener('click', function() {
+            const singleSelect = document.getElementById('singleServiceSelect');
+            const multipleSelect = document.querySelector('.service-checkboxes');
+            
+            if (multipleSelect.classList.contains('d-none')) {
+                // Switch to multiple mode
+                singleSelect.classList.add('d-none');
+                multipleSelect.classList.remove('d-none');
+                this.innerHTML = '<i class="fas fa-minus-circle me-1"></i>Select Single';
+                this.classList.remove('btn-outline-secondary');
+                this.classList.add('btn-outline-primary');
+            } else {
+                // Switch to single mode
+                singleSelect.classList.remove('d-none');
+                multipleSelect.classList.add('d-none');
+                this.innerHTML = '<i class="fas fa-plus-circle me-1"></i>Select Multiple';
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-outline-secondary');
+            }
+        });
+        
         // Flatpickr Initialization
         flatpickr("#datetime-picker", {
             enableTime: true,
