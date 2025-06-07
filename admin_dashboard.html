@@ -178,11 +178,17 @@
             margin-bottom: 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .dashboard-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dashboard-card:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
 
         .dashboard-card h3 {
@@ -782,6 +788,54 @@
             color: var(--text-color);
         }
         
+        /* Mobile modal improvements */
+        @media (max-width: 767px) {
+            #cardDetailsModal .table {
+                font-size: 0.85rem;
+            }
+            
+            #cardDetailsModal .badge {
+                display: inline-block;
+                white-space: normal;
+                word-break: break-word;
+            }
+            
+            #cardDetailsContent .glass {
+                padding: 10px !important;
+            }
+            
+            #cardDetailsModal .table td, 
+            #cardDetailsModal .table th {
+                padding: 0.5rem;
+            }
+        }
+        
+        /* Ensure table text in modals is visible */
+        #cardDetailsModal .table {
+            background: var(--glass-bg);
+            color: var(--text-color);
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        #cardDetailsModal .table th {
+            background: var(--table-header-bg);
+            color: var(--text-color);
+            border-color: var(--glass-border);
+        }
+        
+        #cardDetailsModal .table td {
+            color: var(--light-bg-text);
+            background: var(--glass-bg);
+            border-color: var(--glass-border);
+        }
+        
+        #cardDetailsModal .table tbody tr:hover {
+            background: var(--table-hover-bg);
+        }
+        
         /* Flatpickr Custom Styling for Admin Dashboard */
         .flatpickr-calendar {
             background: var(--bg-color) !important;
@@ -921,24 +975,42 @@
             <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
                 <div class="row mb-4">
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="dashboard-card">
+                        <div class="dashboard-card" id="totalBookingsCard" style="cursor: pointer;">
                             <i class="fas fa-users card-icon"></i>
                             <h3 id="totalBookings">0</h3>
                             <p>Total Bookings</p>
                         </div>
                     </div>
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="dashboard-card">
+                        <div class="dashboard-card" id="todayBookingsCard" style="cursor: pointer;">
                             <i class="fas fa-calendar-alt card-icon"></i>
                             <h3 id="todayBookings">0</h3>
                             <p>Today's Bookings</p>
                         </div>
                     </div>
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="dashboard-card">
+                        <div class="dashboard-card" id="uniqueServicesCard" style="cursor: pointer;">
                             <i class="fas fa-chart-pie card-icon"></i>
                             <h3 id="uniqueServices">0</h3>
                             <p>Services Offered</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal for displaying card details -->
+                <div class="modal fade" id="cardDetailsModal" tabindex="-1" aria-labelledby="cardDetailsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cardDetailsModalLabel">Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="cardDetailsContent"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1328,7 +1400,8 @@
                         
                         // Check if time is within business hours (8am-10pm)
                         const hours = selectedDate.getHours();
-                        if (hours < 8 || hours >= 22) {
+                        const minutes = selectedDate.getMinutes();
+                        if (hours < 8 || (hours === 22 && minutes >= 0) || hours > 22) {
                             showMessageBox('Booking hours are between 8:00 AM and 10:00 PM. Please select a time within business hours.', 'error');
                             instance.clear();
                             return;
@@ -1403,6 +1476,19 @@
 
 
             loadDashboardData();
+            
+            // Add click handlers for dashboard cards
+            document.getElementById('totalBookingsCard').addEventListener('click', function() {
+                showCardDetails('totalBookings');
+            });
+            
+            document.getElementById('todayBookingsCard').addEventListener('click', function() {
+                showCardDetails('todayBookings');
+            });
+            
+            document.getElementById('uniqueServicesCard').addEventListener('click', function() {
+                showCardDetails('uniqueServices');
+            });
         });
 
         // Function to fetch bookings and update dashboard
@@ -1849,7 +1935,8 @@
             
             // Check if time is within business hours (8am-10pm)
             const hours = selectedDate.getHours();
-            if (hours < 8 || hours >= 22) {
+            const minutes = selectedDate.getMinutes();
+            if (hours < 8 || (hours === 22 && minutes > 0) || hours > 22) {
                 showMessageBox('Booking hours are between 8:00 AM and 10:00 PM. Please select a time within business hours.', 'error');
                 return;
             }
@@ -1951,6 +2038,392 @@
             const date = new Date(isoString);
             const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
             return date.toLocaleString('en-US', options);
+        }
+        
+        // Function to show card details in modal
+        function showCardDetails(cardType) {
+            const modal = new bootstrap.Modal(document.getElementById('cardDetailsModal'));
+            const modalTitle = document.getElementById('cardDetailsModalLabel');
+            const modalContent = document.getElementById('cardDetailsContent');
+            
+            // Check if we're on mobile
+            const isMobile = window.innerWidth < 768;
+            
+            modalContent.innerHTML = '';
+            
+            if (cardType === 'totalBookings') {
+                modalTitle.textContent = 'Total Bookings';
+                
+                if (!window.bookingsData || window.bookingsData.length === 0) {
+                    modalContent.innerHTML = '<p class="text-center">No bookings available.</p>';
+                    modal.show();
+                    return;
+                }
+                
+                // Sort bookings by date (newest first)
+                const sortedBookings = [...window.bookingsData].sort((a, b) => 
+                    new Date(b.datetime) - new Date(a.datetime)
+                );
+                
+                // Pagination variables
+                const itemsPerPage = 5;
+                let currentPage = 1;
+                const totalPages = Math.ceil(sortedBookings.length / itemsPerPage);
+                
+                // Create container for table and pagination
+                const container = document.createElement('div');
+                container.className = 'glass p-4 rounded';
+                
+                // Create a table to display all bookings
+                const table = document.createElement('table');
+                table.className = 'table table-hover';
+                
+                if (isMobile) {
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Service</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="totalBookingsTableBody"></tbody>
+                    `;
+                } else {
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Service</th>
+                                <th>Date & Time</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody id="totalBookingsTableBody"></tbody>
+                    `;
+                }
+                
+                container.appendChild(table);
+                
+                // Add pagination controls
+                const paginationDiv = document.createElement('div');
+                paginationDiv.className = 'd-flex justify-content-between align-items-center mt-3';
+                paginationDiv.innerHTML = `
+                    <button id="totalPrevBtn" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span id="totalCurrentPage" class="small">Page 1 of ${totalPages}</span>
+                    <button id="totalNextBtn" class="btn btn-sm btn-outline-secondary">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                `;
+                
+                container.appendChild(paginationDiv);
+                modalContent.appendChild(container);
+                
+                // Function to display bookings for a specific page
+                function displayTotalBookings(page) {
+                    const startIndex = (page - 1) * itemsPerPage;
+                    const endIndex = startIndex + itemsPerPage;
+                    const bookingsToShow = sortedBookings.slice(startIndex, endIndex);
+                    
+                    const tableBody = document.getElementById('totalBookingsTableBody');
+                    tableBody.innerHTML = '';
+                    
+                    // Update pagination UI
+                    document.getElementById('totalCurrentPage').textContent = `Page ${page} of ${totalPages}`;
+                    document.getElementById('totalPrevBtn').disabled = page <= 1;
+                    document.getElementById('totalNextBtn').disabled = page >= totalPages;
+                    
+                    bookingsToShow.forEach(booking => {
+                        const row = document.createElement('tr');
+                        if (isMobile) {
+                            row.innerHTML = `
+                                <td>${booking.name}</td>
+                                <td><span class="badge badge-primary-custom">${booking.service}</span></td>
+                                <td>${formatDateTime(booking.datetime).split(' at ')[0]}</td>
+                            `;
+                        } else {
+                            row.innerHTML = `
+                                <td>${booking.name}</td>
+                                <td><span class="badge badge-primary-custom">${booking.service}</span></td>
+                                <td>${formatDateTime(booking.datetime)}</td>
+                                <td>${booking.email}</td>
+                            `;
+                        }
+                        tableBody.appendChild(row);
+                    });
+                }
+                
+                // Initial display
+                displayTotalBookings(currentPage);
+                
+                // Add event listeners for pagination buttons
+                document.getElementById('totalPrevBtn').addEventListener('click', function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayTotalBookings(currentPage);
+                    }
+                });
+                
+                document.getElementById('totalNextBtn').addEventListener('click', function() {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayTotalBookings(currentPage);
+                    }
+                });
+                
+            } else if (cardType === 'todayBookings') {
+                modalTitle.textContent = "Today's Bookings";
+                
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (!window.bookingsData || window.bookingsData.length === 0) {
+                    modalContent.innerHTML = '<p class="text-center">No bookings available.</p>';
+                    modal.show();
+                    return;
+                }
+                
+                const todayBookings = window.bookingsData.filter(booking => {
+                    const bookingDate = new Date(booking.datetime.split(' ')[0]);
+                    bookingDate.setHours(0, 0, 0, 0);
+                    return bookingDate.getTime() === today.getTime();
+                });
+                
+                if (todayBookings.length === 0) {
+                    modalContent.innerHTML = '<p class="text-center">No bookings scheduled for today.</p>';
+                    modal.show();
+                    return;
+                }
+                
+                // Sort today's bookings by time
+                todayBookings.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+                
+                // Pagination variables
+                const itemsPerPage = 5;
+                let currentPage = 1;
+                const totalPages = Math.ceil(todayBookings.length / itemsPerPage);
+                
+                // Create container for table and pagination
+                const container = document.createElement('div');
+                container.className = 'glass p-4 rounded';
+                
+                // Create a table to display today's bookings
+                const table = document.createElement('table');
+                table.className = 'table table-hover';
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Service</th>
+                            <th>Time</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody id="todayBookingsTableBody"></tbody>
+                `;
+                
+                container.appendChild(table);
+                
+                // Add pagination controls if needed
+                if (totalPages > 1) {
+                    const paginationDiv = document.createElement('div');
+                    paginationDiv.className = 'd-flex justify-content-between align-items-center mt-3';
+                    paginationDiv.innerHTML = `
+                        <button id="todayPrevBtn" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <span id="todayCurrentPage" class="small">Page 1 of ${totalPages}</span>
+                        <button id="todayNextBtn" class="btn btn-sm btn-outline-secondary">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(paginationDiv);
+                }
+                
+                modalContent.appendChild(container);
+                
+                // Function to display bookings for a specific page
+                function displayTodayBookings(page) {
+                    const startIndex = (page - 1) * itemsPerPage;
+                    const endIndex = startIndex + itemsPerPage;
+                    const bookingsToShow = todayBookings.slice(startIndex, endIndex);
+                    
+                    const tableBody = document.getElementById('todayBookingsTableBody');
+                    tableBody.innerHTML = '';
+                    
+                    if (totalPages > 1) {
+                        // Update pagination UI
+                        document.getElementById('todayCurrentPage').textContent = `Page ${page} of ${totalPages}`;
+                        document.getElementById('todayPrevBtn').disabled = page <= 1;
+                        document.getElementById('todayNextBtn').disabled = page >= totalPages;
+                    }
+                    
+                    bookingsToShow.forEach(booking => {
+                        const bookingTime = new Date(booking.datetime);
+                        const timeStr = bookingTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${booking.name}</td>
+                            <td><span class="badge badge-primary-custom">${booking.service}</span></td>
+                            <td>${timeStr}</td>
+                            <td>${booking.email}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+                
+                // Initial display
+                displayTodayBookings(currentPage);
+                
+                // Add event listeners for pagination buttons if needed
+                if (totalPages > 1) {
+                    document.getElementById('todayPrevBtn').addEventListener('click', function() {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            displayTodayBookings(currentPage);
+                        }
+                    });
+                    
+                    document.getElementById('todayNextBtn').addEventListener('click', function() {
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            displayTodayBookings(currentPage);
+                        }
+                    });
+                }
+                
+            } else if (cardType === 'uniqueServices') {
+                modalTitle.textContent = 'Services Offered';
+                
+                if (!window.bookingsData || window.bookingsData.length === 0) {
+                    modalContent.innerHTML = '<p class="text-center">No services data available.</p>';
+                    modal.show();
+                    return;
+                }
+                
+                // Count services
+                const serviceCounts = {};
+                window.bookingsData.forEach(booking => {
+                    const services = booking.service.split(', ');
+                    services.forEach(service => {
+                        serviceCounts[service] = (serviceCounts[service] || 0) + 1;
+                    });
+                });
+                
+                const serviceNames = Object.keys(serviceCounts);
+                
+                if (serviceNames.length === 0) {
+                    modalContent.innerHTML = '<p class="text-center">No services data available.</p>';
+                    modal.show();
+                    return;
+                }
+                
+                // Sort services by popularity (most booked first)
+                serviceNames.sort((a, b) => serviceCounts[b] - serviceCounts[a]);
+                
+                // Pagination variables
+                const itemsPerPage = 5;
+                let currentPage = 1;
+                const totalPages = Math.ceil(serviceNames.length / itemsPerPage);
+                
+                // Create container for table and pagination
+                const container = document.createElement('div');
+                container.className = 'glass p-4 rounded';
+                
+                // Create a table to display services and their booking counts
+                const table = document.createElement('table');
+                table.className = 'table table-hover';
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Bookings</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="servicesTableBody"></tbody>
+                `;
+                
+                container.appendChild(table);
+                
+                // Add pagination controls if needed
+                if (totalPages > 1) {
+                    const paginationDiv = document.createElement('div');
+                    paginationDiv.className = 'd-flex justify-content-between align-items-center mt-3';
+                    paginationDiv.innerHTML = `
+                        <button id="servicesPrevBtn" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <span id="servicesCurrentPage" class="small">Page 1 of ${totalPages}</span>
+                        <button id="servicesNextBtn" class="btn btn-sm btn-outline-secondary">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(paginationDiv);
+                }
+                
+                modalContent.appendChild(container);
+                
+                // Calculate total bookings for percentage
+                const totalServiceBookings = Object.values(serviceCounts).reduce((sum, count) => sum + count, 0);
+                
+                // Function to display services for a specific page
+                function displayServices(page) {
+                    const startIndex = (page - 1) * itemsPerPage;
+                    const endIndex = startIndex + itemsPerPage;
+                    const servicesToShow = serviceNames.slice(startIndex, endIndex);
+                    
+                    const tableBody = document.getElementById('servicesTableBody');
+                    tableBody.innerHTML = '';
+                    
+                    if (totalPages > 1) {
+                        // Update pagination UI
+                        document.getElementById('servicesCurrentPage').textContent = `Page ${page} of ${totalPages}`;
+                        document.getElementById('servicesPrevBtn').disabled = page <= 1;
+                        document.getElementById('servicesNextBtn').disabled = page >= totalPages;
+                    }
+                    
+                    servicesToShow.forEach(service => {
+                        const count = serviceCounts[service];
+                        const percentage = ((count / totalServiceBookings) * 100).toFixed(1);
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><span class="badge badge-primary-custom">${service}</span></td>
+                            <td>${count}</td>
+                            <td>${percentage}%</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+                
+                // Initial display
+                displayServices(currentPage);
+                
+                // Add event listeners for pagination buttons if needed
+                if (totalPages > 1) {
+                    document.getElementById('servicesPrevBtn').addEventListener('click', function() {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            displayServices(currentPage);
+                        }
+                    });
+                    
+                    document.getElementById('servicesNextBtn').addEventListener('click', function() {
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            displayServices(currentPage);
+                        }
+                    });
+                }
+            }
+            
+            modal.show();
         }
         
         // Function to check for upcoming appointments and show alert
