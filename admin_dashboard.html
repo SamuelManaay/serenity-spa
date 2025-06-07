@@ -222,6 +222,7 @@
             overflow: hidden; /* Ensures rounded corners apply to content */
             border-collapse: separate; /* Required for rounded corners */
             border-spacing: 0; /* Required for rounded corners */
+            width: 100%;
         }
 
         .table th, .table td {
@@ -234,6 +235,7 @@
         /* Specific color for table body text */
         .table tbody tr td {
             color: var(--light-bg-text); /* Light text for better visibility on dark backgrounds */
+            background-color: var(--glass-bg); /* Explicit background color for table cells */
         }
         
         /* Reworked Dropdown Checklist Styling */
@@ -684,6 +686,16 @@
             overflow-wrap: break-word;
         }
         
+        /* Fix for table backgrounds */
+        .table tbody tr {
+            background: var(--glass-bg);
+        }
+        
+        /* Service cards styling (same as booking cards) */
+        .service-cards .booking-card {
+            margin-bottom: 1.5rem;
+        }
+        
         .booking-card-header {
             display: flex;
             flex-direction: column;
@@ -881,6 +893,10 @@
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.2rem rgba(90, 125, 125, 0.25);
         }
+        .modal-body select.form-control option {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
         .modal-body label {
             color: var(--text-color);
             opacity: 0.8;
@@ -930,6 +946,10 @@
             <i class="fas fa-chart-pie"></i>
             <span>Analytics</span>
         </div>
+        <div class="mobile-admin-nav-item" data-tab="services-tab">
+            <i class="fas fa-spa"></i>
+            <span>Services</span>
+        </div>
         <div class="mobile-admin-nav-item" id="mobileLogoutBtn">
             <i class="fas fa-sign-out-alt"></i>
             <span>Logout</span>
@@ -965,6 +985,11 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab" aria-controls="analytics" aria-selected="false">
                     <i class="fas fa-chart-pie me-2"></i>Analytics
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab" aria-controls="services" aria-selected="false">
+                    <i class="fas fa-spa me-2"></i>Services
                 </button>
             </li>
         </ul>
@@ -1088,6 +1113,45 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Services Tab -->
+            <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
+                <div class="glass p-4 rounded">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Spa Services</h4>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpaServiceModal">
+                            <i class="fas fa-plus me-2"></i>Add New Service
+                        </button>
+                    </div>
+                    <div class="table-responsive d-none d-md-block">
+                        <!-- Desktop view table -->
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Duration</th>
+                                    <th>Price</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="spaServicesTableBody">
+                                <!-- Services will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Mobile view cards -->
+                    <div class="service-cards d-md-none" id="serviceCardsMobile">
+                        <!-- Mobile service cards will be inserted here -->
+                    </div>
+                    
+                    <div id="noSpaServicesMessage" class="text-center text-muted mt-3" style="display: none;">
+                        No services found yet.
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1172,12 +1236,144 @@
             </div>
         </div>
     </div>
+    
+    <!-- Add Spa Service Modal -->
+    <div class="modal fade" id="addSpaServiceModal" tabindex="-1" aria-labelledby="addSpaServiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSpaServiceModalLabel">Add New Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addSpaServiceForm">
+                        <div class="mb-3">
+                            <label for="addSpaServiceIcon" class="form-label">Service Icon</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i id="addIconPreview" class="fas fa-spa"></i></span>
+                                <select class="form-control bg-dark text-light" id="addSpaServiceIcon">
+                                    <option value="fa-spa">Spa</option>
+                                    <option value="fa-hands">Hands</option>
+                                    <option value="fa-hot-tub">Hot Tub</option>
+                                    <option value="fa-fire">Fire</option>
+                                    <option value="fa-gem">Gem</option>
+                                    <option value="fa-seedling">Seedling</option>
+                                    <option value="fa-leaf">Leaf</option>
+                                    <option value="fa-water">Water</option>
+                                    <option value="fa-heart">Heart</option>
+                                    <option value="fa-cloud">Cloud</option>
+                                    <option value="fa-wind">Wind</option>
+                                    <option value="fa-feather">Feather</option>
+                                    <option value="fa-droplet">Droplet</option>
+                                    <option value="fa-sun">Sun</option>
+                                    <option value="fa-moon">Moon</option>
+                                    <option value="fa-snowflake">Snowflake</option>
+                                    <option value="fa-oil-can">Oil</option>
+                                    <option value="fa-mortar-pestle">Mortar & Pestle</option>
+                                    <option value="fa-bath">Bath</option>
+                                    <option value="fa-face-smile">Smile</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addSpaServiceName" class="form-label">Service Name</label>
+                            <input type="text" class="form-control" id="addSpaServiceName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addSpaServiceDuration" class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="addSpaServiceDuration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addSpaServicePrice" class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="addSpaServicePrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addSpaServiceDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="addSpaServiceDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="addSpaServiceActive" checked>
+                            <label class="form-check-label" for="addSpaServiceActive">Active</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add Service</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Spa Service Modal -->
+    <div class="modal fade" id="editSpaServiceModal" tabindex="-1" aria-labelledby="editSpaServiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSpaServiceModalLabel">Edit Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSpaServiceForm">
+                        <input type="hidden" id="editSpaServiceId">
+                        <div class="mb-3">
+                            <label for="editSpaServiceIcon" class="form-label">Service Icon</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i id="editIconPreview" class="fas fa-spa"></i></span>
+                                <select class="form-control bg-dark text-light" id="editSpaServiceIcon">
+                                    <option value="fa-spa">Spa</option>
+                                    <option value="fa-hands">Hands</option>
+                                    <option value="fa-hot-tub">Hot Tub</option>
+                                    <option value="fa-fire">Fire</option>
+                                    <option value="fa-gem">Gem</option>
+                                    <option value="fa-seedling">Seedling</option>
+                                    <option value="fa-leaf">Leaf</option>
+                                    <option value="fa-water">Water</option>
+                                    <option value="fa-heart">Heart</option>
+                                    <option value="fa-cloud">Cloud</option>
+                                    <option value="fa-wind">Wind</option>
+                                    <option value="fa-feather">Feather</option>
+                                    <option value="fa-droplet">Droplet</option>
+                                    <option value="fa-sun">Sun</option>
+                                    <option value="fa-moon">Moon</option>
+                                    <option value="fa-snowflake">Snowflake</option>
+                                    <option value="fa-oil-can">Oil</option>
+                                    <option value="fa-mortar-pestle">Mortar & Pestle</option>
+                                    <option value="fa-bath">Bath</option>
+                                    <option value="fa-face-smile">Smile</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSpaServiceName" class="form-label">Service Name</label>
+                            <input type="text" class="form-control" id="editSpaServiceName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSpaServiceDuration" class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="editSpaServiceDuration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSpaServicePrice" class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="editSpaServicePrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSpaServiceDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="editSpaServiceDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="editSpaServiceActive">
+                            <label class="form-check-label" for="editSpaServiceActive">Active</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js"></script>
+    <script src="admin_dashboard_spa_services.js"></script>
     <script>
         // AOS Initialization
         AOS.init({
@@ -1356,6 +1552,11 @@
                     });
                 }
             });
+            
+            // Load spa services when the services tab is shown
+            document.getElementById('services-tab').addEventListener('shown.bs.tab', function() {
+                loadSpaServices();
+            });
 
             // Initialize the flatpickr instance once
             let editDatetimePicker = flatpickr("#editDatetime", {
@@ -1488,6 +1689,37 @@
             
             document.getElementById('uniqueServicesCard').addEventListener('click', function() {
                 showCardDetails('uniqueServices');
+            });
+            
+            // Add Spa Service form submission
+            document.getElementById('addSpaServiceForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const serviceData = {
+                    name: document.getElementById('addSpaServiceName').value,
+                    duration: parseInt(document.getElementById('addSpaServiceDuration').value),
+                    price: parseFloat(document.getElementById('addSpaServicePrice').value),
+                    description: document.getElementById('addSpaServiceDescription').value,
+                    active: document.getElementById('addSpaServiceActive').checked
+                };
+                
+                addSpaService(serviceData);
+            });
+            
+            // Edit Spa Service form submission
+            document.getElementById('editSpaServiceForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const serviceId = document.getElementById('editSpaServiceId').value;
+                const serviceData = {
+                    name: document.getElementById('editSpaServiceName').value,
+                    duration: parseInt(document.getElementById('editSpaServiceDuration').value),
+                    price: parseFloat(document.getElementById('editSpaServicePrice').value),
+                    description: document.getElementById('editSpaServiceDescription').value,
+                    active: document.getElementById('editSpaServiceActive').checked
+                };
+                
+                updateSpaService(serviceId, serviceData);
             });
         });
 
