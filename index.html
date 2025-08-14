@@ -596,13 +596,129 @@
 
 
 
+        .mobile-admin-btn {
+            display: none;
+        }
+
+        .services-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 2rem;
+            padding-right: 0.5rem;
+        }
+        
+        .services-checkboxes::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .services-checkboxes::-webkit-scrollbar-track {
+            background: var(--gray-200);
+            border-radius: 3px;
+        }
+        
+        .services-checkboxes::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .service-radio {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-300);
+            border-radius: 50%;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .service-checkbox-item.selected .service-radio {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .service-checkbox-item.selected .service-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: var(--white);
+            border-radius: 50%;
+        }
+        
+        .service-checkbox-item {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-checkbox-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-checkbox-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+        
+        .service-checkbox-item:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-checkbox-item.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(159, 185, 199, 0.05) 0%, rgba(200, 242, 248, 0.05) 100%);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .service-checkbox-item.selected::before {
+            transform: scaleX(1);
+        }
+
         @media (max-width: 768px) {
+            .services-checkboxes {
+                grid-template-columns: 1fr;
+                max-height: 250px;
+            }
+            
+            .service-radio {
+                display: none;
+            }
+            .hero-section {
+                padding: 2rem 0;
+            }
+            
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             
             .hero-subtitle {
-                font-size: 1.1rem;
+                font-size: 1rem;
+                margin-bottom: 1rem;
             }
             
             .booking-container {
@@ -611,26 +727,77 @@
             }
             
             .form-content {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem 1rem;
             }
             
             .step-indicator {
-                padding: 1.5rem 1rem 1rem;
+                padding: 1rem 0.5rem 0.5rem;
             }
             
             .step-circle {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
             }
             
             .step-label {
-                font-size: 0.8rem;
+                font-size: 0.7rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .section-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+            
+            .service-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                max-height: 50vh;
+                overflow-y: auto;
+                padding-right: 0.5rem;
+            }
+            
+            .service-grid::-webkit-scrollbar {
+                width: 4px;
+            }
+            
+            .service-grid::-webkit-scrollbar-track {
+                background: var(--gray-200);
+                border-radius: 2px;
+            }
+            
+            .service-grid::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 2px;
+            }
+            
+            .service-card {
+                padding: 1.5rem;
             }
             
             .datetime-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1rem;
+            }
+            
+            .date-section, .time-section {
+                padding: 1rem;
+            }
+            
+            .time-slots {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .time-slot {
+                padding: 0.5rem;
+                font-size: 0.9rem;
             }
             
             .form-row {
@@ -638,12 +805,165 @@
                 gap: 1rem;
             }
             
-            .service-grid {
-                grid-template-columns: 1fr;
+            .customer-form {
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .summary-card {
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .navigation-buttons {
+                padding-top: 1rem;
             }
             
             .nav-info {
                 display: none;
+            }
+            
+            .mobile-admin-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                z-index: 1001;
+                background: var(--primary);
+                color: var(--white);
+                text-decoration: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                box-shadow: var(--shadow-lg);
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-admin-btn:hover {
+                background: var(--accent);
+                color: var(--white);
+                transform: scale(1.1);
+            }
+            
+            .mobile-admin-btn i {
+                font-size: 1.2rem;
+            }
+            
+            .services-checkboxes {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 1.5rem;
+                max-height: 250px;
+                overflow-y: auto;
+                margin-bottom: 2rem;
+                padding-right: 0.5rem;
+            }
+            
+            .services-checkboxes::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            .services-checkboxes::-webkit-scrollbar-track {
+                background: var(--gray-200);
+                border-radius: 3px;
+            }
+            
+            .services-checkboxes::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 3px;
+            }
+            
+            .service-radio {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                width: 20px;
+                height: 20px;
+                border: 2px solid var(--gray-300);
+                border-radius: 50%;
+                background: var(--white);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 10;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .service-checkbox-item.selected .service-radio {
+                background: var(--primary);
+                border-color: var(--primary);
+            }
+            
+            .service-checkbox-item.selected .service-radio::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 8px;
+                height: 8px;
+                background: var(--white);
+                border-radius: 50%;
+            }
+            
+            .service-checkbox-item {
+                background: var(--white);
+                border: 2px solid var(--gray-200);
+                border-radius: var(--radius-lg);
+                padding: 2rem;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .service-checkbox-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
+            }
+            
+            .service-checkbox-item:hover {
+                border-color: var(--primary);
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-4px);
+            }
+            
+            .service-checkbox-item:hover::before {
+                transform: scaleX(1);
+            }
+            
+            .service-checkbox-item.selected {
+                border-color: var(--primary);
+                background: linear-gradient(135deg, rgba(159, 185, 199, 0.05) 0%, rgba(200, 242, 248, 0.05) 100%);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .service-checkbox-item.selected::before {
+                transform: scaleX(1);
+            }
+            
+
+            
+            .services-checkboxes::-webkit-scrollbar {
+                width: 4px;
+            }
+            
+            .services-checkboxes::-webkit-scrollbar-track {
+                background: var(--gray-200);
+                border-radius: 2px;
+            }
+            
+            .services-checkboxes::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 2px;
             }
         }
     </style>
@@ -672,6 +992,11 @@
             </div>
         </div>
     </nav>
+    
+    <!-- Mobile Admin Button -->
+    <a href="admin_login.html" class="mobile-admin-btn">
+        <i class="fas fa-user-shield"></i>
+    </a>
 
     <section class="hero-section">
         <div class="container">
@@ -771,6 +1096,15 @@
                                     <input type="tel" id="customerPhone" class="form-control" placeholder="(555) 123-4567" required>
                                 </div>
                                 <div></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Additional Services (Optional)</label>
+                                <div class="additional-services-container">
+                                    <!-- Services Checkboxes -->
+                                    <div class="services-checkboxes" id="servicesCheckboxes">
+                                        <!-- Checkboxes will be loaded here -->
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Special Requests (Optional)</label>
@@ -1102,9 +1436,27 @@
 
         function updateSummary() {
             if (selectedService) {
-                document.getElementById('summaryService').textContent = selectedService.name;
-                document.getElementById('summaryDuration').textContent = selectedService.duration;
-                document.getElementById('summaryPrice').textContent = `$${selectedService.price}`;
+                // Get additional services
+                const additionalServices = [];
+                let totalPrice = selectedService.price;
+                let totalDuration = selectedService.duration;
+                
+                // Additional services
+                document.querySelectorAll('#servicesCheckboxes .service-checkbox-item.selected').forEach(card => {
+                    const serviceId = card.dataset.serviceId;
+                    const service = services.find(s => s.id === serviceId);
+                    if (service) {
+                        additionalServices.push(service.name);
+                        totalPrice += service.price;
+                        totalDuration += service.duration;
+                    }
+                });
+                
+                // Update service display
+                const allServices = [selectedService.name, ...additionalServices].join(', ');
+                document.getElementById('summaryService').textContent = allServices;
+                document.getElementById('summaryDuration').textContent = `${totalDuration} min`;
+                document.getElementById('summaryPrice').textContent = `$${totalPrice}`;
             }
             if (selectedDate) {
                 document.getElementById('summaryDate').textContent = new Date(selectedDate).toLocaleDateString('en-US', {
@@ -1159,6 +1511,45 @@
             return true;
         }
 
+        function populateAdditionalServices() {
+            const container = document.getElementById('servicesCheckboxes');
+            
+            // Clear existing options
+            container.innerHTML = '';
+            
+            services.forEach(service => {
+                // Skip the already selected service
+                if (selectedService && service.id === selectedService.id) return;
+                
+                // Service card (same design as main service selection)
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'service-checkbox-item';
+                checkboxItem.dataset.serviceId = service.id;
+                checkboxItem.innerHTML = `
+                    <div class="service-radio"></div>
+                    <div class="service-icon">
+                        <i class="fas ${service.icon}"></i>
+                    </div>
+                    <h3 class="service-name">${service.name}</h3>
+                    <p class="service-description">${service.description}</p>
+                    <div class="service-details">
+                        <div class="service-duration">
+                            <i class="fas fa-clock"></i>
+                            ${service.duration} min
+                        </div>
+                        <div class="service-price">$${service.price}</div>
+                    </div>
+                `;
+                
+                // Add click handler for multiple selection
+                checkboxItem.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+                
+                container.appendChild(checkboxItem);
+            });
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadSpaServices();
@@ -1166,9 +1557,11 @@
 
             flatpickr("#datePicker", {
                 minDate: "today",
+                maxDate: new Date().fp_incr(90), // 90 days from today
                 dateFormat: "Y-m-d",
                 altInput: true,
                 altFormat: "F j, Y",
+                disableMobile: false,
                 onChange: function(selectedDates, dateStr) {
                     selectedDate = dateStr;
                     loadTimeSlots(dateStr);
@@ -1179,6 +1572,9 @@
                 if (validateStep()) {
                     currentStep++;
                     updateSteps();
+                    if (currentStep === 3) {
+                        populateAdditionalServices();
+                    }
                     if (currentStep === 4) {
                         updateSummary();
                     }
@@ -1198,11 +1594,24 @@
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
                 submitBtn.disabled = true;
 
+                // Get additional services
+                const additionalServices = [];
+                
+                // Additional services
+                document.querySelectorAll('#servicesCheckboxes .service-checkbox-item.selected').forEach(card => {
+                    const serviceId = card.dataset.serviceId;
+                    const service = services.find(s => s.id === serviceId);
+                    if (service) additionalServices.push(service.name);
+                });
+                
+                // Combine main service with additional services
+                const allServices = [selectedService.name, ...additionalServices].join(', ');
+                
                 const bookingData = {
                     name: document.getElementById('customerName').value.trim(),
                     email: document.getElementById('customerEmail').value.trim(),
                     contact_number: document.getElementById('customerPhone').value.trim(),
-                    service: selectedService.name,
+                    service: allServices,
                     datetime: `${selectedDate} ${selectedTime}`,
                     request: document.getElementById('specialRequests').value.trim()
                 };
@@ -1215,15 +1624,25 @@
                     });
 
                     if (response.ok) {
-                        showMessage('Booking confirmed! We look forward to welcoming you.', 'success');
+                        showMessage('Booking confirmed!', 'success');
+                        
+                        // Hide entire booking container
+                        document.querySelector('.booking-container').style.display = 'none';
+                        
+                        // Hide success message after 2 seconds
+                        setTimeout(() => {
+                            document.getElementById('messageToast').classList.remove('show');
+                        }, 2000);
+                        
                         setTimeout(() => {
                             document.getElementById('bookingForm').reset();
                             currentStep = 1;
                             selectedService = null;
                             selectedDate = null;
                             selectedTime = null;
+                            document.querySelector('.booking-container').style.display = 'block';
                             updateSteps();
-                        }, 2000);
+                        }, 3000);
                     } else {
                         throw new Error('Booking failed');
                     }

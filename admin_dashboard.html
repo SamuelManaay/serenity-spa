@@ -559,7 +559,7 @@
             }
             
             .content-section {
-                padding: 1.5rem;
+                padding: 1rem;
             }
             
             .nav-tabs {
@@ -572,6 +572,80 @@
             
             .nav-info {
                 display: none;
+            }
+            
+            /* Mobile table layout */
+            .table-responsive {
+                border: none;
+            }
+            
+            .table thead {
+                display: none !important;
+            }
+            
+            .table tbody tr {
+                display: block;
+                border: 1px solid var(--gray-200);
+                border-radius: var(--radius-md);
+                margin-bottom: 1rem;
+                padding: 1rem;
+                background: var(--white);
+            }
+            
+            .table tbody td {
+                display: block;
+                border: none;
+                padding: 0.25rem 0;
+                text-align: left;
+            }
+            
+            .table tbody td:before {
+                content: attr(data-label) ": ";
+                font-weight: 600;
+                color: var(--gray-700);
+                display: inline-block;
+                width: 80px;
+            }
+            
+            .table tbody td:last-child {
+                margin-top: 0.5rem;
+                padding-top: 0.5rem;
+                border-top: 1px solid var(--gray-200);
+            }
+            
+            /* Mobile modal height */
+            #todayBookingsModal .modal-body {
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+            
+            /* Mobile today's bookings table */
+            #todayBookingsModal .table thead {
+                display: none !important;
+            }
+            
+            #todayBookingsModal .table tbody tr {
+                display: block;
+                border: 1px solid var(--gray-200);
+                border-radius: var(--radius-md);
+                margin-bottom: 1rem;
+                padding: 1rem;
+                background: var(--white);
+            }
+            
+            #todayBookingsModal .table tbody td {
+                display: block;
+                border: none;
+                padding: 0.25rem 0;
+                text-align: left;
+            }
+            
+            #todayBookingsModal .table tbody td:before {
+                content: attr(data-label) ": ";
+                font-weight: 600;
+                color: var(--gray-700);
+                display: inline-block;
+                width: 80px;
             }
         }
     </style>
@@ -1068,19 +1142,19 @@
             bookingsData.slice(0, 10).forEach(booking => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${booking.name}</td>
-                    <td><span class="badge badge-primary">${booking.service}</span></td>
-                    <td>${formatDateTime(booking.datetime)}</td>
-                    <td>
+                    <td data-label="Name">${booking.name}</td>
+                    <td data-label="Service"><span class="badge badge-primary">${booking.service}</span></td>
+                    <td data-label="Date & Time">${formatDateTime(booking.datetime)}</td>
+                    <td data-label="Contact">
                         <a href="mailto:${booking.email}" class="text-primary me-2"><i class="fas fa-envelope"></i></a>
                         <a href="tel:${booking.contact_number}" class="text-primary"><i class="fas fa-phone"></i></a>
                     </td>
-                    <td>
+                    <td data-label="Actions">
                         <button class="btn btn-warning btn-sm me-2" onclick="editBooking('${booking._id}')">
-                            <i class="fas fa-edit"></i>
+                            <i class="fas fa-edit"></i><span class="d-none d-md-inline ms-1">Edit</span>
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="deleteBooking('${booking._id}')">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-trash"></i><span class="d-none d-md-inline ms-1">Delete</span>
                         </button>
                     </td>
                 `;
@@ -1196,23 +1270,23 @@
             servicesData.forEach(service => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>
+                    <td data-label="Name">
                         <i class="fas ${service.icon} me-2 text-primary"></i>
                         ${service.name}
                     </td>
-                    <td>${service.duration} min</td>
-                    <td>$${service.price}</td>
-                    <td>
+                    <td data-label="Duration">${service.duration} min</td>
+                    <td data-label="Price">$${service.price}</td>
+                    <td data-label="Status">
                         <span class="badge ${service.active ? 'badge-success' : 'badge-warning'}">
                             ${service.active ? 'Active' : 'Inactive'}
                         </span>
                     </td>
-                    <td>
+                    <td data-label="Actions">
                         <button class="btn btn-warning btn-sm me-2" onclick="editService('${service.id}')">
-                            <i class="fas fa-edit"></i>
+                            <i class="fas fa-edit"></i><span class="d-none d-md-inline ms-1">Edit</span>
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="deleteService('${service.id}')">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-trash"></i><span class="d-none d-md-inline ms-1">Delete</span>
                         </button>
                     </td>
                 `;
@@ -1404,14 +1478,14 @@
                                     });
                                     return `
                                         <tr>
-                                            <td><strong>${time}</strong></td>
-                                            <td>${booking.name}</td>
-                                            <td><span class="badge badge-primary">${booking.service}</span></td>
-                                            <td>
+                                            <td data-label="Time"><strong>${time}</strong></td>
+                                            <td data-label="Client">${booking.name}</td>
+                                            <td data-label="Service"><span class="badge badge-primary">${booking.service}</span></td>
+                                            <td data-label="Contact">
                                                 <div>${booking.email}</div>
                                                 <div class="text-muted small">${booking.contact_number || 'No phone'}</div>
                                             </td>
-                                            <td>${booking.request || 'None'}</td>
+                                            <td data-label="Requests">${booking.request || 'None'}</td>
                                         </tr>
                                     `;
                                 }).join('')}
