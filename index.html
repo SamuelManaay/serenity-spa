@@ -1053,10 +1053,22 @@
         function loadTimeSlots(date) {
             const timeSlots = document.getElementById('timeSlots');
             const slots = generateTimeSlots(date);
+            const now = new Date();
+            const selectedDate = new Date(date + 'T00:00:00');
+            const isToday = selectedDate.toDateString() === now.toDateString();
             
-            timeSlots.innerHTML = slots.map(slot => `
-                <div class="time-slot" data-time="${slot}">${slot}</div>
-            `).join('');
+            timeSlots.innerHTML = slots.map(slot => {
+                const [hours, minutes] = slot.split(':').map(Number);
+                const slotTime = new Date();
+                slotTime.setHours(hours, minutes, 0, 0);
+                
+                // Add 30 minute buffer - disable if slot time is within 30 minutes of now
+                const bufferTime = new Date(now.getTime() + (30 * 60 * 1000));
+                const isPast = isToday && slotTime <= bufferTime;
+                const className = isPast ? 'time-slot unavailable' : 'time-slot';
+                
+                return `<div class="${className}" data-time="${slot}">${slot}</div>`;
+            }).join('');
 
             document.querySelectorAll('.time-slot').forEach(slot => {
                 slot.addEventListener('click', () => {
