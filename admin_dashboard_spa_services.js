@@ -150,6 +150,8 @@ function populateEditSpaServiceModal(service) {
   document.getElementById('editSpaServiceDuration').value = service.duration;
   document.getElementById('editSpaServicePrice').value = service.price;
   document.getElementById('editSpaServiceDescription').value = service.description;
+  document.getElementById('editSpaServiceBenefits').value = service.benefits || '';
+  document.getElementById('editSpaServiceProcedure').value = service.procedure || '';
   document.getElementById('editSpaServiceActive').checked = service.active;
   
   // Set the icon if available, otherwise default to fa-spa
@@ -175,8 +177,10 @@ function populateEditSpaServiceModal(service) {
 // Function to add a new service
 async function addSpaService(serviceData) {
   try {
-    // Add the icon to the service data
+    // Add the icon and new fields to the service data
     serviceData.icon = document.getElementById('addSpaServiceIcon').value;
+    serviceData.benefits = document.getElementById('addSpaServiceBenefits').value;
+    serviceData.procedure = document.getElementById('addSpaServiceProcedure').value;
     
     const response = await fetch('/.netlify/functions/createSpaService', {
       method: 'POST',
@@ -210,8 +214,10 @@ async function addSpaService(serviceData) {
 // Function to update a service
 async function updateSpaService(serviceId, serviceData) {
   try {
-    // Add the icon to the service data
+    // Add the icon and new fields to the service data
     serviceData.icon = document.getElementById('editSpaServiceIcon').value;
+    serviceData.benefits = document.getElementById('editSpaServiceBenefits').value;
+    serviceData.procedure = document.getElementById('editSpaServiceProcedure').value;
     
     const response = await fetch('/.netlify/functions/updateSpaService', {
       method: 'POST',

@@ -33,14 +33,16 @@ exports.handler = async (event) => {
     // Update the service in the spa_services table
     const result = await db.query(
       `UPDATE spa_services 
-       SET name = $1, duration = $2, price = $3, description = $4, active = $5, icon = $6, updated_at = NOW()
-       WHERE id = $7
+       SET name = $1, duration = $2, price = $3, description = $4, benefits = $5, procedure = $6, active = $7, icon = $8, updated_at = NOW()
+       WHERE id = $9
        RETURNING *`,
       [
         service.name,
         service.duration,
         service.price,
         service.description,
+        service.benefits || '',
+        service.procedure || '',
         service.active !== undefined ? service.active : true,
         service.icon || 'fa-spa',
         id

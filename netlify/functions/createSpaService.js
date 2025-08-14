@@ -32,13 +32,15 @@ exports.handler = async (event) => {
 
     // Insert the service into the spa_services table
     const result = await db.query(
-      `INSERT INTO spa_services (name, duration, price, description, active, icon)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      `INSERT INTO spa_services (name, duration, price, description, benefits, procedure, active, icon)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
       [
         serviceData.name,
         serviceData.duration,
         serviceData.price,
         serviceData.description,
+        serviceData.benefits || '',
+        serviceData.procedure || '',
         serviceData.active !== undefined ? serviceData.active : true,
         serviceData.icon || 'fa-spa'
       ]

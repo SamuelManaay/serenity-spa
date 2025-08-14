@@ -918,6 +918,14 @@
                             <textarea class="form-control" id="addServiceDescription" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Benefits</label>
+                            <textarea class="form-control" id="addServiceBenefits" rows="3" placeholder="List the benefits of this service..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Procedure</label>
+                            <textarea class="form-control" id="addServiceProcedure" rows="3" placeholder="Describe the procedure steps..."></textarea>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Icon</label>
                             <select class="form-control" id="addServiceIcon" required>
                                 <option value="fa-spa">Spa</option>
@@ -990,6 +998,14 @@
                         <div class="mb-3">
                             <label class="form-label">Description</label>
                             <textarea class="form-control" id="editServiceDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Benefits</label>
+                            <textarea class="form-control" id="editServiceBenefits" rows="3" placeholder="List the benefits of this service..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Procedure</label>
+                            <textarea class="form-control" id="editServiceProcedure" rows="3" placeholder="Describe the procedure steps..."></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Icon</label>
@@ -1368,6 +1384,8 @@
                 duration: parseInt(document.getElementById('addServiceDuration').value),
                 price: parseFloat(document.getElementById('addServicePrice').value),
                 description: document.getElementById('addServiceDescription').value,
+                benefits: document.getElementById('addServiceBenefits').value,
+                procedure: document.getElementById('addServiceProcedure').value,
                 icon: document.getElementById('addServiceIcon').value,
                 active: document.getElementById('addServiceActive').checked
             };
@@ -1400,6 +1418,8 @@
             document.getElementById('editServiceDuration').value = service.duration;
             document.getElementById('editServicePrice').value = service.price;
             document.getElementById('editServiceDescription').value = service.description;
+            document.getElementById('editServiceBenefits').value = service.benefits || '';
+            document.getElementById('editServiceProcedure').value = service.procedure || '';
             document.getElementById('editServiceIcon').value = service.icon;
             document.getElementById('editServiceActive').checked = service.active;
 
@@ -1509,6 +1529,8 @@
                     duration: parseInt(document.getElementById('editServiceDuration').value),
                     price: parseFloat(document.getElementById('editServicePrice').value),
                     description: document.getElementById('editServiceDescription').value,
+                    benefits: document.getElementById('editServiceBenefits').value,
+                    procedure: document.getElementById('editServiceProcedure').value,
                     icon: document.getElementById('editServiceIcon').value,
                     active: document.getElementById('editServiceActive').checked
                 }
