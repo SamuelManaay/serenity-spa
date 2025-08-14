@@ -2,97 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serenity Spa - Admin Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.css">
     <style>
-        /* Single Leaf Animation */
-        .loading-container {
-            position: relative;
-            width: 200px;
-            height: 150px;
-            margin: 0 auto;
-        }
-        
-        .leaf {
-            position: absolute;
-            font-size: 50px;
-            color: #A3BABA;
-            top: 50%;
-            left: 50%;
-            transform-origin: center;
-            animation: leafPath 3s infinite ease-in-out;
-            filter: drop-shadow(0 0 5px rgba(163, 186, 186, 0.4));
-        }
-        
-        .leaf i {
-            display: inline-block;
-            animation: leafRotate 3s infinite ease-in-out, leafFlutter 0.3s infinite alternate ease-in-out;
-        }
-        
-        @keyframes leafPath {
-            0% {
-                transform: translate(-50%, 0) scale(0.8);
-                opacity: 0.7;
-            }
-            25% {
-                transform: translate(-100%, 25%) scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: translate(-50%, 50%) scale(1.1);
-                opacity: 1;
-            }
-            75% {
-                transform: translate(0%, 25%) scale(1);
-                opacity: 0.9;
-            }
-            100% {
-                transform: translate(50%, -50%) scale(0.8);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes leafRotate {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(-30deg); }
-            50% { transform: rotate(0deg); }
-            75% { transform: rotate(30deg); }
-            100% { transform: rotate(0deg); }
-        }
-        
-        @keyframes leafFlutter {
-            0% { transform: scaleX(1); }
-            100% { transform: scaleX(0.95) scaleY(1.05); }
-        }
-        
-        /* Updated Color Palette for a more subdued, professional look */
         :root {
-            --primary-color: #5A7D7D; /* Muted teal/blue-green for primary accents */
-            --secondary-color: #8B9A9A; /* Lighter shade of primary for subtle elements */
-            --accent-color: #A3BABA; /* A slightly warmer, lighter accent */
-            --danger-color: #e74c3c;
-            
-            /* Dark mode (default and only theme) */
-            --bg-color: #2B2D42; /* Deep charcoal for main background */
-            --text-color: #E0E1DD; /* Soft white for text */
-            --glass-bg: rgba(255, 255, 255, 0.08); /* Slightly less opaque glass */
-            --glass-border: rgba(255, 255, 255, 0.15); /* Softer glass border */
-            --table-hover-bg: rgba(255, 255, 255, 0.05);
-            --table-header-bg: rgba(255, 255, 255, 0.15);
-            --input-bg: rgba(255, 255, 255, 0.05);
-            --input-border: rgba(255, 255, 255, 0.1);
-            --dark-text: #333333; /* For elements that need to be dark against lighter backgrounds */
-            --light-bg-text: #E0E1DD; /* Text color for glass/dark backgrounds */
-            --glass-text: #E0E1DD; /* Text color specifically for glass elements */
+            --primary: #9FB9C7;
+            --secondary: #C8F2F8;
+            --accent: #5B9CF1;
+            --light-bg: #E8F4FA;
+            --cream: #FAF2E8;
+            --white: #ffffff;
+            --dark: #1a1a1a;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #eeeeee;
+            --gray-300: #e0e0e0;
+            --gray-400: #bdbdbd;
+            --gray-500: #9e9e9e;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #212121;
+            --success: #4caf50;
+            --error: #f44336;
+            --warning: #ff9800;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-xl: 0 16px 48px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -100,391 +47,447 @@
         }
 
         body {
-            font-family: 'Lato', sans-serif;
-            line-height: 1.7;
-            background: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--cream) 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
             min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden; /* Prevent horizontal scroll from animations */
         }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: var(--bg-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(90, 125, 125, 0.1) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes rotate {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Custom Cursor removed */
 
         .navbar {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(159, 185, 199, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
         }
 
         .navbar-brand {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--text-color);
-        }
-
-        .nav-link {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text-color) !important;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--accent-color) !important;
-        }
-
-        .btn-glow {
-            background: var(--primary-color);
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            color: white;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(90, 125, 125, 0.3);
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .nav-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .nav-info i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(159, 185, 199, 0.1) 0%, rgba(200, 242, 248, 0.1) 100%);
+            padding: 3rem 0;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .btn-glow:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(90, 125, 125, 0.5);
-            color: white;
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(159, 185, 199, 0.05) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
         }
 
-        .btn-glow::before {
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: -1rem auto 0;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            border: 1px solid rgba(159, 185, 199, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: all 0.5s;
-        }
-
-        .btn-glow:hover::before {
-            left: 100%;
-        }
-
-        /* Specific style for primary button inside modals/forms */
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #4a6c6c; /* Slightly darker primary on hover */
-            border-color: #4a6c6c;
-            color: white;
-        }
-        .btn-primary:focus, .btn-primary:active {
-            background-color: #4a6c6c !important;
-            border-color: #4a6c6c !important;
-            box-shadow: 0 0 0 0.25rem rgba(90, 125, 125, 0.5) !important;
-        }
-
-
-        .dashboard-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .dashboard-card:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .dashboard-card h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            color: var(--text-color);
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .dashboard-card p {
-            font-family: 'Lato', sans-serif;
-            color: var(--text-color);
-            opacity: 0.85;
-            font-size: 1rem;
-        }
-
-        .dashboard-card .card-icon {
-            font-size: 3rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-
-        .table-responsive {
-            margin-top: 2rem;
-        }
-
-        .table {
-            background: var(--glass-bg);
-            border-radius: 15px;
-            overflow: hidden; /* Ensures rounded corners apply to content */
-            border-collapse: separate; /* Required for rounded corners */
-            border-spacing: 0; /* Required for rounded corners */
-            width: 100%;
-        }
-
-        .table th, .table td {
-            border-color: var(--glass-border);
-            color: var(--text-color); /* Default text color for table elements */
-            vertical-align: middle;
-            padding: 1rem;
-        }
-        
-        /* Specific color for table body text */
-        .table tbody tr td {
-            color: var(--light-bg-text); /* Light text for better visibility on dark backgrounds */
-            background-color: var(--glass-bg); /* Explicit background color for table cells */
-        }
-        
-        /* Reworked Dropdown Checklist Styling */
-        .dropdown-check-list {
-            display: block;
-            position: relative;
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-
-        .dropdown-check-list .anchor {
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: var(--light-text);
-            font-family: 'Lato', sans-serif;
-            transition: all 0.3s ease;
-            height: 51px; /* Match other form controls */
-        }
-
-        .dropdown-check-list .anchor:focus,
-        .dropdown-check-list.visible .anchor {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(90, 125, 125, 0.2);
-        }
-
-        .dropdown-check-list .anchor #selectedServices {
-            transition: all 0.2s ease-out;
-            pointer-events: none; /* Prevent text from blocking clicks */
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .dropdown-check-list.visible .anchor #selectedServices {
-            display: none; /* Completely hide the label when dropdown is open */
-        }
-        
-        .dropdown-check-list.has-selection .anchor #selectedServices {
-            display: none; /* Hide the label when services are selected */
-        }
-
-        .dropdown-check-list .anchor #selectedServicesText {
-            font-weight: 500;
-        }
-
-        .dropdown-check-list .anchor .fas.fa-chevron-down {
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            transform: scaleX(0);
             transition: transform 0.3s ease;
         }
 
-        .dropdown-check-list.visible .anchor .fas.fa-chevron-down {
-            transform: rotate(180deg);
+        .stat-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
         }
 
-        .dropdown-check-list .items {
-            z-index: 1000;
-            position: absolute;
-            width: 100%;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-            background: var(--bg-color);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            list-style: none;
-            padding: 10px;
-            margin-top: 8px;
-            max-height: 220px;
-            overflow-y: auto;
-            display: none; /* Hidden by default */
-            opacity: 0;
-            transform-origin: top center;
-            transform: scaleY(0.95);
-            transition: opacity 0.2s ease, transform 0.2s ease;
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
 
-        .dropdown-check-list.visible .items {
-            display: block;
-            opacity: 1;
-            transform: scaleY(1);
-        }
-
-        /* Custom scrollbar for dropdown */
-        .dropdown-check-list .items::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .dropdown-check-list .items::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-        }
-
-        .dropdown-check-list .items::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 10px;
-        }
-
-        .dropdown-check-list .items::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
-        }
-
-        .dropdown-check-list .items li {
-            padding: 8px 12px;
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             display: flex;
             align-items: center;
-            border-radius: 8px;
-            transition: background-color 0.2s ease;
-            cursor: pointer;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--white);
+            font-size: 1.5rem;
         }
 
-        .dropdown-check-list .items li:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
         }
 
-        .dropdown-check-list .items .form-check-input {
-            margin-right: 12px;
-            height: 1.2em;
-            width: 1.2em;
-            border-radius: 4px;
-            border: 1px solid var(--secondary-color);
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--gray-600);
+            border: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            background-color: rgba(159, 185, 199, 0.1);
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
             background-color: transparent;
+            border-bottom: 3px solid var(--primary);
         }
 
-        .dropdown-check-list .items .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+        .content-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
         }
 
-        .table thead th {
-            background: var(--table-header-bg);
-            font-family: 'Montserrat', sans-serif;
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
             font-weight: 600;
-            color: var(--text-color);
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            border-bottom: 1px solid var(--glass-border); /* Ensure separation */
+            color: var(--gray-800);
+            margin-bottom: 1rem;
         }
 
-        /* Specific rounded corners for table header */
-        .table thead th:first-child {
-            border-top-left-radius: 15px;
+        .table {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border-collapse: separate;
+            border-spacing: 0;
         }
-        .table thead th:last-child {
-            border-top-right-radius: 15px;
+
+        .table th {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            font-weight: 600;
+            border: none;
+            padding: 1rem;
         }
-        .table tbody tr:last-child td:first-child {
-            border-bottom-left-radius: 15px;
-        }
-        .table tbody tr:last-child td:last-child {
-            border-bottom-right-radius: 15px;
+
+        .table td {
+            border: none;
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
         }
 
         .table tbody tr:hover {
-            background: var(--table-hover-bg);
+            background: var(--gray-50);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: var(--gray-600);
+            color: var(--white);
+            border: 2px solid var(--gray-600);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-700);
+            color: var(--white);
+            border-color: var(--gray-700);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+            color: var(--white);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--white);
+        }
+
+        .btn-warning:hover {
+            background: #f57c00;
+            color: var(--white);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
         }
 
         .badge {
-            font-family: 'Lato', sans-serif;
-            font-weight: 400;
-            padding: 0.5em 0.8em;
-            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
-        .badge-primary-custom {
-            background-color: var(--primary-color);
-            color: white;
-            display: inline-block;
-            max-width: 100%;
-            white-space: normal;
-            text-align: center;
-            margin-bottom: 0.25rem;
-            word-break: break-word;
-            overflow-wrap: break-word;
+        .badge-primary {
+            background: var(--primary);
+            color: var(--white);
         }
-        
-        .service-badge-container {
+
+        .badge-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: var(--white);
+        }
+
+        .form-control {
             width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+            font-family: inherit;
         }
 
-        .badge-secondary-custom {
-            background-color: var(--secondary-color);
-            color: var(--dark-text);
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(159, 185, 199, 0.1);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border: none;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1.5rem;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 1.5rem;
+        }
+
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gray-200);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message-toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            color: var(--white);
+            font-weight: 500;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .message-toast.show {
+            transform: translateX(0);
+        }
+
+        .message-toast.success {
+            background: var(--success);
+        }
+
+        .message-toast.error {
+            background: var(--error);
         }
 
         .chart-container {
@@ -493,630 +496,176 @@
             width: 100%;
         }
 
-        /* Logout button style */
-        #logoutBtn {
-            background-color: var(--danger-color);
-            border-color: var(--danger-color);
-        }
-        #logoutBtn:hover {
-            background-color: #c0392b; /* A darker shade of red */
-            border-color: #c0392b;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .container {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-            }
-            
-            .dashboard-card {
-                padding: 1.75rem;
-            }
-            
-            .glass {
-                padding: 1.5rem;
-            }
-            
-            .chart-container {
-                height: 250px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            .dashboard-card {
-                padding: 1.5rem;
-                margin-bottom: 1rem;
-            }
-            
-            .dashboard-card h3 {
-                font-size: 2rem;
-            }
-            
-            .dashboard-card .card-icon {
-                font-size: 2.5rem;
-                margin-bottom: 0.75rem;
-            }
-            
-            .table th, .table td {
-                padding: 0.75rem;
-                font-size: 0.9rem;
-            }
-            
-            .navbar-brand {
-                font-size: 1.5rem;
-            }
-            
-            .btn-glow {
-                padding: 8px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .glass {
-                padding: 1.25rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .chart-container {
-                height: 220px;
-            }
-            
-            h4 {
-                font-size: 1.25rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .container {
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
-            }
-            
-            .dashboard-card {
-                padding: 1.25rem;
-            }
-            
-            .dashboard-card h3 {
-                font-size: 1.75rem;
-            }
-            
-            .dashboard-card .card-icon {
-                font-size: 2.25rem;
-            }
-            
-            .table th, .table td {
-                padding: 0.6rem;
-                font-size: 0.8rem;
-            }
-            
-            .navbar-brand {
-                font-size: 1.3rem;
-            }
-            
-            .glass {
-                padding: 1rem;
-                border-radius: 12px;
-            }
-            
-            .chart-container {
-                height: 200px;
-            }
-            
-            h4 {
-                font-size: 1.1rem;
-            }
-            
-            .badge {
-                font-size: 0.7rem;
-            }
-            
-            .modal-body {
-                padding: 1rem;
-            }
-            
-            .modal-header, .modal-footer {
-                padding: 0.75rem 1rem;
-            }
-        }
-        
-        /* Alert Banner Styling */
-        #todayAppointmentAlert {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background-color: rgba(232, 214, 203, 0.95);
-            border-color: var(--primary-color);
-            color: #333333; /* Explicit dark color for light background */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 0;
-            border-radius: 0;
-            text-align: center;
-        }
-        
-        /* Dashboard Tabs Styling */
-        .nav-tabs {
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        .nav-tabs .nav-link {
-            color: var(--text-color);
-            border: none;
-            border-bottom: 3px solid transparent;
-            border-radius: 0;
-            padding: 0.75rem 1.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-tabs .nav-link:hover {
-            border-color: transparent;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        
-        .nav-tabs .nav-link.active {
-            color: var(--primary-color);
-            background-color: transparent;
-            border-bottom: 3px solid var(--primary-color);
-        }
-        
-        /* Mobile Admin Navigation */
-        .mobile-admin-nav {
+        .mobile-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0;
+            padding: 0.75rem 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-        
-        .mobile-admin-nav-item {
-            color: #333333; /* Explicit dark color for light background */
-        }
-        
-        .mobile-admin-nav-item {
+
+        .mobile-nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--dark-text);
+            color: var(--gray-600);
             text-decoration: none;
             font-size: 0.7rem;
             transition: all 0.3s ease;
             cursor: pointer;
-            padding: 5px 0;
-            flex: 1;
-            text-align: center;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
         }
-        
-        .mobile-admin-nav-item i {
+
+        .mobile-nav-item i {
             font-size: 1.2rem;
-            margin-bottom: 3px;
-            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+            color: var(--primary);
         }
-        
-        .mobile-admin-nav-item.active {
-            color: var(--primary-color);
-            font-weight: bold;
+
+        .mobile-nav-item.active {
+            color: var(--primary);
+            background: rgba(159, 185, 199, 0.1);
         }
-        
-        .mobile-admin-nav-item:hover {
-            background-color: rgba(232, 214, 203, 0.2);
+
+        .mobile-nav-item:hover {
+            color: var(--primary);
+            background: rgba(159, 185, 199, 0.1);
         }
-        
-        #mobileLogoutBtn {
-            color: var(--danger-color);
-        }
-        
-        #mobileLogoutBtn i {
-            color: var(--danger-color);
-        }
-        
-        /* Add padding to bottom for mobile nav */
-        @media (max-width: 767px) {
-            body {
-                padding-bottom: 60px;
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .dashboard-container {
+                margin-top: -0.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
             }
             
             .nav-tabs {
                 display: none;
             }
-        }
-        
-        /* Mobile booking cards */
-        .booking-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            position: relative;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        /* Fix for table backgrounds */
-        .table tbody tr {
-            background: var(--glass-bg);
-        }
-        
-        /* Service cards styling (same as booking cards) */
-        .service-cards .booking-card {
-            margin-bottom: 1.5rem;
-        }
-        
-        .booking-card-header {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 0.5rem;
-        }
-        
-        .booking-card-name {
-            font-weight: bold;
-            font-size: 1rem;
-            color: var(--glass-text);
-            margin-bottom: 0.5rem;
-        }
-        
-        .booking-card-service {
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            color: var(--glass-text);
-        }
-        
-        .booking-card-datetime {
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-            color: var(--glass-text);
-            opacity: 0.8;
-        }
-        
-        .booking-card-contact {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--glass-text);
-        }
-        
-        .booking-card-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            border-top: 1px solid var(--glass-border);
-            padding-top: 0.5rem;
-        }
-        
-        /* Mobile-specific table adjustments */
-        @media (max-width: 480px) {
-            .navbar .container {
-                padding-left: 0.5rem;
-                padding-right: 0.5rem;
+            
+            body {
+                padding-bottom: 80px;
             }
             
-            #adminGreeting {
-                display: none !important;
+            .nav-info {
+                display: none;
             }
-            
-            .mt-5.pt-5 {
-                margin-top: 4rem !important;
-                padding-top: 1rem !important;
-            }
-        }
-
-        /* Custom message box for alerts */
-        .message-box {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(90, 125, 125, 0.9); /* Primary color */
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1050;
-            display: flex;
-            align-items: center;
-            font-size: 1.1rem;
-            transition: all 0.3s ease-in-out;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .message-box.show {
-            opacity: 1;
-            visibility: visible;
-            top: 30px;
-        }
-
-        .message-box.error {
-            background-color: rgba(231, 76, 60, 0.9); /* Danger color */
-        }
-
-        .message-box .fa-check-circle, .message-box .fa-exclamation-circle {
-            margin-right: 10px;
-        }
-
-        /* Modal styling */
-        .modal-content {
-            background: var(--bg-color);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            color: var(--text-color);
-        }
-        
-        /* Mobile modal improvements */
-        @media (max-width: 767px) {
-            #cardDetailsModal .table {
-                font-size: 0.85rem;
-            }
-            
-            #cardDetailsModal .badge {
-                display: inline-block;
-                white-space: normal;
-                word-break: break-word;
-            }
-            
-            #cardDetailsContent .glass {
-                padding: 10px !important;
-            }
-            
-            #cardDetailsModal .table td, 
-            #cardDetailsModal .table th {
-                padding: 0.5rem;
-            }
-        }
-        
-        /* Ensure table text in modals is visible */
-        #cardDetailsModal .table {
-            background: var(--glass-bg);
-            color: var(--text-color);
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        
-        #cardDetailsModal .table th {
-            background: var(--table-header-bg);
-            color: var(--text-color);
-            border-color: var(--glass-border);
-        }
-        
-        #cardDetailsModal .table td {
-            color: var(--light-bg-text);
-            background: var(--glass-bg);
-            border-color: var(--glass-border);
-        }
-        
-        #cardDetailsModal .table tbody tr:hover {
-            background: var(--table-hover-bg);
-        }
-        
-        /* Flatpickr Custom Styling for Admin Dashboard */
-        .flatpickr-calendar {
-            background: var(--bg-color) !important;
-            border: 1px solid var(--glass-border) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
-            font-family: 'Lato', sans-serif !important;
-            color: var(--text-color) !important;
-        }
-        
-        .flatpickr-time {
-            border-top: 1px solid var(--glass-border) !important;
-        }
-        
-        .flatpickr-time input, .flatpickr-time .flatpickr-am-pm {
-            color: var(--text-color) !important;
-        }
-        
-        .flatpickr-day.selected {
-            background: var(--primary-color) !important;
-            border-color: var(--primary-color) !important;
-        }
-        
-        .flatpickr-day:hover {
-            background: rgba(90, 125, 125, 0.3) !important;
-        }
-        .modal-header {
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .modal-footer {
-            border-top: 1px solid var(--glass-border);
-        }
-        .modal-title {
-            color: var(--text-color);
-        }
-        .modal-body .form-control {
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            color: var(--text-color);
-        }
-        .modal-body .form-control:focus {
-            background: var(--input-bg);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(90, 125, 125, 0.25);
-        }
-        .modal-body select.form-control option {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-        .modal-body label {
-            color: var(--text-color);
-            opacity: 0.8;
-        }
-        
-        /* Scroll fade animations */
-        .scroll-fade {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .scroll-fade.animate {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-spa me-2"></i>Serenity Spa Admin
-            </a>
-            <div class="ms-auto d-flex align-items-center">
-                <span class="navbar-text me-3 d-none d-md-block" id="adminGreeting"></span>
-                <button class="btn btn-glow" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt me-2"></i><span class="d-none d-sm-inline">Logout</span>
-                </button>
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <a href="#" class="navbar-brand">
+                    <i class="fas fa-spa"></i>
+                    Serenity Spa Admin
+                </a>
+                <div class="nav-info">
+                    <div>
+                        <i class="fas fa-user"></i>
+                        <span id="adminGreeting">Welcome, Admin!</span>
+                    </div>
+                    <button class="btn btn-danger btn-sm" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
-    
-    <!-- Mobile Admin Navigation -->
-    <div class="mobile-admin-nav d-md-none">
-        <div class="mobile-admin-nav-item active" data-tab="overview-tab">
-            <i class="fas fa-tachometer-alt"></i>
-            <span>Overview</span>
+
+    <!-- Notification Banner -->
+    <div id="notificationBanner" class="alert alert-warning alert-dismissible fade" role="alert" style="display: none; margin: 0; border-radius: 0; background: var(--warning); color: white; text-align: center;">
+        <div class="d-flex align-items-center justify-content-center">
+            <i class="fas fa-bell me-2"></i>
+            <span id="notificationText"></span>
         </div>
-        <div class="mobile-admin-nav-item" data-tab="bookings-tab">
-            <i class="fas fa-calendar-check"></i>
-            <span>Bookings</span>
-        </div>
-        <div class="mobile-admin-nav-item" data-tab="analytics-tab">
-            <i class="fas fa-chart-pie"></i>
-            <span>Analytics</span>
-        </div>
-        <div class="mobile-admin-nav-item" data-tab="services-tab">
-            <i class="fas fa-spa"></i>
-            <span>Services</span>
-        </div>
-        <div class="mobile-admin-nav-item" id="mobileLogoutBtn">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
-    <!-- Today's Appointments Alert Banner -->
-    <div id="todayAppointmentAlert" class="alert alert-primary alert-dismissible fade show d-none" role="alert">
-        <div class="d-flex align-items-center">
-            <i class="fas fa-bell me-2"></i>
-            <div>
-                <strong>Upcoming Appointment!</strong> <span id="upcomingAppointmentDetails"></span>
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Admin Dashboard</h1>
+                <p class="hero-subtitle">Manage your spa operations with ease</p>
             </div>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    
-    <div class="container mt-5 pt-5">
-        <h2 class="text-center display-4 fw-bold mb-4 scroll-fade">Admin Dashboard</h2>
-        
-        <!-- Dashboard Navigation Tabs -->
-        <ul class="nav nav-tabs mb-4" id="dashboardTabs" role="tablist">
+    </section>
+
+    <div class="dashboard-container">
+        <div class="stats-grid">
+            <div class="stat-card" id="totalBookingsCard">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-number" id="totalBookings">0</div>
+                <div class="stat-label">Total Bookings</div>
+            </div>
+            <div class="stat-card" id="todayBookingsCard">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-number" id="todayBookings">0</div>
+                <div class="stat-label">Today's Bookings</div>
+            </div>
+            <div class="stat-card" id="uniqueServicesCard">
+                <div class="stat-icon">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <div class="stat-number" id="uniqueServices">0</div>
+                <div class="stat-label">Active Services</div>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">
-                    <i class="fas fa-tachometer-alt me-2"></i>Overview
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button" role="tab" aria-controls="bookings" aria-selected="false">
+                <button class="nav-link active" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button" role="tab">
                     <i class="fas fa-calendar-check me-2"></i>Bookings
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab" aria-controls="analytics" aria-selected="false">
+                <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
                     <i class="fas fa-chart-pie me-2"></i>Analytics
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab" aria-controls="services" aria-selected="false">
+                <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab">
                     <i class="fas fa-spa me-2"></i>Services
                 </button>
             </li>
         </ul>
-        
-        <!-- Tab Content -->
+
         <div class="tab-content" id="dashboardTabContent">
-            <!-- Overview Tab -->
-            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                <div class="row mb-4">
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="dashboard-card" id="totalBookingsCard" style="cursor: pointer;">
-                            <i class="fas fa-users card-icon"></i>
-                            <h3 id="totalBookings">0</h3>
-                            <p>Total Bookings</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="dashboard-card" id="todayBookingsCard" style="cursor: pointer;">
-                            <i class="fas fa-calendar-alt card-icon"></i>
-                            <h3 id="todayBookings">0</h3>
-                            <p>Today's Bookings</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="dashboard-card" id="uniqueServicesCard" style="cursor: pointer;">
-                            <i class="fas fa-chart-pie card-icon"></i>
-                            <h3 id="uniqueServices">0</h3>
-                            <p>Services Offered</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Modal for displaying card details -->
-                <div class="modal fade" id="cardDetailsModal" tabindex="-1" aria-labelledby="cardDetailsModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="cardDetailsModalLabel">Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div id="cardDetailsContent"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-12">
-                        <div class="glass p-4 rounded">
-                            <h4 class="mb-4 text-center">Quick Summary</h4>
-                            <p class="text-center">Welcome to your admin dashboard. Use the tabs above to navigate between different sections.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
             <!-- Bookings Tab -->
-            <div class="tab-pane fade" id="bookings" role="tabpanel" aria-labelledby="bookings-tab">
-                <div id="bookings-table" class="glass p-4 rounded">
-                    <h4 class="mb-4 text-center">Recent Bookings</h4>
-                    <div class="table-responsive d-none d-md-block">
-                        <!-- Desktop view table -->
-                        <table class="table table-hover align-middle">
+            <div class="tab-pane fade show active" id="bookings" role="tabpanel">
+                <div class="content-section">
+                    <h3 class="section-title">Recent Bookings</h3>
+                    <div class="table-responsive">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -1127,1663 +676,791 @@
                                 </tr>
                             </thead>
                             <tbody id="bookingsTableBody">
-                                </tbody>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div class="loading-spinner">
+                                            <div class="spinner"></div>
+                                            <p>Loading bookings...</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
-                    </div>
-                    
-                    <!-- Mobile view cards -->
-                    <div class="booking-cards d-md-none" id="bookingCardsMobile">
-                        <!-- Mobile booking cards will be inserted here -->
-                    </div>
-                    <div id="noBookingsMessage" class="text-center text-muted mt-3" style="display: none;">
-                        No bookings found yet.
-                    </div>
-                    
-                    <!-- Mobile view pagination -->
-                    <div class="d-flex justify-content-between align-items-center mt-3 d-md-none">
-                        <button id="mobilePrevBtn" class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-chevron-left"></i> Previous
-                        </button>
-                        <span id="mobileCurrentPage" class="small">Page 1 of 1</span>
-                        <button id="mobileNextBtn" class="btn btn-sm btn-outline-secondary">
-                            Next <i class="fas fa-chevron-right"></i>
-                        </button>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Analytics Tab -->
-            <div class="tab-pane fade" id="analytics" role="tabpanel" aria-labelledby="analytics-tab">
+            <div class="tab-pane fade" id="analytics" role="tabpanel">
                 <div class="row">
                     <div class="col-lg-8">
-                        <div id="dashboard-stats" class="glass p-4 rounded h-100">
-                            <h4 class="mb-4 text-center">Bookings by Service Type</h4>
+                        <div class="content-section">
+                            <h3 class="section-title">Bookings by Service</h3>
                             <div class="chart-container">
                                 <canvas id="serviceChart"></canvas>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="glass p-4 rounded h-100">
-                            <h4 class="mb-4 text-center">Service Breakdown</h4>
-                            <div id="serviceBreakdown" class="mt-3">
-                                <!-- Service breakdown will be inserted here -->
+                        <div class="content-section">
+                            <h3 class="section-title">Service Breakdown</h3>
+                            <div id="serviceBreakdown">
+                                <div class="loading-spinner">
+                                    <div class="spinner"></div>
+                                    <p>Loading analytics...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Services Tab -->
-            <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
-                <div class="glass p-4 rounded">
+            <div class="tab-pane fade" id="services" role="tabpanel">
+                <div class="content-section">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">Spa Services</h4>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpaServiceModal">
-                            <i class="fas fa-plus me-2"></i>Add New Service
+                        <h3 class="section-title mb-0">Spa Services</h3>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServiceModal">
+                            <i class="fas fa-plus me-2"></i>Add Service
                         </button>
                     </div>
-                    <div class="table-responsive d-none d-md-block">
-                        <!-- Desktop view table -->
-                        <table class="table table-hover align-middle">
+                    <div class="table-responsive">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Duration</th>
                                     <th>Price</th>
-                                    <th>Description</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="spaServicesTableBody">
-                                <!-- Services will be loaded here -->
+                            <tbody id="servicesTableBody">
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div class="loading-spinner">
+                                            <div class="spinner"></div>
+                                            <p>Loading services...</p>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-                    </div>
-                    
-                    <!-- Mobile view cards -->
-                    <div class="service-cards d-md-none" id="serviceCardsMobile">
-                        <!-- Mobile service cards will be inserted here -->
-                    </div>
-                    
-                    <div id="loading-services" class="text-center mt-3">
-                        <div class="loading-container">
-                            <div class="leaf"><i class="fas fa-leaf"></i></div>
-                        </div>
-                        <p class="mt-3">Loading services...</p>
-                    </div>
-                    <div id="noSpaServicesMessage" class="text-center text-muted mt-3" style="display: none;">
-                        No services found yet.
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="editBookingModal" tabindex="-1" aria-labelledby="editBookingModalLabel" aria-hidden="true">
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav d-md-none">
+        <div class="mobile-nav-item active" data-tab="bookings-tab">
+            <i class="fas fa-calendar-check"></i>
+            <span>Bookings</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="analytics-tab">
+            <i class="fas fa-chart-pie"></i>
+            <span>Analytics</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="services-tab">
+            <i class="fas fa-spa"></i>
+            <span>Services</span>
+        </div>
+        <div class="mobile-nav-item" id="mobileLogoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </div>
+    </div>
+
+    <!-- Edit Booking Modal -->
+    <div class="modal fade" id="editBookingModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editBookingModalLabel">Edit Booking</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Edit Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editBookingForm">
                         <input type="hidden" id="editBookingId">
-                        <input type="hidden" id="editBookingLastModified">
                         <div class="mb-3">
-                            <label for="editName" class="form-label">Name</label>
+                            <label class="form-label">Name</label>
                             <input type="text" class="form-control" id="editName" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editEmail" class="form-label">Email</label>
+                            <label class="form-label">Email</label>
                             <input type="email" class="form-control" id="editEmail" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editPhone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="editPhone" minlength="11" pattern=".{11,}" title="Phone number must be at least 11 digits">
-                            <small class="form-text text-muted">Phone number must be at least 11 digits</small>
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="editPhone" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editService" class="form-label">Service</label>
-                            <!-- Services dropdown checklist -->
-                            <div class="dropdown-check-list">
-                                <div class="anchor">
-                                    <label id="selectedServices" for="anchor-id">Select Services</label>
-                                    <span id="selectedServicesText"></span>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <ul class="items p-3">
-                                    <li class="form-check mb-2">
-                                        <input class="form-check-input service-checkbox" type="checkbox" value="Deep Tissue Massage" id="editService1">
-                                        <label class="form-check-label ms-2" for="editService1">Deep Tissue Massage</label>
-                                    </li>
-                                    <li class="form-check mb-2">
-                                        <input class="form-check-input service-checkbox" type="checkbox" value="Hot Stone Therapy" id="editService2">
-                                        <label class="form-check-label ms-2" for="editService2">Hot Stone Therapy</label>
-                                    </li>
-                                    <li class="form-check mb-2">
-                                        <input class="form-check-input service-checkbox" type="checkbox" value="Aromatherapy" id="editService3">
-                                        <label class="form-check-label ms-2" for="editService3">Aromatherapy</label>
-                                    </li>
-                                    <li class="form-check mb-2">
-                                        <input class="form-check-input service-checkbox" type="checkbox" value="Hydrotherapy" id="editService4">
-                                        <label class="form-check-label ms-2" for="editService4">Hydrotherapy</label>
-                                    </li>
-                                    <li class="form-check mb-2">
-                                        <input class="form-check-input service-checkbox" type="checkbox" value="Facial Treatment" id="editService5">
-                                        <label class="form-check-label ms-2" for="editService5">Facial Treatment</label>
-                                    </li>
-                                    <li class="form-check">
-                                        <input class="form-check-input service-checkbox" type="checkbox" value="Couples Retreat" id="editService6">
-                                        <label class="form-check-label ms-2" for="editService6">Couples Retreat</label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <input type="hidden" id="editService" name="editService" required>
+                            <label class="form-label">Service</label>
+                            <input type="text" class="form-control" id="editService" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editDate" class="form-label">Date</label>
-                            <input type="date" class="form-control" id="editDate" required>
+                            <label class="form-label">Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="editDateTime" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editTime" class="form-label">Time</label>
-                            <input type="time" class="form-control" id="editTime" required>
-                            <input type="hidden" id="editDatetime">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editRequests" class="form-label">Special Requests</label>
+                            <label class="form-label">Special Requests</label>
                             <textarea class="form-control" id="editRequests" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 btn-glow-inside">Save Changes</button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="editBookingForm" class="btn btn-primary">Save Changes</button>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Add Spa Service Modal -->
-    <div class="modal fade" id="addSpaServiceModal" tabindex="-1" aria-labelledby="addSpaServiceModalLabel" aria-hidden="true">
+
+    <!-- Add Service Modal -->
+    <div class="modal fade" id="addServiceModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addSpaServiceModalLabel">Add New Service</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Add New Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addSpaServiceForm">
+                    <form id="addServiceForm">
                         <div class="mb-3">
-                            <label for="addSpaServiceIcon" class="form-label">Service Icon</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i id="addIconPreview" class="fas fa-spa"></i></span>
-                                <select class="form-control bg-dark text-light" id="addSpaServiceIcon">
-                                    <option value="fa-spa">Spa</option>
-                                    <option value="fa-hands">Hands</option>
-                                    <option value="fa-hot-tub">Hot Tub</option>
-                                    <option value="fa-fire">Fire</option>
-                                    <option value="fa-gem">Gem</option>
-                                    <option value="fa-seedling">Seedling</option>
-                                    <option value="fa-leaf">Leaf</option>
-                                    <option value="fa-water">Water</option>
-                                    <option value="fa-heart">Heart</option>
-                                    <option value="fa-cloud">Cloud</option>
-                                    <option value="fa-wind">Wind</option>
-                                    <option value="fa-feather">Feather</option>
-                                    <option value="fa-droplet">Droplet</option>
-                                    <option value="fa-sun">Sun</option>
-                                    <option value="fa-moon">Moon</option>
-                                    <option value="fa-snowflake">Snowflake</option>
-                                    <option value="fa-oil-can">Oil</option>
-                                    <option value="fa-mortar-pestle">Mortar & Pestle</option>
-                                    <option value="fa-bath">Bath</option>
-                                    <option value="fa-face-smile">Smile</option>
-                                </select>
-                            </div>
+                            <label class="form-label">Service Name</label>
+                            <input type="text" class="form-control" id="addServiceName" required>
                         </div>
                         <div class="mb-3">
-                            <label for="addSpaServiceName" class="form-label">Service Name</label>
-                            <input type="text" class="form-control" id="addSpaServiceName" required>
+                            <label class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="addServiceDuration" required>
                         </div>
                         <div class="mb-3">
-                            <label for="addSpaServiceDuration" class="form-label">Duration (minutes)</label>
-                            <input type="number" class="form-control" id="addSpaServiceDuration" required>
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="addServicePrice" step="0.01" required>
                         </div>
                         <div class="mb-3">
-                            <label for="addSpaServicePrice" class="form-label">Price ($)</label>
-                            <input type="number" class="form-control" id="addSpaServicePrice" min="0" step="0.01" required>
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="addServiceDescription" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="addSpaServiceDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="addSpaServiceDescription" rows="3" required></textarea>
+                            <label class="form-label">Icon</label>
+                            <select class="form-control" id="addServiceIcon" required>
+                                <option value="fa-spa">Spa</option>
+                                <option value="fa-hands">Hands</option>
+                                <option value="fa-hot-tub">Hot Tub</option>
+                                <option value="fa-fire">Fire</option>
+                                <option value="fa-leaf">Leaf</option>
+                                <option value="fa-droplet">Droplet</option>
+                                <option value="fa-cloud">Cloud</option>
+                                <option value="fa-moon">Moon</option>
+                            </select>
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="addSpaServiceActive" checked>
-                            <label class="form-check-label" for="addSpaServiceActive">Active</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="addServiceActive" checked>
+                            <label class="form-check-label">Active</label>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Add Service</button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="addServiceForm" class="btn btn-primary">Add Service</button>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Edit Spa Service Modal -->
-    <div class="modal fade" id="editSpaServiceModal" tabindex="-1" aria-labelledby="editSpaServiceModalLabel" aria-hidden="true">
+
+    <!-- Today's Bookings Modal -->
+    <div class="modal fade" id="todayBookingsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Today's Bookings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="todayBookingsContent">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading today's bookings...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Service Modal -->
+    <div class="modal fade" id="editServiceModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editSpaServiceModalLabel">Edit Service</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Edit Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editSpaServiceForm">
-                        <input type="hidden" id="editSpaServiceId">
+                    <form id="editServiceForm">
+                        <input type="hidden" id="editServiceId">
                         <div class="mb-3">
-                            <label for="editSpaServiceIcon" class="form-label">Service Icon</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i id="editIconPreview" class="fas fa-spa"></i></span>
-                                <select class="form-control bg-dark text-light" id="editSpaServiceIcon">
-                                    <option value="fa-spa">Spa</option>
-                                    <option value="fa-hands">Hands</option>
-                                    <option value="fa-hot-tub">Hot Tub</option>
-                                    <option value="fa-fire">Fire</option>
-                                    <option value="fa-gem">Gem</option>
-                                    <option value="fa-seedling">Seedling</option>
-                                    <option value="fa-leaf">Leaf</option>
-                                    <option value="fa-water">Water</option>
-                                    <option value="fa-heart">Heart</option>
-                                    <option value="fa-cloud">Cloud</option>
-                                    <option value="fa-wind">Wind</option>
-                                    <option value="fa-feather">Feather</option>
-                                    <option value="fa-droplet">Droplet</option>
-                                    <option value="fa-sun">Sun</option>
-                                    <option value="fa-moon">Moon</option>
-                                    <option value="fa-snowflake">Snowflake</option>
-                                    <option value="fa-oil-can">Oil</option>
-                                    <option value="fa-mortar-pestle">Mortar & Pestle</option>
-                                    <option value="fa-bath">Bath</option>
-                                    <option value="fa-face-smile">Smile</option>
-                                </select>
-                            </div>
+                            <label class="form-label">Service Name</label>
+                            <input type="text" class="form-control" id="editServiceName" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editSpaServiceName" class="form-label">Service Name</label>
-                            <input type="text" class="form-control" id="editSpaServiceName" required>
+                            <label class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="editServiceDuration" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editSpaServiceDuration" class="form-label">Duration (minutes)</label>
-                            <input type="number" class="form-control" id="editSpaServiceDuration" required>
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="editServicePrice" step="0.01" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editSpaServicePrice" class="form-label">Price ($)</label>
-                            <input type="number" class="form-control" id="editSpaServicePrice" min="0" step="0.01" required>
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="editServiceDescription" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="editSpaServiceDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="editSpaServiceDescription" rows="3" required></textarea>
+                            <label class="form-label">Icon</label>
+                            <select class="form-control" id="editServiceIcon" required>
+                                <option value="fa-spa">Spa</option>
+                                <option value="fa-hands">Hands</option>
+                                <option value="fa-hot-tub">Hot Tub</option>
+                                <option value="fa-fire">Fire</option>
+                                <option value="fa-leaf">Leaf</option>
+                                <option value="fa-droplet">Droplet</option>
+                                <option value="fa-cloud">Cloud</option>
+                                <option value="fa-moon">Moon</option>
+                            </select>
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="editSpaServiceActive">
-                            <label class="form-check-label" for="editSpaServiceActive">Active</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="editServiceActive">
+                            <label class="form-check-label">Active</label>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="editServiceForm" class="btn btn-primary">Save Changes</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="messageToast" class="message-toast"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js"></script>
     <script src="admin_dashboard_spa_services.js"></script>
     <script>
-        // AOS Initialization
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-quad',
-            once: true // Only animate once
-        });
+        let bookingsData = [];
+        let servicesData = [];
 
-        // Custom Cursor removed
-
-        // Add ripple effect to buttons (replicated from index.html)
-        document.querySelectorAll('button, .btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                const x = e.clientX - e.target.offsetLeft;
-                const y = e.clientY - e.target.offsetTop;
-
-                const ripple = document.createElement('span');
-                ripple.classList.add('ripple');
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                this.appendChild(ripple);
-
-                ripple.addEventListener('animationend', () => {
-                    ripple.remove();
-                });
-            });
-        });
-
-        // Function to display a custom message box
-        function showMessageBox(message, type = 'success') {
-            const messageBox = document.createElement('div');
-            messageBox.classList.add('message-box');
-            if (type === 'error') {
-                messageBox.classList.add('error');
-            }
-            messageBox.innerHTML = `
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                <span>${message}</span>
-            `;
-            document.body.prepend(messageBox);
-
-            setTimeout(() => {
-                messageBox.classList.add('show');
-            }, 10); // Small delay to trigger transition
-
-            setTimeout(() => {
-                messageBox.classList.remove('show');
-                messageBox.addEventListener('transitionend', () => messageBox.remove());
-            }, 3000);
+        function showMessage(message, type = 'success') {
+            const toast = document.getElementById('messageToast');
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>${message}`;
+            toast.className = `message-toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
-        // Function to initialize the dropdown checklist
-        function initDropdownChecklist() {
-            const checkList = document.querySelector('.dropdown-check-list');
-            if (!checkList) return; // Guard against element not found
-
-            const anchor = checkList.querySelector('.anchor');
-            const items = checkList.querySelector('.items');
-            const checkboxes = checkList.querySelectorAll('.service-checkbox');
-            const selectedTextSpan = document.getElementById('selectedServicesText');
-
-            // Toggle dropdown on anchor click
-            anchor.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent the document click listener from firing immediately
-                const isVisible = checkList.classList.toggle('visible');
-                items.style.display = isVisible ? 'block' : 'none';
-                if (isVisible) {
-                    // Re-fire this to ensure opacity/transform transition
-                    setTimeout(() => {
-                        checkList.classList.add('visible');
-                    }, 10);
-                }
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function() {
-                if (checkList.classList.contains('visible')) {
-                    checkList.classList.remove('visible');
-                    items.style.display = 'none';
-                }
-            });
-            
-            // Stop propagation when clicking inside the items list
-            items.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-
-            // Update selected text when checkboxes change
-            checkboxes.forEach(function(checkbox) {
-                // Make the entire list item clickable
-                checkbox.parentElement.addEventListener('click', function(e) {
-                    if (e.target.type !== 'checkbox') {
-                        checkbox.checked = !checkbox.checked;
-                        // Manually trigger change event for consistency
-                        checkbox.dispatchEvent(new Event('change'));
-                    }
-                });
-                
-                checkbox.addEventListener('change', updateSelectedServicesText);
-            });
-            
-            // Initial check in case of pre-filled forms
-            updateSelectedServicesText();
-        }
-        
-        // Function to update the selected text and floating label
-        function updateSelectedServicesText() {
-            const checkList = document.querySelector('.dropdown-check-list');
-            const selectedTextSpan = document.getElementById('selectedServicesText');
-            const checkboxes = checkList.querySelectorAll('.service-checkbox');
-            
-            const selected = Array.from(checkboxes)
-                                .filter(c => c.checked)
-                                .map(c => c.value);
-
-            if (selected.length === 0) {
-                selectedTextSpan.textContent = '';
-                checkList.classList.remove('has-selection');
-            } else if (selected.length === 1) {
-                selectedTextSpan.textContent = selected[0];
-                checkList.classList.add('has-selection');
-            } else {
-                selectedTextSpan.textContent = `${selected.length} services selected`;
-                checkList.classList.add('has-selection');
-            }
-            
-            // Update the hidden input with the selected services
-            document.getElementById('editService').value = selected.join(', ');
-        }
-
+        // Authentication check
         document.addEventListener('DOMContentLoaded', function() {
-            // Check authentication status
             const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
             const adminUsername = sessionStorage.getItem('adminUsername');
 
             if (!isAuthenticated) {
-                window.location.href = 'admin_login.html'; // Redirect to login if not authenticated
+                window.location.href = 'admin_login.html';
                 return;
             }
 
-            // Display admin greeting
             if (adminUsername) {
                 document.getElementById('adminGreeting').textContent = `Welcome, ${adminUsername}!`;
             }
-            
+
             // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                sessionStorage.removeItem('adminAuthenticated');
-                sessionStorage.removeItem('adminUsername');
-                window.location.href = 'admin_login.html';
-            });
-            
-            // Mobile logout button
-            document.getElementById('mobileLogoutBtn').addEventListener('click', function() {
-                sessionStorage.removeItem('adminAuthenticated');
-                sessionStorage.removeItem('adminUsername');
-                window.location.href = 'admin_login.html';
-            });
-            
-            // Mobile navigation functionality for tabs
-            document.querySelectorAll('.mobile-admin-nav-item').forEach(item => {
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('mobileLogoutBtn').addEventListener('click', logout);
+
+            // Mobile navigation
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
                 if (item.id !== 'mobileLogoutBtn') {
                     item.addEventListener('click', function() {
                         const targetTabId = this.getAttribute('data-tab');
                         
-                        // Remove active class from all items
-                        document.querySelectorAll('.mobile-admin-nav-item').forEach(navItem => {
+                        document.querySelectorAll('.mobile-nav-item').forEach(navItem => {
                             navItem.classList.remove('active');
                         });
                         
-                        // Add active class to clicked item
                         this.classList.add('active');
-                        
-                        // Trigger click on the corresponding tab
                         document.getElementById(targetTabId).click();
                     });
                 }
             });
-            
-            // Load spa services when the services tab is shown
-            document.getElementById('services-tab').addEventListener('shown.bs.tab', function() {
-                loadSpaServices();
+
+            // Load initial data - load services first, then dashboard data
+            loadSpaServices().then(() => {
+                loadDashboardData();
             });
 
-            // Initialize the flatpickr instance once
-            let editDatetimePicker = flatpickr("#editDatetime", {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
-                altInput: true,
-                altFormat: "F j, Y h:i K",
-                minuteIncrement: 30,
-                time_24hr: false,
-                inline: false,
-                defaultHour: 9,
-                minTime: "08:00",
-                maxTime: "22:00",
-                disable: [
-                    function(date) {
-                        // Disable dates in the past
-                        return date < new Date().setHours(0,0,0,0);
-                    }
-                ],
-                onChange: function(selectedDates, dateStr) {
-                    document.getElementById('editDatetime').value = dateStr;
-                },
-                onClose: async function(selectedDates, dateStr, instance) {
-                    if (dateStr) {
-                        // Check if selected date is in the past
-                        const selectedDate = new Date(dateStr);
-                        const now = new Date();
-                        const today = new Date();
-                        today.setHours(0, 0, 0, 0);
-                        
-                        if (selectedDate < today) {
-                            showMessageBox('Cannot book a date in the past. Please select today or a future date.', 'error');
-                            instance.clear();
-                            return;
-                        }
-                        
-                        if (selectedDate.getTime() === today.getTime() && selectedDate.getHours() < now.getHours()) {
-                            showMessageBox('Cannot book a time that has already passed today. Please select a future time.', 'error');
-                            instance.clear();
-                            return;
-                        }
-                        
-                        // Check if time is within business hours (8am-10pm)
-                        const hours = selectedDate.getHours();
-                        const minutes = selectedDate.getMinutes();
-                        if (hours < 8 || (hours === 22 && minutes >= 0) || hours > 22) {
-                            showMessageBox('Booking hours are between 8:00 AM and 10:00 PM. Please select a time within business hours.', 'error');
-                            instance.clear();
-                            return;
-                        }
-                        
-                        try {
-                            const bookingId = document.getElementById('editBookingId').value;
-                            const checkResponse = await fetch('/.netlify/functions/get');
-                            if (checkResponse.ok) {
-                                const data = await checkResponse.json();
-                                const existingBookings = data.data.map(item => ({
-                                    ...item.document,
-                                    _id: item._id
-                                }));
-                                
-                                // Check if there's another booking with the same datetime (excluding this one)
-                                const conflictingBooking = existingBookings.find(booking => 
-                                    booking.datetime === dateStr && booking._id !== bookingId
-                                );
-                                
-                                if (conflictingBooking) {
-                                    showMessageBox('This time slot is already booked. Please select a different time.', 'error');
-                                    instance.clear();
-                                }
-                            }
-                        } catch (error) {
-                            console.error('Error checking booking conflicts:', error);
-                        }
-                    }
-                },
-                static: true,
-                    enableTime: true,
-                    dateFormat: "Y-m-d H:i",
-                    altInput: true,
-                    altFormat: "F j, Y h:i K",
-                    minuteIncrement: 30,
-                    time_24hr: false,
-                    inline: true,
-                    appendTo: document.getElementById('datetimePickerContainer'),
-                    showMonths: 1,
-                    defaultHour: 9,
-                    onReady: function(selectedDates, dateStr, instance) {
-                        // Force time picker to be visible
-                        if (instance.timeContainer) {
-                            instance.timeContainer.style.display = 'block';
-                        }
-                    },
-                onReady: function(selectedDates, dateStr, instance) {
-                    // Make sure time picker is visible
-                    if (instance.timeContainer) {
-                        instance.timeContainer.style.display = 'block';
-                    }
-                    
-                    instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
-                        day.style.visibility = 'hidden';
-                        day.style.pointerEvents = 'none';
-                    });
-                },
-                onChange: function(selectedDates, dateStr, instance) {
-                    instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
-                        day.style.visibility = 'hidden';
-                        day.style.pointerEvents = 'none';
-                    });
-                },
-                onMonthChange: function(selectedDates, dateStr, instance) {
-                    instance.daysContainer.querySelectorAll('.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay').forEach(day => {
-                        day.style.visibility = 'hidden';
-                        day.style.pointerEvents = 'none';
-                    });
-                }
-            });
-
-
-            loadDashboardData();
-            
-            // Add click handlers for dashboard cards
-            document.getElementById('totalBookingsCard').addEventListener('click', function() {
-                showCardDetails('totalBookings');
-            });
-            
-            document.getElementById('todayBookingsCard').addEventListener('click', function() {
-                showCardDetails('todayBookings');
-            });
-            
-            document.getElementById('uniqueServicesCard').addEventListener('click', function() {
-                showCardDetails('uniqueServices');
-            });
-            
-            // Add Spa Service form submission
-            document.getElementById('addSpaServiceForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const serviceData = {
-                    name: document.getElementById('addSpaServiceName').value,
-                    duration: parseInt(document.getElementById('addSpaServiceDuration').value),
-                    price: parseFloat(document.getElementById('addSpaServicePrice').value),
-                    description: document.getElementById('addSpaServiceDescription').value,
-                    active: document.getElementById('addSpaServiceActive').checked
-                };
-                
-                addSpaService(serviceData);
-            });
-            
-            // Edit Spa Service form submission
-            document.getElementById('editSpaServiceForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const serviceId = document.getElementById('editSpaServiceId').value;
-                const serviceData = {
-                    name: document.getElementById('editSpaServiceName').value,
-                    duration: parseInt(document.getElementById('editSpaServiceDuration').value),
-                    price: parseFloat(document.getElementById('editSpaServicePrice').value),
-                    description: document.getElementById('editSpaServiceDescription').value,
-                    active: document.getElementById('editSpaServiceActive').checked
-                };
-                
-                updateSpaService(serviceId, serviceData);
-            });
+            // Form submissions
+            document.getElementById('editBookingForm').addEventListener('submit', handleEditBooking);
+            document.getElementById('addServiceForm').addEventListener('submit', handleAddService);
+            document.getElementById('editServiceForm').addEventListener('submit', handleEditService);
         });
 
-        // Function to fetch bookings and update dashboard
+        function logout() {
+            sessionStorage.removeItem('adminAuthenticated');
+            sessionStorage.removeItem('adminUsername');
+            window.location.href = 'admin_login.html';
+        }
+
         async function loadDashboardData() {
             try {
-                const response = await fetch('/.netlify/functions/get'); // Fetch all bookings
-                if (!response.ok) {
-                    throw new Error('Failed to fetch bookings.');
-                }
+                const response = await fetch('/.netlify/functions/get');
+                if (!response.ok) throw new Error('Failed to fetch bookings');
+                
                 const data = await response.json();
-                const bookings = data.data.map(item => ({
+                bookingsData = data.data.map(item => ({
                     ...item.document,
                     _id: item._id,
                     _lastmodified: item._lastmodified
-                })); // Extract document and add _id, _lastmodified
-                
-                // Store bookings data globally for the appointment checker
-                window.bookingsData = bookings;
+                }));
 
-                // --- Dashboard Cards Data ---
-                document.getElementById('totalBookings').textContent = bookings.length;
-
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Set to start of today
-                const todayBookings = bookings.filter(booking => {
-                    const bookingDate = new Date(booking.datetime.split(' ')[0]); // Only compare date part
-                    bookingDate.setHours(0, 0, 0, 0);
-                    return bookingDate.getTime() === today.getTime();
-                });
-                document.getElementById('todayBookings').textContent = todayBookings.length;
-                
-                // Check for upcoming appointments today
-                checkUpcomingAppointments(todayBookings);
-
-                const uniqueServices = new Set(bookings.map(b => b.service));
-                document.getElementById('uniqueServices').textContent = uniqueServices.size;
-
-                // --- Recent Bookings Table ---
-                const bookingsTableBody = document.getElementById('bookingsTableBody');
-                bookingsTableBody.innerHTML = ''; // Clear previous entries
-                if (bookings.length === 0) {
-                    document.getElementById('noBookingsMessage').style.display = 'block';
-                } else {
-                    document.getElementById('noBookingsMessage').style.display = 'none';
-                    // Sort by most recent using _created or bookedAt
-                    bookings.sort((a, b) => new Date(b.bookedAt || b._created) - new Date(a.bookedAt || a._created));
-                    
-                    // Mobile pagination variables
-                    const mobileItemsPerPage = 5;
-                    let currentMobilePage = 1;
-                    const totalMobilePages = Math.ceil(bookings.length / mobileItemsPerPage);
-                    
-                    // Function to display mobile bookings for a specific page
-                    function displayMobileBookings(page) {
-                        const startIndex = (page - 1) * mobileItemsPerPage;
-                        const endIndex = startIndex + mobileItemsPerPage;
-                        const bookingsToShow = bookings.slice(startIndex, endIndex);
-                        
-                        // Get the mobile cards container
-                        const bookingCardsMobile = document.getElementById('bookingCardsMobile');
-                        bookingCardsMobile.innerHTML = ''; // Clear previous entries
-                        
-                        // Update pagination UI
-                        document.getElementById('mobileCurrentPage').textContent = `Page ${page} of ${totalMobilePages}`;
-                        document.getElementById('mobilePrevBtn').disabled = page <= 1;
-                        document.getElementById('mobileNextBtn').disabled = page >= totalMobilePages;
-                        
-                        // Display bookings for current page
-                        bookingsToShow.forEach(booking => {
-                            // Create card for mobile view
-                            const card = document.createElement('div');
-                            card.className = 'booking-card';
-                            card.innerHTML = `
-                                <div class="booking-card-header">
-                                    <div class="booking-card-name">${booking.name}</div>
-                                    <div class="service-badge-container">
-                                        <span class="badge badge-primary-custom" style="word-break: break-word;">${booking.service}</span>
-                                    </div>
-                                </div>
-                                <div class="booking-card-datetime">
-                                    <i class="far fa-calendar-alt me-1"></i> ${formatDateTime(booking.datetime)}
-                                </div>
-                                <div class="booking-card-contact">
-                                    <a href="mailto:${booking.email}" class="text-primary" title="${booking.email}">
-                                        <i class="fas fa-envelope me-1"></i>${booking.email}
-                                    </a>
-                                </div>
-                                <div class="booking-card-contact">
-                                    <a href="tel:${booking.contact_number}" class="text-primary" title="${booking.contact_number || ''}">
-                                        <i class="fas fa-phone me-1"></i>${booking.contact_number || 'No phone'}
-                                    </a>
-                                </div>
-                                <div class="booking-card-actions">
-                                    <button class="btn btn-sm btn-info edit-btn" data-id="${booking._id}" data-bs-toggle="modal" data-bs-target="#editBookingModal">
-                                        <i class="fas fa-edit me-1"></i>Edit
-                                    </button>
-                                    <button class="btn btn-sm btn-danger delete-btn" data-id="${booking._id}" data-lastmodified="${booking._lastmodified}">
-                                        <i class="fas fa-trash-alt me-1"></i>Delete
-                                    </button>
-                                </div>
-                            `;
-                            bookingCardsMobile.appendChild(card);
-                        });
-                        
-                        // Attach event listeners for the newly created buttons
-                        attachMobileEventListeners();
-                    }
-                    
-                    // For desktop view - show all bookings
-                    bookings.slice(0, 10).forEach(booking => { // Show only last 10 bookings
-                        // Create row for desktop view
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${booking.name}</td>
-                            <td><span class="badge badge-primary-custom" style="white-space: normal; word-break: break-word;">${booking.service}</span></td>
-                            <td>${formatDateTime(booking.datetime)}</td>
-                            <td>
-                                <a href="mailto:${booking.email}" class="text-light me-2" title="${booking.email}"><i class="fas fa-envelope"></i></a>
-                                <a href="tel:${booking.contact_number}" class="text-light" title="${booking.contact_number || ''}"><i class="fas fa-phone"></i></a>
-                                <span class="ms-2 small">${booking.contact_number || ''}</span>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-info me-2 edit-btn" data-id="${booking._id}" data-bs-toggle="modal" data-bs-target="#editBookingModal">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger delete-btn" data-id="${booking._id}" data-lastmodified="${booking._lastmodified}">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        `;
-                        bookingsTableBody.appendChild(row);
-                        
-                        // This code is no longer needed as we're using the displayMobileBookings function
-                    });
-
-                    // Function to attach event listeners to mobile buttons
-                    function attachMobileEventListeners() {
-                        // For mobile view
-                        document.querySelectorAll('#bookingCardsMobile .edit-btn').forEach(button => {
-                            button.addEventListener('click', function() {
-                                const bookingId = this.dataset.id;
-                                const bookingToEdit = bookings.find(b => b._id === bookingId);
-                                if (bookingToEdit) {
-                                    populateEditModal(bookingToEdit);
-                                }
-                            });
-                        });
-
-                        document.querySelectorAll('#bookingCardsMobile .delete-btn').forEach(button => {
-                            button.addEventListener('click', function() {
-                                const bookingId = this.dataset.id;
-                                if (confirm('Are you sure you want to delete this booking?')) {
-                                    deleteBooking(bookingId);
-                                }
-                            });
-                        });
-                    }
-                    
-                    // Attach event listeners for desktop view
-                    document.querySelectorAll('#bookingsTableBody .edit-btn').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const bookingId = this.dataset.id;
-                            const bookingToEdit = bookings.find(b => b._id === bookingId);
-                            if (bookingToEdit) {
-                                populateEditModal(bookingToEdit);
-                            }
-                        });
-                    });
-
-                    document.querySelectorAll('#bookingsTableBody .delete-btn').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const bookingId = this.dataset.id;
-                            if (confirm('Are you sure you want to delete this booking?')) {
-                                deleteBooking(bookingId);
-                            }
-                        });
-                    });
-                    
-                    // Initialize mobile pagination
-                    displayMobileBookings(currentMobilePage);
-                    
-                    // Add event listeners for pagination buttons
-                    document.getElementById('mobilePrevBtn').addEventListener('click', function() {
-                        if (currentMobilePage > 1) {
-                            currentMobilePage--;
-                            displayMobileBookings(currentMobilePage);
-                        }
-                    });
-                    
-                    document.getElementById('mobileNextBtn').addEventListener('click', function() {
-                        if (currentMobilePage < totalMobilePages) {
-                            currentMobilePage++;
-                            displayMobileBookings(currentMobilePage);
-                        }
-                    });
-                }
-
-                // --- Bookings by Service Type Chart ---
-                const serviceCounts = {};
-                bookings.forEach(booking => {
-                    // Handle multiple services (comma-separated)
-                    const services = booking.service.split(', ');
-                    services.forEach(service => {
-                        serviceCounts[service] = (serviceCounts[service] || 0) + 1;
-                    });
-                });
-
-                const serviceNames = Object.keys(serviceCounts);
-                const serviceData = Object.values(serviceCounts);
-
-                // Destroy existing chart instance if it exists to prevent issues on re-render
-                const existingChart = Chart.getChart('serviceChart');
-                if (existingChart) {
-                    existingChart.destroy();
-                }
-
-                const ctx = document.getElementById('serviceChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'doughnut', // Changed from pie to doughnut for a more modern look
-                    data: {
-                        labels: serviceNames,
-                        datasets: [{
-                            data: serviceData,
-                            backgroundColor: [
-                                'rgba(90, 125, 125, 0.8)', // primary-color
-                                'rgba(139, 154, 154, 0.8)', // secondary-color
-                                'rgba(163, 186, 186, 0.8)', // accent-color
-                                'rgba(43, 45, 66, 0.8)', // dark-bg
-                                'rgba(224, 225, 221, 0.8)', // light-text
-                                'rgba(74, 74, 74, 0.8)' // dark-text
-                            ].slice(0, serviceNames.length), // Ensure enough colors for services
-                            borderColor: 'rgba(255, 255, 255, 0.3)',
-                            borderWidth: 2,
-                            hoverOffset: 10
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '65%', // Larger hole in the middle for doughnut
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    color: 'var(--text-color)',
-                                    font: {
-                                        family: 'Lato',
-                                        size: 12
-                                    },
-                                    padding: 15,
-                                    usePointStyle: true, // Use circle points instead of squares
-                                    boxWidth: 10
-                                }
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleFont: {
-                                    family: 'Montserrat',
-                                    size: 14,
-                                    weight: 'bold'
-                                },
-                                bodyFont: {
-                                    family: 'Lato',
-                                    size: 13
-                                },
-                                padding: 12,
-                                cornerRadius: 8,
-                                callbacks: {
-                                    label: function(context) {
-                                        let label = context.label || '';
-                                        if (label) {
-                                            label += ': ';
-                                        }
-                                        if (context.parsed !== null) {
-                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                            const percentage = Math.round((context.parsed / total) * 100);
-                                            label += context.parsed + ' bookings (' + percentage + '%)';
-                                        }
-                                        return label;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-
-                // Populate service breakdown list
-                const serviceBreakdownDiv = document.getElementById('serviceBreakdown');
-                serviceBreakdownDiv.innerHTML = ''; // Clear previous entries
-                if (serviceNames.length === 0) {
-                    serviceBreakdownDiv.innerHTML = '<p class="text-center text-muted">No service data available yet.</p>';
-                } else {
-                    // Create a more visual breakdown with progress bars
-                    serviceNames.forEach(service => {
-                        const maxCount = Math.max(...Object.values(serviceCounts));
-                        const percentage = (serviceCounts[service] / maxCount) * 100;
-                        
-                        const serviceItem = document.createElement('div');
-                        serviceItem.classList.add('mb-3');
-                        
-                        serviceItem.innerHTML = `
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <div style="max-width: 70%; overflow-wrap: break-word;">
-                                    <span class="badge badge-primary-custom">${service}</span>
-                                </div>
-                                <span class="fw-bold">${serviceCounts[service]} bookings</span>
-                            </div>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar" role="progressbar" 
-                                    style="width: ${percentage}%; background-color: var(--primary-color);" 
-                                    aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
-                        `;
-                        
-                        serviceBreakdownDiv.appendChild(serviceItem);
-                    });
-                }
-
+                updateStats();
+                updateBookingsTable();
+                updateAnalytics();
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
-                showMessageBox('Failed to load dashboard data. Please try again.', 'error');
+                showMessage('Failed to load dashboard data', 'error');
             }
         }
 
-        // Function to populate the edit modal
-        function populateEditModal(booking) {
+        function updateStats() {
+            document.getElementById('totalBookings').textContent = bookingsData.length;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const todayBookings = bookingsData.filter(booking => {
+                const bookingDate = new Date(booking.datetime.split(' ')[0]);
+                bookingDate.setHours(0, 0, 0, 0);
+                return bookingDate.getTime() === today.getTime();
+            });
+            document.getElementById('todayBookings').textContent = todayBookings.length;
+
+            // Count active services from servicesData
+            const activeServices = servicesData.filter(service => service.active).length;
+            document.getElementById('uniqueServices').textContent = activeServices;
+
+            // Check for nearest spa session
+            checkNearestSession(todayBookings);
+
+            // Add click handler for today's bookings card
+            document.getElementById('todayBookingsCard').onclick = () => showTodayBookings(todayBookings);
+        }
+
+        function updateBookingsTable() {
+            const tbody = document.getElementById('bookingsTableBody');
+            tbody.innerHTML = '';
+
+            if (bookingsData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No bookings found</td></tr>';
+                return;
+            }
+
+            bookingsData.slice(0, 10).forEach(booking => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${booking.name}</td>
+                    <td><span class="badge badge-primary">${booking.service}</span></td>
+                    <td>${formatDateTime(booking.datetime)}</td>
+                    <td>
+                        <a href="mailto:${booking.email}" class="text-primary me-2"><i class="fas fa-envelope"></i></a>
+                        <a href="tel:${booking.contact_number}" class="text-primary"><i class="fas fa-phone"></i></a>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning btn-sm me-2" onclick="editBooking('${booking._id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteBooking('${booking._id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateAnalytics() {
+            const serviceCounts = {};
+            bookingsData.forEach(booking => {
+                const services = booking.service.split(', ');
+                services.forEach(service => {
+                    serviceCounts[service] = (serviceCounts[service] || 0) + 1;
+                });
+            });
+
+            const serviceNames = Object.keys(serviceCounts);
+            const serviceData = Object.values(serviceCounts);
+
+            // Update chart
+            const existingChart = Chart.getChart('serviceChart');
+            if (existingChart) existingChart.destroy();
+
+            const ctx = document.getElementById('serviceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: serviceNames,
+                    datasets: [{
+                        data: serviceData,
+                        backgroundColor: [
+                            '#9FB9C7',
+                            '#AD997F', 
+                            '#4caf50',
+                            '#ff9800',
+                            '#2196f3',
+                            '#9c27b0',
+                            '#f44336',
+                            '#00bcd4'
+                        ],
+                        borderWidth: 3,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Update breakdown
+            const breakdown = document.getElementById('serviceBreakdown');
+            breakdown.innerHTML = '';
+            
+            if (serviceNames.length === 0) {
+                breakdown.innerHTML = '<p class="text-center text-muted">No service data available</p>';
+                return;
+            }
+
+            serviceNames.forEach(service => {
+                const count = serviceCounts[service];
+                const percentage = ((count / bookingsData.length) * 100).toFixed(1);
+                
+                const item = document.createElement('div');
+                item.className = 'mb-3';
+                item.innerHTML = `
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="badge badge-primary">${service}</span>
+                        <span>${count} bookings</span>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar" style="width: ${percentage}%; background: var(--primary)"></div>
+                    </div>
+                `;
+                breakdown.appendChild(item);
+            });
+        }
+
+        async function loadSpaServices() {
+            try {
+                const response = await fetch('/.netlify/functions/getSpaServices');
+                if (!response.ok) throw new Error('Failed to fetch services');
+                
+                const data = await response.json();
+                servicesData = data.data || [];
+                updateServicesTable();
+                
+                // Update stats after services are loaded
+                if (bookingsData.length > 0) {
+                    updateStats();
+                }
+            } catch (error) {
+                console.error('Error loading services:', error);
+                showMessage('Failed to load services', 'error');
+                servicesData = [];
+            }
+        }
+
+        function updateServicesTable() {
+            const tbody = document.getElementById('servicesTableBody');
+            tbody.innerHTML = '';
+
+            if (servicesData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No services found</td></tr>';
+                return;
+            }
+
+            servicesData.forEach(service => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <i class="fas ${service.icon} me-2 text-primary"></i>
+                        ${service.name}
+                    </td>
+                    <td>${service.duration} min</td>
+                    <td>$${service.price}</td>
+                    <td>
+                        <span class="badge ${service.active ? 'badge-success' : 'badge-warning'}">
+                            ${service.active ? 'Active' : 'Inactive'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning btn-sm me-2" onclick="editService('${service.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteService('${service.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function editBooking(bookingId) {
+            const booking = bookingsData.find(b => b._id === bookingId);
+            if (!booking) return;
+
             document.getElementById('editBookingId').value = booking._id;
-            document.getElementById('editBookingLastModified').value = booking._lastmodified;
             document.getElementById('editName').value = booking.name;
             document.getElementById('editEmail').value = booking.email;
             document.getElementById('editPhone').value = booking.contact_number || '';
-            
-            // Handle service selection - check if it's a comma-separated list
-            const services = booking.service.split(', ');
-            const serviceCheckboxes = document.querySelectorAll('.dropdown-check-list input[type="checkbox"]');
-            
-            // Reset all checkboxes
-            serviceCheckboxes.forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            
-            // Check the appropriate checkboxes
-            serviceCheckboxes.forEach(checkbox => {
-                if (services.includes(checkbox.value)) {
-                    checkbox.checked = true;
-                }
-            });
-            
-            // Update the dropdown display
-            updateSelectedServicesText();
-            
-            // Set the hidden input value
             document.getElementById('editService').value = booking.service;
-            
-            // Get the booking date
-            const bookingDate = new Date(booking.datetime);
-            const now = new Date();
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            // Format date as YYYY-MM-DD for the date input
-            let dateStr;
-            let timeStr;
-            
-            // If the booking is in the past, set the date to tomorrow
-            if (bookingDate < today || (bookingDate.getTime() === today.getTime() && bookingDate.getHours() < now.getHours())) {
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(9, 0, 0, 0); // Set to 9 AM tomorrow
-                
-                dateStr = tomorrow.toISOString().split('T')[0];
-                timeStr = '09:00';
-                
-                showMessageBox('The original booking time is in the past. Please select a new future date and time.', 'error');
-            } else {
-                // Use the original booking date if it's not in the past
-                dateStr = bookingDate.toISOString().split('T')[0];
-                
-                // Format time as HH:MM for the time input
-                const hours = bookingDate.getHours().toString().padStart(2, '0');
-                const minutes = bookingDate.getMinutes().toString().padStart(2, '0');
-                timeStr = `${hours}:${minutes}`;
-            }
-            
-            // Set the date and time inputs
-            document.getElementById('editDate').value = dateStr;
-            document.getElementById('editTime').value = timeStr;
-            
+            document.getElementById('editDateTime').value = booking.datetime.replace(' ', 'T');
             document.getElementById('editRequests').value = booking.request || '';
+
+            new bootstrap.Modal(document.getElementById('editBookingModal')).show();
         }
 
-        // Initialize dropdown checklist when document is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            initDropdownChecklist();
-        });
-        
-        // Handle edit form submission
-        document.getElementById('editBookingForm').addEventListener('submit', async function(e) {
+        async function handleEditBooking(e) {
             e.preventDefault();
+            
             const bookingId = document.getElementById('editBookingId').value;
-            const lastModified = document.getElementById('editBookingLastModified').value;
-            
-            // Get date and time values
-            const dateValue = document.getElementById('editDate').value;
-            const timeValue = document.getElementById('editTime').value;
-            
-            // Validate both date and time are selected
-            if (!dateValue || !timeValue) {
-                showMessageBox('Please select both date AND time for the appointment', 'error');
-                return;
-            }
-            
-            // Get selected services from checkboxes
-            const selectedServices = [];
-            document.querySelectorAll('.dropdown-check-list input[type="checkbox"]:checked').forEach(checkbox => {
-                selectedServices.push(checkbox.value);
-            });
-            
-            // Validate at least one service is selected
-            if (selectedServices.length === 0) {
-                showMessageBox('Please select at least one service', 'error');
-                return;
-            }
-            
-            // Validate phone number length
-            const phoneValue = document.getElementById('editPhone').value;
-            if (phoneValue && phoneValue.length < 11) {
-                showMessageBox('Phone number must be at least 11 digits', 'error');
-                return;
-            }
-            
-            // Set the hidden input with the combined services
-            document.getElementById('editService').value = selectedServices.join(', ');
-            
-            // Check if selected date is in the past
-            const selectedDate = new Date(`${dateValue}T${timeValue}`);
-            const now = new Date();
-            
-            if (selectedDate < now) {
-                showMessageBox('Cannot book a time in the past. Please select a future date and time.', 'error');
-                return;
-            }
-            
-            // Check if time is within business hours (8am-10pm)
-            const hours = selectedDate.getHours();
-            const minutes = selectedDate.getMinutes();
-            if (hours < 8 || (hours === 22 && minutes > 0) || hours > 22) {
-                showMessageBox('Booking hours are between 8:00 AM and 10:00 PM. Please select a time within business hours.', 'error');
-                return;
-            }
-            
-            // Check for booking conflicts
-            try {
-                const bookingId = document.getElementById('editBookingId').value;
-                const checkResponse = await fetch('/.netlify/functions/get');
-                if (checkResponse.ok) {
-                    const data = await checkResponse.json();
-                    const existingBookings = data.data.map(item => ({
-                        ...item.document,
-                        _id: item._id
-                    }));
-                    
-                    // Format datetime string in the format stored in the database
-                    const datetimeValue = `${dateValue} ${timeValue}`;
-                    
-                    // Check if there's another booking with the same datetime (excluding this one)
-                    const conflictingBooking = existingBookings.find(booking => 
-                        booking.datetime === datetimeValue && booking._id !== bookingId
-                    );
-                    
-                    if (conflictingBooking) {
-                        showMessageBox('This time slot is already booked. Please select a different time.', 'error');
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.error('Error checking booking conflicts:', error);
-            }
-            
-            // Combine date and time into a datetime string
-            const datetimeValue = `${dateValue} ${timeValue}`;
-            
-            // No need to check for conflicts here as we already check when date is selected
-            
-            const updatedBookingData = {
+            const updatedData = {
                 name: document.getElementById('editName').value,
                 email: document.getElementById('editEmail').value,
                 contact_number: document.getElementById('editPhone').value,
-                service: document.getElementById('editService').value, // This now contains the combined services
-                datetime: datetimeValue,
+                service: document.getElementById('editService').value,
+                datetime: document.getElementById('editDateTime').value.replace('T', ' '),
                 request: document.getElementById('editRequests').value
             };
 
             try {
                 const response = await fetch('/.netlify/functions/update', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        id: bookingId,
-                        booking: updatedBookingData
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: bookingId, booking: updatedData })
                 });
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to update booking.');
-                }
 
-                showMessageBox('Booking updated successfully!', 'success');
-                bootstrap.Modal.getInstance(document.getElementById('editBookingModal')).hide(); // Close modal
-                loadDashboardData(); // Reload data
+                if (!response.ok) throw new Error('Failed to update booking');
+
+                showMessage('Booking updated successfully', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('editBookingModal')).hide();
+                loadDashboardData();
             } catch (error) {
                 console.error('Error updating booking:', error);
-                showMessageBox(`Update failed: ${error.message}`, 'error');
+                showMessage('Failed to update booking', 'error');
             }
-        });
+        }
 
-        // Function to delete a booking
         async function deleteBooking(bookingId) {
+            if (!confirm('Are you sure you want to delete this booking?')) return;
+
             try {
                 const response = await fetch('/.netlify/functions/delete', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id: bookingId })
+                });
+
+                if (!response.ok) throw new Error('Failed to delete booking');
+
+                showMessage('Booking deleted successfully', 'success');
+                loadDashboardData();
+            } catch (error) {
+                console.error('Error deleting booking:', error);
+                showMessage('Failed to delete booking', 'error');
+            }
+        }
+
+        async function handleAddService(e) {
+            e.preventDefault();
+            
+            const serviceData = {
+                name: document.getElementById('addServiceName').value,
+                duration: parseInt(document.getElementById('addServiceDuration').value),
+                price: parseFloat(document.getElementById('addServicePrice').value),
+                description: document.getElementById('addServiceDescription').value,
+                icon: document.getElementById('addServiceIcon').value,
+                active: document.getElementById('addServiceActive').checked
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/addSpaService', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(serviceData)
+                });
+
+                if (!response.ok) throw new Error('Failed to add service');
+
+                showMessage('Service added successfully', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('addServiceModal')).hide();
+                document.getElementById('addServiceForm').reset();
+                loadSpaServices();
+            } catch (error) {
+                console.error('Error adding service:', error);
+                showMessage('Failed to add service', 'error');
+            }
+        }
+
+        function editService(serviceId) {
+            const service = servicesData.find(s => s.id === serviceId);
+            if (!service) return;
+
+            document.getElementById('editServiceId').value = service.id;
+            document.getElementById('editServiceName').value = service.name;
+            document.getElementById('editServiceDuration').value = service.duration;
+            document.getElementById('editServicePrice').value = service.price;
+            document.getElementById('editServiceDescription').value = service.description;
+            document.getElementById('editServiceIcon').value = service.icon;
+            document.getElementById('editServiceActive').checked = service.active;
+
+            new bootstrap.Modal(document.getElementById('editServiceModal')).show();
+        }
+
+        async function deleteService(serviceId) {
+            if (!confirm('Are you sure you want to delete this service?')) return;
+            showMessage('Delete service functionality to be implemented', 'warning');
+        }
+
+        function formatDateTime(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function checkNearestSession(todayBookings) {
+            if (todayBookings.length === 0) return;
+
+            const now = new Date();
+            const upcomingBookings = todayBookings.filter(booking => {
+                const bookingTime = new Date(booking.datetime);
+                return bookingTime > now;
+            }).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+
+            if (upcomingBookings.length > 0) {
+                const nextBooking = upcomingBookings[0];
+                const bookingTime = new Date(nextBooking.datetime);
+                const timeDiff = bookingTime - now;
+                const hoursUntil = Math.floor(timeDiff / (1000 * 60 * 60));
+                const minutesUntil = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+                let timeText = '';
+                if (hoursUntil > 0) {
+                    timeText = `in ${hoursUntil}h ${minutesUntil}m`;
+                } else {
+                    timeText = `in ${minutesUntil} minutes`;
+                }
+
+                const notificationText = `Upcoming: ${nextBooking.name} - ${nextBooking.service} ${timeText}`;
+                document.getElementById('notificationText').textContent = notificationText;
+                document.getElementById('notificationBanner').style.display = 'block';
+                document.getElementById('notificationBanner').classList.add('show');
+            }
+        }
+
+        function showTodayBookings(todayBookings) {
+            const content = document.getElementById('todayBookingsContent');
+            
+            if (todayBookings.length === 0) {
+                content.innerHTML = '<p class="text-center text-muted">No bookings scheduled for today.</p>';
+            } else {
+                content.innerHTML = `
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Client</th>
+                                    <th>Service</th>
+                                    <th>Contact</th>
+                                    <th>Requests</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${todayBookings.map(booking => {
+                                    const time = new Date(booking.datetime).toLocaleTimeString('en-US', {
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    });
+                                    return `
+                                        <tr>
+                                            <td><strong>${time}</strong></td>
+                                            <td>${booking.name}</td>
+                                            <td><span class="badge badge-primary">${booking.service}</span></td>
+                                            <td>
+                                                <div>${booking.email}</div>
+                                                <div class="text-muted small">${booking.contact_number || 'No phone'}</div>
+                                            </td>
+                                            <td>${booking.request || 'None'}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            new bootstrap.Modal(document.getElementById('todayBookingsModal')).show();
+        }
+
+        async function handleEditService(e) {
+            e.preventDefault();
+            
+            const serviceId = document.getElementById('editServiceId').value;
+            const payload = {
+                id: serviceId,
+                service: {
+                    name: document.getElementById('editServiceName').value,
+                    duration: parseInt(document.getElementById('editServiceDuration').value),
+                    price: parseFloat(document.getElementById('editServicePrice').value),
+                    description: document.getElementById('editServiceDescription').value,
+                    icon: document.getElementById('editServiceIcon').value,
+                    active: document.getElementById('editServiceActive').checked
+                }
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/updateSpaService', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to delete booking.');
+                    throw new Error(errorData.error || 'Failed to update service');
                 }
 
-                showMessageBox('Booking deleted successfully!', 'success');
-                loadDashboardData(); // Reload data
+                showMessage('Service updated successfully', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('editServiceModal')).hide();
+                loadSpaServices();
+                loadDashboardData();
             } catch (error) {
-                console.error('Error deleting booking:', error);
-                showMessageBox(`Delete failed: ${error.message}`, 'error');
+                console.error('Error updating service:', error);
+                showMessage(error.message || 'Failed to update service', 'error');
             }
         }
-
-        // Helper function to format date and time for display
-        function formatDateTime(isoString) {
-            const date = new Date(isoString);
-            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
-            return date.toLocaleString('en-US', options);
-        }
-        
-        // Function to show card details in modal
-        function showCardDetails(cardType) {
-            const modal = new bootstrap.Modal(document.getElementById('cardDetailsModal'));
-            const modalTitle = document.getElementById('cardDetailsModalLabel');
-            const modalContent = document.getElementById('cardDetailsContent');
-            
-            // Check if we're on mobile
-            const isMobile = window.innerWidth < 768;
-            
-            modalContent.innerHTML = '';
-            
-            if (cardType === 'totalBookings') {
-                modalTitle.textContent = 'Total Bookings';
-                
-                if (!window.bookingsData || window.bookingsData.length === 0) {
-                    modalContent.innerHTML = '<p class="text-center">No bookings available.</p>';
-                    modal.show();
-                    return;
-                }
-                
-                // Sort bookings by date (newest first)
-                const sortedBookings = [...window.bookingsData].sort((a, b) => 
-                    new Date(b.datetime) - new Date(a.datetime)
-                );
-                
-                // Pagination variables
-                const itemsPerPage = 5;
-                let currentPage = 1;
-                const totalPages = Math.ceil(sortedBookings.length / itemsPerPage);
-                
-                // Create container for table and pagination
-                const container = document.createElement('div');
-                container.className = 'glass p-4 rounded';
-                
-                // Create a table to display all bookings
-                const table = document.createElement('table');
-                table.className = 'table table-hover';
-                
-                if (isMobile) {
-                    table.innerHTML = `
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Service</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="totalBookingsTableBody"></tbody>
-                    `;
-                } else {
-                    table.innerHTML = `
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Service</th>
-                                <th>Date & Time</th>
-                                <th>Contact</th>
-                            </tr>
-                        </thead>
-                        <tbody id="totalBookingsTableBody"></tbody>
-                    `;
-                }
-                
-                container.appendChild(table);
-                
-                // Add pagination controls
-                const paginationDiv = document.createElement('div');
-                paginationDiv.className = 'd-flex justify-content-between align-items-center mt-3';
-                paginationDiv.innerHTML = `
-                    <button id="totalPrevBtn" class="btn btn-sm btn-outline-secondary">
-                        <i class="fas fa-chevron-left"></i> Previous
-                    </button>
-                    <span id="totalCurrentPage" class="small">Page 1 of ${totalPages}</span>
-                    <button id="totalNextBtn" class="btn btn-sm btn-outline-secondary">
-                        Next <i class="fas fa-chevron-right"></i>
-                    </button>
-                `;
-                
-                container.appendChild(paginationDiv);
-                modalContent.appendChild(container);
-                
-                // Function to display bookings for a specific page
-                function displayTotalBookings(page) {
-                    const startIndex = (page - 1) * itemsPerPage;
-                    const endIndex = startIndex + itemsPerPage;
-                    const bookingsToShow = sortedBookings.slice(startIndex, endIndex);
-                    
-                    const tableBody = document.getElementById('totalBookingsTableBody');
-                    tableBody.innerHTML = '';
-                    
-                    // Update pagination UI
-                    document.getElementById('totalCurrentPage').textContent = `Page ${page} of ${totalPages}`;
-                    document.getElementById('totalPrevBtn').disabled = page <= 1;
-                    document.getElementById('totalNextBtn').disabled = page >= totalPages;
-                    
-                    bookingsToShow.forEach(booking => {
-                        const row = document.createElement('tr');
-                        if (isMobile) {
-                            row.innerHTML = `
-                                <td>${booking.name}</td>
-                                <td><span class="badge badge-primary-custom">${booking.service}</span></td>
-                                <td>${formatDateTime(booking.datetime).split(' at ')[0]}</td>
-                            `;
-                        } else {
-                            row.innerHTML = `
-                                <td>${booking.name}</td>
-                                <td><span class="badge badge-primary-custom">${booking.service}</span></td>
-                                <td>${formatDateTime(booking.datetime)}</td>
-                                <td>${booking.email}</td>
-                            `;
-                        }
-                        tableBody.appendChild(row);
-                    });
-                }
-                
-                // Initial display
-                displayTotalBookings(currentPage);
-                
-                // Add event listeners for pagination buttons
-                document.getElementById('totalPrevBtn').addEventListener('click', function() {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        displayTotalBookings(currentPage);
-                    }
-                });
-                
-                document.getElementById('totalNextBtn').addEventListener('click', function() {
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        displayTotalBookings(currentPage);
-                    }
-                });
-                
-            } else if (cardType === 'todayBookings') {
-                modalTitle.textContent = "Today's Bookings";
-                
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                
-                if (!window.bookingsData || window.bookingsData.length === 0) {
-                    modalContent.innerHTML = '<p class="text-center">No bookings available.</p>';
-                    modal.show();
-                    return;
-                }
-                
-                const todayBookings = window.bookingsData.filter(booking => {
-                    const bookingDate = new Date(booking.datetime.split(' ')[0]);
-                    bookingDate.setHours(0, 0, 0, 0);
-                    return bookingDate.getTime() === today.getTime();
-                });
-                
-                if (todayBookings.length === 0) {
-                    modalContent.innerHTML = '<p class="text-center">No bookings scheduled for today.</p>';
-                    modal.show();
-                    return;
-                }
-                
-                // Sort today's bookings by time
-                todayBookings.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
-                
-                // Pagination variables
-                const itemsPerPage = 5;
-                let currentPage = 1;
-                const totalPages = Math.ceil(todayBookings.length / itemsPerPage);
-                
-                // Create container for table and pagination
-                const container = document.createElement('div');
-                container.className = 'glass p-4 rounded';
-                
-                // Create a table to display today's bookings
-                const table = document.createElement('table');
-                table.className = 'table table-hover';
-                table.innerHTML = `
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Service</th>
-                            <th>Time</th>
-                            <th>Contact</th>
-                        </tr>
-                    </thead>
-                    <tbody id="todayBookingsTableBody"></tbody>
-                `;
-                
-                container.appendChild(table);
-                
-                // Add pagination controls if needed
-                if (totalPages > 1) {
-                    const paginationDiv = document.createElement('div');
-                    paginationDiv.className = 'd-flex justify-content-between align-items-center mt-3';
-                    paginationDiv.innerHTML = `
-                        <button id="todayPrevBtn" class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-chevron-left"></i> Previous
-                        </button>
-                        <span id="todayCurrentPage" class="small">Page 1 of ${totalPages}</span>
-                        <button id="todayNextBtn" class="btn btn-sm btn-outline-secondary">
-                            Next <i class="fas fa-chevron-right"></i>
-                        </button>
-                    `;
-                    
-                    container.appendChild(paginationDiv);
-                }
-                
-                modalContent.appendChild(container);
-                
-                // Function to display bookings for a specific page
-                function displayTodayBookings(page) {
-                    const startIndex = (page - 1) * itemsPerPage;
-                    const endIndex = startIndex + itemsPerPage;
-                    const bookingsToShow = todayBookings.slice(startIndex, endIndex);
-                    
-                    const tableBody = document.getElementById('todayBookingsTableBody');
-                    tableBody.innerHTML = '';
-                    
-                    if (totalPages > 1) {
-                        // Update pagination UI
-                        document.getElementById('todayCurrentPage').textContent = `Page ${page} of ${totalPages}`;
-                        document.getElementById('todayPrevBtn').disabled = page <= 1;
-                        document.getElementById('todayNextBtn').disabled = page >= totalPages;
-                    }
-                    
-                    bookingsToShow.forEach(booking => {
-                        const bookingTime = new Date(booking.datetime);
-                        const timeStr = bookingTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${booking.name}</td>
-                            <td><span class="badge badge-primary-custom">${booking.service}</span></td>
-                            <td>${timeStr}</td>
-                            <td>${booking.email}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                }
-                
-                // Initial display
-                displayTodayBookings(currentPage);
-                
-                // Add event listeners for pagination buttons if needed
-                if (totalPages > 1) {
-                    document.getElementById('todayPrevBtn').addEventListener('click', function() {
-                        if (currentPage > 1) {
-                            currentPage--;
-                            displayTodayBookings(currentPage);
-                        }
-                    });
-                    
-                    document.getElementById('todayNextBtn').addEventListener('click', function() {
-                        if (currentPage < totalPages) {
-                            currentPage++;
-                            displayTodayBookings(currentPage);
-                        }
-                    });
-                }
-                
-            } else if (cardType === 'uniqueServices') {
-                modalTitle.textContent = 'Services Offered';
-                
-                if (!window.bookingsData || window.bookingsData.length === 0) {
-                    modalContent.innerHTML = '<p class="text-center">No services data available.</p>';
-                    modal.show();
-                    return;
-                }
-                
-                // Count services
-                const serviceCounts = {};
-                window.bookingsData.forEach(booking => {
-                    const services = booking.service.split(', ');
-                    services.forEach(service => {
-                        serviceCounts[service] = (serviceCounts[service] || 0) + 1;
-                    });
-                });
-                
-                const serviceNames = Object.keys(serviceCounts);
-                
-                if (serviceNames.length === 0) {
-                    modalContent.innerHTML = '<p class="text-center">No services data available.</p>';
-                    modal.show();
-                    return;
-                }
-                
-                // Sort services by popularity (most booked first)
-                serviceNames.sort((a, b) => serviceCounts[b] - serviceCounts[a]);
-                
-                // Pagination variables
-                const itemsPerPage = 5;
-                let currentPage = 1;
-                const totalPages = Math.ceil(serviceNames.length / itemsPerPage);
-                
-                // Create container for table and pagination
-                const container = document.createElement('div');
-                container.className = 'glass p-4 rounded';
-                
-                // Create a table to display services and their booking counts
-                const table = document.createElement('table');
-                table.className = 'table table-hover';
-                table.innerHTML = `
-                    <thead>
-                        <tr>
-                            <th>Service</th>
-                            <th>Bookings</th>
-                            <th>Percentage</th>
-                        </tr>
-                    </thead>
-                    <tbody id="servicesTableBody"></tbody>
-                `;
-                
-                container.appendChild(table);
-                
-                // Add pagination controls if needed
-                if (totalPages > 1) {
-                    const paginationDiv = document.createElement('div');
-                    paginationDiv.className = 'd-flex justify-content-between align-items-center mt-3';
-                    paginationDiv.innerHTML = `
-                        <button id="servicesPrevBtn" class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-chevron-left"></i> Previous
-                        </button>
-                        <span id="servicesCurrentPage" class="small">Page 1 of ${totalPages}</span>
-                        <button id="servicesNextBtn" class="btn btn-sm btn-outline-secondary">
-                            Next <i class="fas fa-chevron-right"></i>
-                        </button>
-                    `;
-                    
-                    container.appendChild(paginationDiv);
-                }
-                
-                modalContent.appendChild(container);
-                
-                // Calculate total bookings for percentage
-                const totalServiceBookings = Object.values(serviceCounts).reduce((sum, count) => sum + count, 0);
-                
-                // Function to display services for a specific page
-                function displayServices(page) {
-                    const startIndex = (page - 1) * itemsPerPage;
-                    const endIndex = startIndex + itemsPerPage;
-                    const servicesToShow = serviceNames.slice(startIndex, endIndex);
-                    
-                    const tableBody = document.getElementById('servicesTableBody');
-                    tableBody.innerHTML = '';
-                    
-                    if (totalPages > 1) {
-                        // Update pagination UI
-                        document.getElementById('servicesCurrentPage').textContent = `Page ${page} of ${totalPages}`;
-                        document.getElementById('servicesPrevBtn').disabled = page <= 1;
-                        document.getElementById('servicesNextBtn').disabled = page >= totalPages;
-                    }
-                    
-                    servicesToShow.forEach(service => {
-                        const count = serviceCounts[service];
-                        const percentage = ((count / totalServiceBookings) * 100).toFixed(1);
-                        
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><span class="badge badge-primary-custom">${service}</span></td>
-                            <td>${count}</td>
-                            <td>${percentage}%</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                }
-                
-                // Initial display
-                displayServices(currentPage);
-                
-                // Add event listeners for pagination buttons if needed
-                if (totalPages > 1) {
-                    document.getElementById('servicesPrevBtn').addEventListener('click', function() {
-                        if (currentPage > 1) {
-                            currentPage--;
-                            displayServices(currentPage);
-                        }
-                    });
-                    
-                    document.getElementById('servicesNextBtn').addEventListener('click', function() {
-                        if (currentPage < totalPages) {
-                            currentPage++;
-                            displayServices(currentPage);
-                        }
-                    });
-                }
-            }
-            
-            modal.show();
-        }
-        
-        // Function to check for upcoming appointments and show alert
-        function checkUpcomingAppointments(todayBookings) {
-            if (todayBookings.length === 0) return;
-            
-            const now = new Date();
-            const upcomingThreshold = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
-            
-            // Sort today's bookings by time
-            todayBookings.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
-            
-            // Find the next upcoming appointment
-            const upcomingAppointment = todayBookings.find(booking => {
-                const bookingTime = new Date(booking.datetime);
-                const timeDiff = bookingTime - now;
-                return timeDiff > 0 && timeDiff <= upcomingThreshold;
-            });
-            
-            if (upcomingAppointment) {
-                const appointmentTime = new Date(upcomingAppointment.datetime);
-                const timeUntil = appointmentTime - now;
-                const minutesUntil = Math.floor(timeUntil / (60 * 1000));
-                
-                // Format the alert message
-                let alertMessage = `${upcomingAppointment.name} has a ${upcomingAppointment.service} appointment at ${appointmentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-                if (minutesUntil <= 60) {
-                    alertMessage += ` (in ${minutesUntil} minutes)`;
-                } else {
-                    const hoursUntil = Math.floor(minutesUntil / 60);
-                    alertMessage += ` (in ${hoursUntil} hour${hoursUntil > 1 ? 's' : ''})`;
-                }
-                
-                // Update and show the alert
-                document.getElementById('upcomingAppointmentDetails').textContent = alertMessage;
-                document.getElementById('todayAppointmentAlert').classList.remove('d-none');
-            }
-        }
-
-        // Animated Background (replicated from index.html)
-        let animationSpeed = 0;
-        setInterval(() => {
-            animationSpeed += 0.05;
-            const bgElement = document.querySelector('.bg-animation::before');
-            if (bgElement) {
-                bgElement.style.transform = `rotate(${animationSpeed}deg)`;
-            }
-        }, 100);
-        
-        // Check for upcoming appointments every minute
-        setInterval(() => {
-            if (window.bookingsData) {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const todayBookings = window.bookingsData.filter(booking => {
-                    const bookingDate = new Date(booking.datetime.split(' ')[0]);
-                    bookingDate.setHours(0, 0, 0, 0);
-                    return bookingDate.getTime() === today.getTime();
-                });
-                checkUpcomingAppointments(todayBookings);
-            }
-        }, 60000); // Check every minute
     </script>
 </body>
 </html>
