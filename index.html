@@ -267,6 +267,7 @@
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 1.5rem;
             margin-bottom: 3rem;
+            align-items: start;
         }
 
         .mobile-benefits, .mobile-procedure {
@@ -283,7 +284,7 @@
             position: relative;
             overflow: hidden;
             perspective: 1000px;
-            height: 400px;
+            height: 450px;
         }
 
         .service-card-inner {
@@ -306,6 +307,9 @@
             backface-visibility: hidden;
             display: flex;
             flex-direction: column;
+        }
+
+        .service-card-front {
             justify-content: space-between;
         }
 
@@ -317,6 +321,7 @@
 
         .service-benefits, .service-procedure {
             margin-bottom: 0.75rem;
+            text-align: left;
         }
 
         .service-benefits h4, .service-procedure h4 {
@@ -324,6 +329,7 @@
             font-weight: 600;
             color: var(--primary);
             margin-bottom: 0.25rem;
+            text-align: left;
         }
 
         .service-benefits p, .service-procedure p {
@@ -334,6 +340,7 @@
             max-height: 120px;
             overflow-y: auto;
             margin-bottom: 0;
+            text-align: left;
         }
 
         .service-benefits p::-webkit-scrollbar, .service-procedure p::-webkit-scrollbar {
@@ -378,14 +385,14 @@
         }
 
         .service-icon {
-            width: 60px;
-            height: 60px;
+            width: 30px;
+            height: 30px;
             border-radius: var(--radius-md);
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            /* margin-bottom: 0.5rem; */
             color: var(--white);
             font-size: 1.5rem;
         }
@@ -401,6 +408,11 @@
             color: var(--gray-600);
             margin-bottom: 1.5rem;
             line-height: 1.5;
+            /* flex: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical; */
         }
 
         .service-details {
@@ -845,7 +857,7 @@
             .service-card {
                 padding: 1.5rem;
                 height: auto;
-                min-height: 280px;
+                min-height: 320px;
                 perspective: 1000px;
             }
             
@@ -883,6 +895,7 @@
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
+                text-align: left;
             }
             
             .mobile-benefits p, .mobile-procedure p {
@@ -893,6 +906,7 @@
                 margin-bottom: 0;
                 max-height: 100px;
                 overflow-y: auto;
+                text-align: left;
             }
             
             .datetime-grid {
@@ -1286,6 +1300,7 @@
         let selectedDate = null;
         let selectedTime = null;
         let services = [];
+        let appSettings = {};
 
 
 
@@ -1711,8 +1726,56 @@
             });
         }
 
+        async function loadAppSettings() {
+            try {
+                const response = await fetch('/.netlify/functions/getAppSettings');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.data) {
+                        appSettings = data.data;
+                        applyAppSettings();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading app settings:', error);
+            }
+        }
+
+        function applyAppSettings() {
+            if (appSettings.app_name) {
+                document.querySelector('.navbar-brand').innerHTML = `<i class="fas ${appSettings.app_logo || 'fa-spa'}"></i>${appSettings.app_name}`;
+                document.title = `${appSettings.app_name} - Premium Wellness Experience`;
+                document.querySelector('.hero-title').textContent = `Book Your Perfect ${appSettings.app_name} Experience`;
+            }
+            if (appSettings.app_desc) {
+                document.querySelector('.hero-subtitle').textContent = appSettings.app_desc;
+            }
+            if (appSettings.contact_number) {
+                document.querySelector('.nav-info div:first-child').innerHTML = `<i class="fas fa-phone"></i>${appSettings.contact_number}`;
+            }
+            if (appSettings.color_theme) {
+                applyColorTheme(appSettings.color_theme);
+            }
+        }
+
+        function applyColorTheme(theme) {
+            const themes = {
+                pink: { primary: '#E91E63', accent: '#F06292', secondary: '#FCE4EC' },
+                green: { primary: '#4CAF50', accent: '#66BB6A', secondary: '#E8F5E8' },
+                purple: { primary: '#9C27B0', accent: '#BA68C8', secondary: '#F3E5F5' },
+                orange: { primary: '#FF9800', accent: '#FFB74D', secondary: '#FFF3E0' },
+                default: { primary: '#9FB9C7', accent: '#5B9CF1', secondary: '#C8F2F8' }
+            };
+            
+            const colors = themes[theme] || themes.default;
+            document.documentElement.style.setProperty('--primary', colors.primary);
+            document.documentElement.style.setProperty('--accent', colors.accent);
+            document.documentElement.style.setProperty('--secondary', colors.secondary);
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            loadAppSettings();
             loadSpaServices();
             updateSteps();
 

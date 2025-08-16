@@ -731,6 +731,11 @@
                     <i class="fas fa-spa me-2"></i>Services
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">
+                    <i class="fas fa-cog me-2"></i>App Settings
+                </button>
+            </li>
         </ul>
 
         <div class="tab-content" id="dashboardTabContent">
@@ -823,6 +828,60 @@
                     </div>
                 </div>
             </div>
+
+            <!-- App Settings Tab -->
+            <div class="tab-pane fade" id="settings" role="tabpanel">
+                <div class="content-section">
+                    <h3 class="section-title">App Settings</h3>
+                    <form id="appSettingsForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">App Name</label>
+                                    <input type="text" class="form-control" id="appName" placeholder="Serenity Spa">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Contact Number</label>
+                                    <input type="text" class="form-control" id="contactNumber" placeholder="(555) 123-SERENE">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="appEmail" placeholder="info@serenityspa.com">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">App Description</label>
+                                    <textarea class="form-control" id="appDesc" rows="3" placeholder="Premium wellness treatments..."></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Color Theme</label>
+                                    <select class="form-control" id="colorTheme">
+                                        <option value="default">Default (Blue)</option>
+                                        <option value="green">Green</option>
+                                        <option value="purple">Purple</option>
+                                        <option value="pink">Pink</option>
+                                        <option value="orange">Orange</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">App Logo</label>
+                                    <select class="form-control" id="appLogo">
+                                        <option value="fa-spa">Spa</option>
+                                        <option value="fa-leaf">Leaf</option>
+                                        <option value="fa-heart">Heart</option>
+                                        <option value="fa-lotus">Lotus</option>
+                                        <option value="fa-seedling">Seedling</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Settings
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -839,6 +898,10 @@
         <div class="mobile-nav-item" data-tab="services-tab">
             <i class="fas fa-spa"></i>
             <span>Services</span>
+        </div>
+        <div class="mobile-nav-item" data-tab="settings-tab">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
         </div>
         <div class="mobile-nav-item" id="mobileLogoutBtn">
             <i class="fas fa-sign-out-alt"></i>
@@ -1051,8 +1114,51 @@
             setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
+        let appSettings = {};
+
+        async function loadAppSettings() {
+            try {
+                const response = await fetch('/.netlify/functions/getAppSettings');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.data) {
+                        appSettings = data.data;
+                        applyAppSettings();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading app settings:', error);
+            }
+        }
+
+        function applyAppSettings() {
+            if (appSettings.app_name) {
+                document.querySelector('.navbar-brand').innerHTML = `<i class="fas ${appSettings.app_logo || 'fa-spa'}"></i>${appSettings.app_name} Admin`;
+                document.title = `${appSettings.app_name} - Admin Dashboard`;
+            }
+            if (appSettings.color_theme) {
+                applyColorTheme(appSettings.color_theme);
+            }
+        }
+
+        function applyColorTheme(theme) {
+            const themes = {
+                pink: { primary: '#E91E63', accent: '#F06292', secondary: '#FCE4EC' },
+                green: { primary: '#4CAF50', accent: '#66BB6A', secondary: '#E8F5E8' },
+                purple: { primary: '#9C27B0', accent: '#BA68C8', secondary: '#F3E5F5' },
+                orange: { primary: '#FF9800', accent: '#FFB74D', secondary: '#FFF3E0' },
+                default: { primary: '#9FB9C7', accent: '#5B9CF1', secondary: '#C8F2F8' }
+            };
+            
+            const colors = themes[theme] || themes.default;
+            document.documentElement.style.setProperty('--primary', colors.primary);
+            document.documentElement.style.setProperty('--accent', colors.accent);
+            document.documentElement.style.setProperty('--secondary', colors.secondary);
+        }
+
         // Authentication check
         document.addEventListener('DOMContentLoaded', function() {
+            loadAppSettings();
             const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
             const adminUsername = sessionStorage.getItem('adminUsername');
 
@@ -1094,6 +1200,10 @@
             document.getElementById('editBookingForm').addEventListener('submit', handleEditBooking);
             document.getElementById('addServiceForm').addEventListener('submit', handleAddService);
             document.getElementById('editServiceForm').addEventListener('submit', handleEditService);
+            document.getElementById('appSettingsForm').addEventListener('submit', handleAppSettings);
+            
+            // Load app settings when settings tab is clicked
+            document.getElementById('settings-tab').addEventListener('click', loadAppSettings);
         });
 
         function logout() {
@@ -1555,6 +1665,54 @@
             } catch (error) {
                 console.error('Error updating service:', error);
                 showMessage(error.message || 'Failed to update service', 'error');
+            }
+        }
+
+        async function loadAppSettings() {
+            try {
+                const response = await fetch('/.netlify/functions/getAppSettings');
+                if (!response.ok) throw new Error('Failed to fetch settings');
+                
+                const data = await response.json();
+                if (data.data) {
+                    document.getElementById('appName').value = data.data.app_name || '';
+                    document.getElementById('contactNumber').value = data.data.contact_number || '';
+                    document.getElementById('appEmail').value = data.data.email || '';
+                    document.getElementById('appDesc').value = data.data.app_desc || '';
+                    document.getElementById('colorTheme').value = data.data.color_theme || 'default';
+                    document.getElementById('appLogo').value = data.data.app_logo || 'fa-spa';
+                }
+            } catch (error) {
+                console.error('Error loading app settings:', error);
+                showMessage('Failed to load app settings', 'error');
+            }
+        }
+
+        async function handleAppSettings(e) {
+            e.preventDefault();
+            
+            const settings = {
+                app_name: document.getElementById('appName').value,
+                contact_number: document.getElementById('contactNumber').value,
+                email: document.getElementById('appEmail').value,
+                app_desc: document.getElementById('appDesc').value,
+                color_theme: document.getElementById('colorTheme').value,
+                app_logo: document.getElementById('appLogo').value
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/updateAppSettings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(settings)
+                });
+
+                if (!response.ok) throw new Error('Failed to update settings');
+
+                showMessage('App settings updated successfully', 'success');
+            } catch (error) {
+                console.error('Error updating app settings:', error);
+                showMessage('Failed to update app settings', 'error');
             }
         }
     </script>
