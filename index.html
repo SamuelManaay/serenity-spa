@@ -1349,7 +1349,7 @@
                         <div class="service-card-front">
                             <div>
                                 <div class="service-icon mobile-flip-trigger">
-                                    <i class="fas ${service.icon}"></i>
+                                    <span style="font-size: 1.5rem;">${getLogoEmoji(service.icon)}</span>
                                 </div>
                                 <h3 class="service-name">${service.name}</h3>
                                 <p class="service-description">${service.description}</p>
@@ -1704,7 +1704,7 @@
                 checkboxItem.innerHTML = `
                     <div class="service-radio"></div>
                     <div class="service-icon">
-                        <i class="fas ${service.icon}"></i>
+                        <span style="font-size: 1.5rem;">${getLogoEmoji(service.icon)}</span>
                     </div>
                     <h3 class="service-name">${service.name}</h3>
                     <p class="service-description">${service.description}</p>
@@ -1743,7 +1743,8 @@
 
         function applyAppSettings() {
             if (appSettings.app_name) {
-                document.querySelector('.navbar-brand').innerHTML = `<i class="fas ${appSettings.app_logo || 'fa-spa'}"></i>${appSettings.app_name}`;
+                const logoEmoji = getLogoEmoji(appSettings.app_logo);
+                document.querySelector('.navbar-brand').innerHTML = `<span style="font-size: 1.5rem; margin-right: 0.5rem;">${logoEmoji}</span>${appSettings.app_name}`;
                 document.title = `${appSettings.app_name} - Premium Wellness Experience`;
                 document.querySelector('.hero-title').textContent = `Book Your Perfect ${appSettings.app_name} Experience`;
             }
@@ -1759,18 +1760,20 @@
         }
 
         function applyColorTheme(theme) {
-            const themes = {
-                pink: { primary: '#E91E63', accent: '#F06292', secondary: '#FCE4EC' },
-                green: { primary: '#4CAF50', accent: '#66BB6A', secondary: '#E8F5E8' },
-                purple: { primary: '#9C27B0', accent: '#BA68C8', secondary: '#F3E5F5' },
-                orange: { primary: '#FF9800', accent: '#FFB74D', secondary: '#FFF3E0' },
-                default: { primary: '#9FB9C7', accent: '#5B9CF1', secondary: '#C8F2F8' }
+            if (theme && theme.includes(',')) {
+                const [primary, accent] = theme.split(',');
+                document.documentElement.style.setProperty('--primary', primary);
+                document.documentElement.style.setProperty('--accent', accent);
+            }
+        }
+
+        function getLogoEmoji(logoName) {
+            const logos = {
+                flower: '🌸', leaf: '🍃', water: '💧', flame: '🔥',
+                snow: '❄️', sunny: '☀️', moon: '🌙', heart: '💖',
+                star: '⭐', diamond: '💎'
             };
-            
-            const colors = themes[theme] || themes.default;
-            document.documentElement.style.setProperty('--primary', colors.primary);
-            document.documentElement.style.setProperty('--accent', colors.accent);
-            document.documentElement.style.setProperty('--secondary', colors.secondary);
+            return logos[logoName] || '🌸';
         }
 
         // Initialize

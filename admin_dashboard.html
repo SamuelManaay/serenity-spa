@@ -857,21 +857,29 @@
                                 <div class="mb-3">
                                     <label class="form-label">Color Theme</label>
                                     <select class="form-control" id="colorTheme">
-                                        <option value="default">Default (Blue)</option>
-                                        <option value="green">Green</option>
-                                        <option value="purple">Purple</option>
-                                        <option value="pink">Pink</option>
-                                        <option value="orange">Orange</option>
+                                        <option value="#9FB9C7,#5B9CF1">Blue Ocean</option>
+                                        <option value="#9F7AEA,#667EEA">Purple Dream</option>
+                                        <option value="#68D391,#38B2AC">Green Nature</option>
+                                        <option value="#F687B3,#ED64A6">Pink Sunset</option>
+                                        <option value="#F6AD55,#ED8936">Orange Fire</option>
+                                        <option value="#FC8181,#E53E3E">Red Passion</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">App Logo</label>
                                     <select class="form-control" id="appLogo">
-                                        <option value="fa-spa">Spa</option>
-                                        <option value="fa-leaf">Leaf</option>
-                                        <option value="fa-heart">Heart</option>
-                                        <option value="fa-lotus">Lotus</option>
-                                        <option value="fa-seedling">Seedling</option>
+                                        <option value="flower">🌸 Flower</option>
+                                        <option value="leaf">🍃 Leaf</option>
+                                        <option value="water">💧 Water</option>
+                                        <option value="flame">🔥 Flame</option>
+                                        <option value="snow">❄️ Snow</option>
+                                        <option value="sunny">☀️ Sunny</option>
+                                        <option value="moon">🌙 Moon</option>
+                                        <option value="heart">💖 Heart</option>
+                                        <option value="star">⭐ Star</option>
+                                        <option value="diamond">💎 Diamond</option>
+                                        <option value="rose">🌹 Rose</option>
+                                        <option value="sparkles">✨ Sparkles</option>
                                     </select>
                                 </div>
                             </div>
@@ -991,14 +999,16 @@
                         <div class="mb-3">
                             <label class="form-label">Icon</label>
                             <select class="form-control" id="addServiceIcon" required>
-                                <option value="fa-spa">Spa</option>
-                                <option value="fa-hands">Hands</option>
-                                <option value="fa-hot-tub">Hot Tub</option>
-                                <option value="fa-fire">Fire</option>
-                                <option value="fa-leaf">Leaf</option>
-                                <option value="fa-droplet">Droplet</option>
-                                <option value="fa-cloud">Cloud</option>
-                                <option value="fa-moon">Moon</option>
+                                <option value="flower">🌸 Flower</option>
+                                <option value="leaf">🍃 Leaf</option>
+                                <option value="water">💧 Water</option>
+                                <option value="flame">🔥 Flame</option>
+                                <option value="snow">❄️ Snow</option>
+                                <option value="sunny">☀️ Sunny</option>
+                                <option value="moon">🌙 Moon</option>
+                                <option value="heart">💖 Heart</option>
+                                <option value="star">⭐ Star</option>
+                                <option value="diamond">💎 Diamond</option>
                             </select>
                         </div>
                         <div class="form-check">
@@ -1073,14 +1083,16 @@
                         <div class="mb-3">
                             <label class="form-label">Icon</label>
                             <select class="form-control" id="editServiceIcon" required>
-                                <option value="fa-spa">Spa</option>
-                                <option value="fa-hands">Hands</option>
-                                <option value="fa-hot-tub">Hot Tub</option>
-                                <option value="fa-fire">Fire</option>
-                                <option value="fa-leaf">Leaf</option>
-                                <option value="fa-droplet">Droplet</option>
-                                <option value="fa-cloud">Cloud</option>
-                                <option value="fa-moon">Moon</option>
+                                <option value="flower">🌸 Flower</option>
+                                <option value="leaf">🍃 Leaf</option>
+                                <option value="water">💧 Water</option>
+                                <option value="flame">🔥 Flame</option>
+                                <option value="snow">❄️ Snow</option>
+                                <option value="sunny">☀️ Sunny</option>
+                                <option value="moon">🌙 Moon</option>
+                                <option value="heart">💖 Heart</option>
+                                <option value="star">⭐ Star</option>
+                                <option value="diamond">💎 Diamond</option>
                             </select>
                         </div>
                         <div class="form-check">
@@ -1133,7 +1145,8 @@
 
         function applyAppSettings() {
             if (appSettings.app_name) {
-                document.querySelector('.navbar-brand').innerHTML = `<i class="fas ${appSettings.app_logo || 'fa-spa'}"></i>${appSettings.app_name} Admin`;
+                const logoEmoji = getLogoEmoji(appSettings.app_logo);
+                document.querySelector('.navbar-brand').innerHTML = `<span style="font-size: 1.5rem; margin-right: 0.5rem;">${logoEmoji}</span>${appSettings.app_name} Admin`;
                 document.title = `${appSettings.app_name} - Admin Dashboard`;
             }
             if (appSettings.color_theme) {
@@ -1142,18 +1155,20 @@
         }
 
         function applyColorTheme(theme) {
-            const themes = {
-                pink: { primary: '#E91E63', accent: '#F06292', secondary: '#FCE4EC' },
-                green: { primary: '#4CAF50', accent: '#66BB6A', secondary: '#E8F5E8' },
-                purple: { primary: '#9C27B0', accent: '#BA68C8', secondary: '#F3E5F5' },
-                orange: { primary: '#FF9800', accent: '#FFB74D', secondary: '#FFF3E0' },
-                default: { primary: '#9FB9C7', accent: '#5B9CF1', secondary: '#C8F2F8' }
+            if (theme && theme.includes(',')) {
+                const [primary, accent] = theme.split(',');
+                document.documentElement.style.setProperty('--primary', primary);
+                document.documentElement.style.setProperty('--accent', accent);
+            }
+        }
+
+        function getLogoEmoji(logoName) {
+            const logos = {
+                flower: '🌸', leaf: '🍃', water: '💧', flame: '🔥',
+                snow: '❄️', sunny: '☀️', moon: '🌙', heart: '💖',
+                star: '⭐', diamond: '💎'
             };
-            
-            const colors = themes[theme] || themes.default;
-            document.documentElement.style.setProperty('--primary', colors.primary);
-            document.documentElement.style.setProperty('--accent', colors.accent);
-            document.documentElement.style.setProperty('--secondary', colors.secondary);
+            return logos[logoName] || '🌸';
         }
 
         // Authentication check
@@ -1395,9 +1410,10 @@
 
             servicesData.forEach(service => {
                 const row = document.createElement('tr');
+                const serviceEmoji = getLogoEmoji(service.icon);
                 row.innerHTML = `
                     <td data-label="Name">
-                        <i class="fas ${service.icon} me-2 text-primary"></i>
+                        <span style="font-size: 1.2rem; margin-right: 0.5rem;">${serviceEmoji}</span>
                         ${service.name}
                     </td>
                     <td data-label="Duration">${service.duration} min</td>

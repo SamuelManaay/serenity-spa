@@ -354,7 +354,7 @@
 <body>
     <div class="login-container">
         <div class="brand-section">
-            <i class="fas fa-spa brand-icon"></i>
+            <div class="brand-icon">🌸</div>
             <h1 class="brand-title">Serenity Spa</h1>
             <p class="brand-subtitle">Admin Portal</p>
         </div>
@@ -434,7 +434,8 @@
                 document.title = `${appSettings.app_name} - Admin Login`;
             }
             if (appSettings.app_logo) {
-                document.querySelector('.brand-icon').className = `fas ${appSettings.app_logo} brand-icon`;
+                const logoEmoji = getLogoEmoji(appSettings.app_logo);
+                document.querySelector('.brand-icon').textContent = logoEmoji;
             }
             if (appSettings.color_theme) {
                 applyColorTheme(appSettings.color_theme);
@@ -442,18 +443,20 @@
         }
 
         function applyColorTheme(theme) {
-            const themes = {
-                pink: { primary: '#E91E63', accent: '#F06292', secondary: '#FCE4EC' },
-                green: { primary: '#4CAF50', accent: '#66BB6A', secondary: '#E8F5E8' },
-                purple: { primary: '#9C27B0', accent: '#BA68C8', secondary: '#F3E5F5' },
-                orange: { primary: '#FF9800', accent: '#FFB74D', secondary: '#FFF3E0' },
-                default: { primary: '#9FB9C7', accent: '#5B9CF1', secondary: '#C8F2F8' }
+            if (theme && theme.includes(',')) {
+                const [primary, accent] = theme.split(',');
+                document.documentElement.style.setProperty('--primary', primary);
+                document.documentElement.style.setProperty('--accent', accent);
+            }
+        }
+
+        function getLogoEmoji(logoName) {
+            const logos = {
+                flower: '🌸', leaf: '🍃', water: '💧', flame: '🔥',
+                snow: '❄️', sunny: '☀️', moon: '🌙', heart: '💖',
+                star: '⭐', diamond: '💎'
             };
-            
-            const colors = themes[theme] || themes.default;
-            document.documentElement.style.setProperty('--primary', colors.primary);
-            document.documentElement.style.setProperty('--accent', colors.accent);
-            document.documentElement.style.setProperty('--secondary', colors.secondary);
+            return logos[logoName] || '🌸';
         }
 
         document.addEventListener('DOMContentLoaded', function() {
